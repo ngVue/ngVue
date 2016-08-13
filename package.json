@@ -1,7 +1,7 @@
 {
   "name": "ngVue",
   "author": "Doray Hong <hongduhui@gmail.com>",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Use Vue Components in Angular 1.x",
   "main": "build/ngVue.umd.js",
   "jsnext:main": "build/ngVue.es.js",
