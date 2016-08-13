@@ -1,0 +1,14 @@
+{
+  "env": {
+    "dev": {
+      "presets": ["es2015", "stage-1"]
+    },
+    "build": {
+      "presets": ["es2015-rollup", "stage-1"]
+    },
+    "test": {
+      "presets": ["es2015", "stage-1", "react"]
+    }
+  },
+  "plugins": ["transform-vue-jsx"]
+}

@@ -1,0 +1,23 @@
+root: true
+
+env:
+  es6: true
+  node: true
+  browser: true
+  mocha: true
+
+plugins:
+  - "react"
+
+parserOptions:
+  ecmaFeatures:
+    jsx: true
+
+extends:
+  "standard"
+
+rules:
+  quotes: 0
+  func-names: 0
+  react/jsx-uses-react: error
+  react/jsx-uses-vars: error
