@@ -23,7 +23,7 @@ function watch (expressions, watchListener, watchFunc) {
  * @param scope Object
  */
 export function watchExpressions (dataExprsMap, watchListener, elAttributes, scope) {
-  const expressions = !!dataExprsMap.props ? dataExprsMap.props : dataExprsMap.data
+  const expressions = dataExprsMap.props ? dataExprsMap.props : dataExprsMap.data
 
   if (!expressions) {
     return

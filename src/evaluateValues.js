@@ -36,8 +36,7 @@ export function evaluateValues (evalType, dataExprsMap, scope) {
  * @returns {string|Object|null}
  */
 export function evaluatePropValues (dataExprsMap, scope) {
-  const props = evaluateValues('props', dataExprsMap, scope)
-  return !!props ? props : null
+  return evaluateValues('props', dataExprsMap, scope)
 }
 
 /**
@@ -48,6 +47,5 @@ export function evaluatePropValues (dataExprsMap, scope) {
  * @returns {string|Object|null}
  */
 export function evaluateDataValues (dataExprsMap, scope) {
-  const data = evaluateValues('data', dataExprsMap, scope)
-  return !!data ? data : null
+  return evaluateValues('data', dataExprsMap, scope)
 }

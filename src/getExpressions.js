@@ -20,7 +20,7 @@ export function extractExpressions (exprType, attributes) {
   }
 
   const expressions = Object.keys(attributes)
-    .filter((attr) => objectPropExprRegExp.test(attr));
+    .filter((attr) => objectPropExprRegExp.test(attr))
 
   if (expressions.length === 0) {
     return null
