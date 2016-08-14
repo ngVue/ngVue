@@ -11,6 +11,7 @@ export default {
     vue: 'Vue',
     angular: 'angular'
   },
+  external: ['vue', 'angular'],
   targets: [
     { dest: 'build/ngVue.es.js', format: 'es' },
     { dest: 'build/ngVue.umd.js', format: 'umd' }
