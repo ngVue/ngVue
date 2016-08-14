@@ -2,28 +2,22 @@ import Vue from 'vue'
 import { getVueComponent } from './getVueComponent'
 import { getExpressions } from './getExpressions'
 import { watchExpressions } from './watchExpressions'
-import { evaluatePropValues, evaluateDataValues } from './evaluateValues'
+import { evaluateValues } from './evaluateValues'
 
 export function ngVueLinker (componentName, jqElement, elAttributes, scope, $injector) {
   const dataExprsMap = getExpressions(elAttributes)
   const Component = getVueComponent(componentName, $injector)
-  const reRenderer = { trigger: false }
-
+  const reactiveData = evaluateValues(dataExprsMap, scope) || {}
+  const reactiveSetter = Vue.set.bind(Vue, reactiveData)
   const vueInstance = new Vue({
     el: jqElement[0],
-    data: reRenderer,
+    data: reactiveData,
     render (h) {
-      this.trigger
-      const props = evaluatePropValues(dataExprsMap, scope) || evaluateDataValues(dataExprsMap, scope) || {}
-      return <Component {...{ props }} />
+      return <Component {...{props: reactiveData}} />
     }
   })
 
-  function renderVue () {
-    reRenderer.trigger = !reRenderer.trigger
-  }
-
-  watchExpressions(dataExprsMap, renderVue, elAttributes, scope)
+  watchExpressions(dataExprsMap, reactiveSetter, elAttributes, scope)
 
   scope.$on('$destroy', () => {
     vueInstance.$destroy(true)
