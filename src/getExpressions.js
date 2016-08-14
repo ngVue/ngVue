@@ -44,7 +44,7 @@ export function extractExpressions (exprType, attributes) {
  * @param attributes Object
  * @returns {{data: (Object|string|null), props: (Object|string|null)}}
  */
-export function getDataExpressions (attributes) {
+export function getExpressions (attributes) {
   return {
     data: extractExpressions('data', attributes),
     props: extractExpressions('props', attributes)

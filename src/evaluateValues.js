@@ -1,15 +1,15 @@
 import angular from 'angular'
 
 /**
- * @param dataType 'props'|'data'
+ * @param evalType 'props'|'data'
  * @param dataExprsMap Object
  * @param dataExprsMap.data Object|string|null
  * @param dataExprsMap.props Object|string|null
  * @param scope Object
  * @returns {string|Object|null}
  */
-function evaluateValues (dataType, dataExprsMap, scope) {
-  const key = dataType === 'props' ? 'props' : 'data'
+export function evaluateValues (evalType, dataExprsMap, scope) {
+  const key = evalType === 'props' ? 'props' : 'data'
   const expr = dataExprsMap[key]
 
   if (!expr) {
@@ -35,7 +35,7 @@ function evaluateValues (dataType, dataExprsMap, scope) {
  * @param scope Object
  * @returns {string|Object|null}
  */
-export function getPropValues (dataExprsMap, scope) {
+export function evaluatePropValues (dataExprsMap, scope) {
   const props = evaluateValues('props', dataExprsMap, scope)
   return !!props ? props : null
 }
@@ -47,7 +47,7 @@ export function getPropValues (dataExprsMap, scope) {
  * @param scope object
  * @returns {string|Object|null}
  */
-export function getDataValues (dataExprsMap, scope) {
+export function evaluateDataValues (dataExprsMap, scope) {
   const data = evaluateValues('data', dataExprsMap, scope)
   return !!data ? data : null
 }

@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import { getVueComponent } from './getVueComponent'
-import { watchProps } from './watchProps'
-import { getDataExpressions } from './getPropExpressions'
-import { getPropValues, getDataValues } from './getPropValues'
+import { getExpressions } from './getExpressions'
+import { watchExpressions } from './watchExpressions'
+import { evaluatePropValues, evaluateDataValues } from './evaluateValues'
 
 export function ngVueLinker (componentName, jqElement, elAttributes, scope, $injector) {
-  const dataExprsMap = getDataExpressions(elAttributes)
+  const dataExprsMap = getExpressions(elAttributes)
   const Component = getVueComponent(componentName, $injector)
   const reRenderer = { trigger: false }
 
@@ -14,7 +14,7 @@ export function ngVueLinker (componentName, jqElement, elAttributes, scope, $inj
     data: reRenderer,
     render (h) {
       this.trigger
-      const props = getPropValues(dataExprsMap, scope) || getDataValues(dataExprsMap, scope) || {}
+      const props = evaluatePropValues(dataExprsMap, scope) || evaluateDataValues(dataExprsMap, scope) || {}
       return <Component {...{ props }} />
     }
   })
@@ -23,7 +23,7 @@ export function ngVueLinker (componentName, jqElement, elAttributes, scope, $inj
     reRenderer.trigger = !reRenderer.trigger
   }
 
-  watchProps(dataExprsMap, renderVue, elAttributes, scope)
+  watchExpressions(dataExprsMap, renderVue, elAttributes, scope)
 
   scope.$on('$destroy', () => {
     vueInstance.$destroy(true)
