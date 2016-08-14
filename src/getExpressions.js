@@ -1,10 +1,5 @@
 import angular from 'angular'
-import { lowerFirst } from '../lib/lowerFirst'
-
-function normalizePropertyName (attrPropName, removedKey) {
-  const propName = attrPropName.slice(removedKey.length)
-  return lowerFirst(propName)
-}
+import { extractExpressionName } from '../lib/extractExpressionName'
 
 /**
  * Extract the property/data expressions from the element attribute.
@@ -24,20 +19,20 @@ export function extractExpressions (exprType, attributes) {
     return objectExpr
   }
 
-  const propsExprs = Object.keys(attributes)
+  const expressions = Object.keys(attributes)
     .filter((attr) => objectPropExprRegExp.test(attr));
 
-  if (propsExprs.length === 0) {
+  if (expressions.length === 0) {
     return null
   }
 
-  const propExprsMap = {/* name : expression */}
-  propsExprs.forEach((attrPropName) => {
-    const propName = normalizePropertyName(attrPropName, objectExprKey)
-    propExprsMap[propName] = attributes[attrPropName]
+  const exprsMap = {/* name : expression */}
+  expressions.forEach((attrExprName) => {
+    const exprName = extractExpressionName(attrExprName, objectExprKey)
+    exprsMap[exprName] = attributes[attrExprName]
   })
 
-  return propExprsMap
+  return exprsMap
 }
 
 /**
