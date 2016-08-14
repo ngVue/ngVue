@@ -1,34 +1,52 @@
 import angular from 'angular'
 import { lowerFirst } from '../lib/lowerFirst'
 
-const SINGLE_PROP = /vprops/i
-
-function normalizePropertyName (attrPropName) {
-  const propName = attrPropName.slice('vprops'.length)
+function normalizePropertyName (attrPropName, removedKey) {
+  const propName = attrPropName.slice(removedKey.length)
   return lowerFirst(propName)
 }
 
 /**
- * Get the property expressions defined on the element attribute.
+ * Extract the property/data expressions from the element attribute.
  *
- * @param attrs object
+ * @param exprType 'props'|'data'
+ * @param attributes Object
  *
- * @returns {object|string}
+ * @returns {Object|string|null}
  */
-export function getPropExpressions (attrs) {
-  const vpropsExpr = attrs.vprops
+export function extractExpressions (exprType, attributes) {
+  const objectExprKey = exprType === 'props' ? 'vprops' : 'vdata'
+  const objectPropExprRegExp = exprType === 'props' ? /vprops/i : /vdata/i
 
-  if (angular.isDefined(vpropsExpr)) {
-    return vpropsExpr
+  const objectExpr = attributes[objectExprKey]
+
+  if (angular.isDefined(objectExpr)) {
+    return objectExpr
   }
 
-  const propExprs = {/* prop name : prop expression */}
-  Object.keys(attrs)
-    .filter((attr) => SINGLE_PROP.test(attr))
-    .forEach((attrPropName) => {
-      const propName = normalizePropertyName(attrPropName)
-      propExprs[propName] = attrs[attrPropName]
-    })
+  const propsExprs = Object.keys(attributes)
+    .filter((attr) => objectPropExprRegExp.test(attr));
 
-  return propExprs
+  if (propsExprs.length === 0) {
+    return null
+  }
+
+  const propExprsMap = {/* name : expression */}
+  propsExprs.forEach((attrPropName) => {
+    const propName = normalizePropertyName(attrPropName, objectExprKey)
+    propExprsMap[propName] = attributes[attrPropName]
+  })
+
+  return propExprsMap
+}
+
+/**
+ * @param attributes Object
+ * @returns {{data: (Object|string|null), props: (Object|string|null)}}
+ */
+export function getDataExpressions (attributes) {
+  return {
+    data: extractExpressions('data', attributes),
+    props: extractExpressions('props', attributes)
+  }
 }

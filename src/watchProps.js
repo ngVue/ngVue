@@ -1,23 +1,38 @@
 import angular from 'angular'
 
-function watch (propExpressions, watchListener, watchFunc) {
-  if (angular.isString(propExpressions)) {
-    watchFunc(propExpressions, watchListener)
+function watch (expressions, watchListener, watchFunc) {
+  if (angular.isString(expressions)) {
+    watchFunc(expressions, watchListener)
     return
   }
 
-  Object.keys(propExpressions)
-    .map((name) => propExpressions[name])
+  Object.keys(expressions)
+    .map((name) => expressions[name])
     .forEach((expr) => {
       watchFunc(expr, watchListener)
     })
 }
 
-export function watchProps (propExpressions, watchListener, elAttributes, scope) {
-  const watchDepth = elAttributes.watchDepth
-  const watcher = watch.bind(this, propExpressions, watchListener)
+/**
+ *
+ * @param dataExprsMap Object
+ * @param dataExprsMap.data Object|string|null
+ * @param dataExprsMap.props Object|string|null
+ * @param watchListener Function
+ * @param elAttributes {{watchDepth: 'reference'|'value'|'collection'}}
+ * @param scope Object
+ */
+export function watchProps (dataExprsMap, watchListener, elAttributes, scope) {
+  const expressions = !!dataExprsMap.props ? dataExprsMap.props : dataExprsMap.data
 
-  switch (watchDepth) {
+  if (!expressions) {
+    return
+  }
+
+  const depth = elAttributes.watchDepth
+  const watcher = watch.bind(null, expressions, watchListener)
+
+  switch (depth) {
     case 'value':
       watcher((e, l) => {
         scope.$watch(e, l, true)
