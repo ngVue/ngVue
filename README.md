@@ -14,7 +14,8 @@
 
 ## TODO
 
-- [ ] vue components
-- [ ] vue directives
+- [x] vue components
+- [x] vue directives
 - [ ] unit tests
-- [ ] simple examples
+- [ ] docs + simple examples
+- [ ] performance optimization
