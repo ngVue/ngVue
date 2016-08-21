@@ -24,7 +24,7 @@ function watch (expressions) {
  * @param elAttributes {{watchDepth: 'reference'|'value'|'collection'}}
  * @param scope Object
  */
-export function watchExpressions (dataExprsMap, watchCallback, elAttributes, scope) {
+export default function watchExpressions (dataExprsMap, watchCallback, elAttributes, scope) {
   const expressions = dataExprsMap.props ? dataExprsMap.props : dataExprsMap.data
 
   if (!expressions) {

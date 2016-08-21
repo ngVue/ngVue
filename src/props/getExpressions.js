@@ -1,5 +1,5 @@
 import angular from 'angular'
-import { extractExpressionName } from '../lib/extractExpressionName'
+import extractExpressionName from './extractPropName'
 
 /**
  * Extract the property/data expressions from the element attribute.
@@ -39,7 +39,7 @@ export function extractExpressions (exprType, attributes) {
  * @param attributes Object
  * @returns {{data: (Object|string|null), props: (Object|string|null)}}
  */
-export function getExpressions (attributes) {
+export default function getExpressions (attributes) {
   return {
     data: extractExpressions('data', attributes),
     props: extractExpressions('props', attributes)

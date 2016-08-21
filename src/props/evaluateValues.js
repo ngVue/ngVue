@@ -7,7 +7,7 @@ import angular from 'angular'
  * @param scope Object
  * @returns {string|Object|null}
  */
-export function evaluateValues (dataExprsMap, scope) {
+export default function evaluateValues (dataExprsMap, scope) {
   const key = dataExprsMap.props ? 'props' : 'data'
   const expr = dataExprsMap[key]
 
