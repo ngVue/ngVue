@@ -1,5 +1,5 @@
 import angular from 'angular'
-import { ngVueLinker } from './ngVueLinker'
+import { ngVueLinker } from './angular/ngVueLinker'
 
 /**
  *
