@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import getVueComponent from '../components/getVueComponent'
-import getPropExprs from '../props/getExpressions'
-import watchPropExprs from '../props/watchExpressions'
-import evalPropValues from '../props/evaluateValues'
+import getPropExprs from '../components/props/getExpressions'
+import watchPropExprs from '../components/props/watchExpressions'
+import evalPropValues from '../components/props/evaluateValues'
 import evaluateDirectives from '../directives/evaluateDirectives'
 
 export function ngVueLinker (componentName, jqElement, elAttributes, scope, $injector) {

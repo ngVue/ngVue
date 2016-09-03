@@ -1,6 +1,6 @@
 import angular from 'angular'
 
-function getTypeOf(value) {
+function getTypeOf (value) {
   return value.constructor.name
 }
 
@@ -31,5 +31,5 @@ export default function evaluateDirectives (attributes, scope) {
   const directives = scope.$eval(directivesExpr)
   const transformer = transformers[getTypeOf(directives)]
 
-  return transformer ? transformer(directives) : null;
+  return transformer ? transformer(directives) : null
 }
