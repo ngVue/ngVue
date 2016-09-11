@@ -33,6 +33,79 @@ The motivation for this is similiar to ngReact's:
 <hello-component vdirectives="hello"></hello-component>
 ```
 
+# the vue-component directive
+
+The `vue-component` directive wraps the vue component into an angular directive so the vue component will be created and initialized while the angular is compiling the templates.
+
+At first an **Angular controller** needs creating to declare the view data like this:
+
+```javascript
+const app = angular.module('vue.components', ['ngVue'])
+  .controller('MainController', function () {
+    this.person = {
+      firstName: 'The',
+      lastName: 'World'
+    }
+  })
+```
+
+Then declare **a Vue component** like this:
+
+```jsx
+const VComponent = Vue.component('hello-component', {
+    props: {
+      firstName: String,
+      lastName: String
+    },
+    render (h) {
+      return (
+        <span>Hi, { this.firstName } { this.lastName }</span>
+      )
+    }
+  })
+```
+
+In the end, **register the Vue component** to the Angular module with `value` method like this:
+
+```javascript
+app.value('HelloComponent', VComponent);
+```
+
+Now you can use `hello-component` in Angular templates:
+
+```html
+<body ng-app="vue.components">
+  <div class="hello-card"
+       ng-controller="MainController as ctrl">
+    <vue-component name="HelloComponent"
+                   vprops="ctrl.person"
+                   watch-depth="value" />
+  </div>
+</body>
+```
+
+ The `vue-component` directive provides three main attributes:
+
+- `name` attribute checks for Angular injectable of that name
+
+- `vprops` attribute is a string expression evaluated to an object as the data exposed to Vue component 
+
+  - `vprops-*` attribute allows you to name the partial data extracted from the angular scope. `vue-component` will wrap them into a new object and pass it to the Vue component. For example `props-first-name` and `props-last-name` will create two properties `firstName` and `lastName` in a new object as the component data
+
+    ```html
+    <vue-component vprops="ctrl.person" />
+    // equals to
+    <vue-component vprops-first-name="ctrl.person.firstName" vprops-last-name="ctrl.person.lastName" />
+    ```
+
+- `watch-depth` attribute indicates the watch strategy to detect the changes. The possible values as follows:
+
+  | value                 | description                              |
+  | --------------------- | ---------------------------------------- |
+  | reference *(default)* | watches the object reference             |
+  | collection            | same as angular `$watchCollection`, shallow watches the properties of the object: for arrays it watches the array items; for object maps it watches the properties |
+  | value                 | deep watches every properties inside the object |
+
 ## TODO
 
 - [x] vue components
