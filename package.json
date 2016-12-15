@@ -18,7 +18,7 @@
     "test": "BABEL_ENV=test mocha --compilers js:babel-core/register --recursive",
     "dev-example": "npm run bundle && BABEL_ENV=dev webpack-dev-server --inline --hot --config ./example/webpack.config.js --content-base ./example",
     "clean": "rm -rf build",
-    "minify": "uglifyJs ./build/ngVue.umd.js -c -m -o ./build/ngVue.min.js",
+    "minify": "uglifyjs ./build/ngVue.umd.js -c -m -o ./build/ngVue.min.js",
     "bundle": "BABEL_ENV=build rollup -c",
     "lint": "eslint src lib test example",
     "build": "npm run lint && npm run clean && npm run bundle && npm run minify",
