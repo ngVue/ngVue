@@ -10,13 +10,13 @@ The motivation for this is similiar to ngReact's:
 - Instead of two-way data flow between controllers and views, VueJS defaults to a one-way, parent-to-child data flow between components which makes the application more predictable
 - VueJS offers a much easier way to compose the web interfaces and you can take advantage of the functional reactive programming in VueJS 2. Angular directives introduce a high learning barrier, such as the compile and link function, and the directives are prone to get confused with the components
 - The VueJS community offers a component or a UI framework that you would like to try out
-- Too de#ep into an AngularJS to move it away from the code but you would like to experiment with VueJS 
+- Too deep into an AngularJS application to move it away from the code but you would like to experiment with VueJS 
 
 # Features
 
 **ngVue** is composed of a directive `vue-component`, a factory `createVueComponent` and a directive helper `vdirectives`
 
-- `vue-component` is a directive that delegates data to a Vue component so VueJS can compile it with the corresponding nodes 
+- `vue-component` is a directive that delegates data to a Vue component so VueJS can compile it with the corresponding nodes
 - `createVueComponent` is a factory that converts a Vue component into a `vue-component` directive
 
 **ngVue** does support VueJS directives but currently they only work with a Vue component in AngularJS templates.
@@ -88,7 +88,7 @@ Now you can use `hello-component` in Angular templates:
 
 - `name` attribute checks for Angular injectable of that name
 
-- `vprops` attribute is a string expression evaluated to an object as the data exposed to Vue component 
+- `vprops` attribute is a string expression evaluated to an object as the data exposed to Vue component
 
   - `vprops-*` attribute allows you to name the partial data extracted from the angular scope. `vue-component` will wrap them into a new object and pass it to the Vue component. For example `props-first-name` and `props-last-name` will create two properties `firstName` and `lastName` in a new object as the component data
 
