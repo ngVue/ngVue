@@ -22,18 +22,20 @@ module.exports = {
     publicPath: '/assets/',
     filename: '[name].build.js'
   },
-  resolveLoader: {
-    root: path.join(__dirname, '../node_modules')
+  resolve: {
+    modules: [
+      path.join(__dirname, '../node_modules')
+    ]
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.vue$/,
         loader: 'vue'
       },
       {
         test: /\.js$/,
-        loader: 'babel',
+        loader: 'babel-loader',
         exclude: /node_modules/
       },
       {
@@ -50,11 +52,17 @@ module.exports = {
     noInfo: true,
     port: 12345
   },
-  devtool: '#eval-source-map'
+  devtool: '#eval-source-map',
+  performance: {
+    hints: false
+  }
 }
 
 if (process.env.NODE_ENV === 'production') {
   module.exports.devtool = '#source-map'
+  module.exports.performance = {
+    hints: true
+  }
   // http://vue-loader.vuejs.org/en/workflow/production.html
   module.exports.plugins = (module.exports.plugins || []).concat([
     new webpack.DefinePlugin({
