@@ -98,13 +98,13 @@ Now you can use `hello-component` in Angular templates:
     <vue-component vprops-first-name="ctrl.person.firstName" vprops-last-name="ctrl.person.lastName" />
     ```
 
-- `watch-depth` attribute indicates the watch strategy to detect the changes. The possible values as follows:
+- `watch-depth` attribute indicates which watch strategy to detect the changes of the scope. The possible values as follows:
 
-  | value                 | description                              |
-  | --------------------- | ---------------------------------------- |
-  | reference *(default)* | watches the object reference             |
-  | collection            | same as angular `$watchCollection`, shallow watches the properties of the object: for arrays it watches the array items; for object maps it watches the properties |
-  | value                 | deep watches every properties inside the object |
+  | value                 | description                              | notes                                    |
+  | --------------------- | ---------------------------------------- | ---------------------------------------- |
+  | reference *(default)* | watches the object reference             | |
+  | collection            | same as angular `$watchCollection`, shallow watches the properties of the object: for arrays it watches the array items; for object maps it watches the properties | |
+  | value                 | deep watches every properties inside the object | (**not recommended**)  Angular copies the entire object and traverses every property insides to detect the changes in each digest cycle so it may cause a heavy computation |
 
 ## TODO
 
