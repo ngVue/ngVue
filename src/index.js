@@ -30,7 +30,6 @@ function ngVueComponentFactory ($injector) {
   return function (componentName, ngDirectiveConfig) {
     const config = {
       restrict: 'E',
-      replace: true,
       link (scope, elem, attrs) {
         ngVueLinker(componentName, elem, attrs, scope, $injector)
       }
@@ -44,12 +43,11 @@ function ngVueComponentFactory ($injector) {
  * <vue-component name="HelloComponent" vprops="person"></vue-component>
  *
  * @param $injector
- * @returns {{restrict: string, replace: boolean, link: (function(*=, *=, *=))}}
+ * @returns {{restrict: string, link: (function(*=, *=, *=))}}
  */
 function ngVueComponentDirective ($injector) {
   return {
     restrict: 'E',
-    replace: true,
     link (scope, elem, attrs) {
       const componentName = attrs.name
       ngVueLinker(componentName, elem, attrs, scope, $injector)
