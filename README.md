@@ -4,11 +4,11 @@
 
 [**VueJS**](https://vuejs.org/) is a library to build web interfaces with composable view components and reactive data binding. **ngVue**, inspired by [ngReact](https://github.com/ngReact/ngReact), is an Angular module that allows you to develop/use Vue components in AngularJS applications. ngVue can be used in the existing Angular applications and helps migrate the view parts of the application from Angular 1.x to Vue 2.
 
-The motivation for this is similiar to ngReact's:
+The motivation for this is similar to ngReact's:
 
-- The AngularJS application suffers from a performance bottleneck due to a huge amount of scope watchers on the page and VueJS offers an amazing reactive data-binding mechanism and other optimizations
+- The AngularJS application suffers from a performance bottleneck due to a huge amount of scope watchers on the page, but VueJS offers an amazing reactive data-binding mechanism and other optimizations
 - Instead of two-way data flow between controllers and views, VueJS defaults to a one-way, parent-to-child data flow between components which makes the application more predictable
-- VueJS offers a much easier way to compose the web interfaces and you can take advantage of the functional reactive programming in VueJS 2. Angular directives introduce a high learning barrier, such as the compile and link function, and the directives are prone to get confused with the components
+- VueJS offers a much easier way to compose the web interfaces, and you can take advantage of the functional reactive programming in VueJS 2. Angular directives introduce a high learning barrier, such as the compile and link function, and the directives are prone to get confused with the components
 - The VueJS community offers a component or a UI framework that you would like to try out
 - Too deep into an AngularJS application to move it away from the code but you would like to experiment with VueJS 
 
@@ -35,7 +35,7 @@ The motivation for this is similiar to ngReact's:
 
 # the vue-component directive
 
-The `vue-component` directive wraps the vue component into an angular directive so the vue component will be created and initialized while the angular is compiling the templates.
+The `vue-component` directive wraps the vue component into an angular directive so that the vue component can be created and initialized while the angular is compiling the templates.
 
 At first an **Angular controller** needs creating to declare the view data like this:
 
@@ -90,21 +90,21 @@ Now you can use `hello-component` in Angular templates:
 
 - `vprops` attribute is a string expression evaluated to an object as the data exposed to Vue component
 
-  - `vprops-*` attribute allows you to name the partial data extracted from the angular scope. `vue-component` will wrap them into a new object and pass it to the Vue component. For example `props-first-name` and `props-last-name` will create two properties `firstName` and `lastName` in a new object as the component data
+- `vprops-*` attribute allows you to name the partial data extracted from the angular scope. `vue-component` wraps them into a new object and pass it to the Vue component. For example `props-first-name` and `props-last-name` will create two properties `firstName` and `lastName` in a new object as the component data
 
-    ```html
+```html
     <vue-component vprops="ctrl.person" />
     // equals to
     <vue-component vprops-first-name="ctrl.person.firstName" vprops-last-name="ctrl.person.lastName" />
-    ```
+```
 
 - `watch-depth` attribute indicates which watch strategy to detect the changes of the scope. The possible values as follows:
 
   | value                 | description                              | notes                                    |
   | --------------------- | ---------------------------------------- | ---------------------------------------- |
   | reference *(default)* | watches the object reference             | |
-  | collection            | same as angular `$watchCollection`, shallow watches the properties of the object: for arrays it watches the array items; for object maps it watches the properties | |
-  | value                 | deep watches every properties inside the object | (**not recommended**)  Angular copies the entire object and traverses every property insides to detect the changes in each digest cycle so it may cause a heavy computation |
+  | collection            | same as angular `$watchCollection`, shallow watches the properties of the object: for arrays, it watches the array items; for object maps, it watches the properties | |
+  | value                 | deep watches every property inside the object | (**not recommended**)  Angular copies the entire object and traverses every property insides to detect the changes in each digest cycle so it may cause a heavy computation |
 
 ## TODO
 
