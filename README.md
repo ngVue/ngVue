@@ -1,7 +1,5 @@
 # ngVue
 
-*this angular module is still in early development*
-
 [**VueJS**](https://vuejs.org/) is a library to build web interfaces with composable view components and reactive data binding. **ngVue**, inspired by [ngReact](https://github.com/ngReact/ngReact), is an Angular module that allows you to develop/use Vue components in AngularJS applications. ngVue can be used in the existing Angular applications and helps migrate the view parts of the application from Angular 1.x to Vue 2.
 
 The motivation for this is similar to ngReact's:
@@ -133,5 +131,6 @@ app.directive('helloComponent', function (createVueComponent) {
 - [x] vue components
 - [x] vue directives
 - [ ] unit tests
-- [ ] docs + simple examples
+- [x] docs + simple examples
+- [ ] supports vuex
 - [ ] performance optimization
