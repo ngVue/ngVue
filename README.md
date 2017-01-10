@@ -33,7 +33,7 @@ The motivation for this is similar to ngReact's:
 <hello-component vdirectives="hello"></hello-component>
 ```
 
-# the vue-component directive
+# the `vue-component` directive
 
 The `vue-component` directive wraps the vue component into an angular directive so that the vue component can be created and initialized while the angular is compiling the templates.
 
@@ -105,6 +105,28 @@ Now you can use `hello-component` in Angular templates:
   | reference *(default)* | watches the object reference             | |
   | collection            | same as angular `$watchCollection`, shallow watches the properties of the object: for arrays, it watches the array items; for object maps, it watches the properties | |
   | value                 | deep watches every property inside the object | (**not recommended**)  Angular copies the entire object and traverses every property insides to detect the changes in each digest cycle so it may cause a heavy computation |
+
+# the `createVueComponent` factory
+
+The `createVueComponent` factory creates a reusable Angular directive which is bound to a specific Vue component.
+
+For example, with the `vue-component` directive as mentioned above, you have to register each Vue component with a string name and then write `<vue-component name="TheRegisteredName"></vue-component>` repeatedly. With this `createVueComponent` factory, however, you can create `<name-of-vue-component></name-of-vue-component>` directives and simply apply the exported Vue components to them.
+
+The factory returns a plain `$compile` options object which describes how to compile the Angular directive with VueJS, and it takes the Vue component as the first argument:
+
+```javascript
+app.directive('helloComponent', function (createVueComponent) {
+  return createVueComponent(VComponent)
+})
+```
+
+Alternatively, the name of the Vue component registered by `angular.value` can also be provided to the factory:
+
+```javascript
+app.directive('helloComponent', function (createVueComponent) {
+  return createVueComponent('HelloComponent')
+})
+```
 
 ## TODO
 
