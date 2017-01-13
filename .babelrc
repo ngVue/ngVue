@@ -7,7 +7,7 @@
       "presets": ["es2015-rollup", "stage-1"]
     },
     "test": {
-      "presets": ["es2015", "stage-1", "react"]
+      "presets": ["es2015", "stage-1", "vue"]
     }
   },
   "plugins": ["transform-vue-jsx"]
