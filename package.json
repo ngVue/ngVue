@@ -15,7 +15,7 @@
     "ngvue"
   ],
   "scripts": {
-    "test": "BABEL_ENV=test mocha --compilers js:babel-core/register --recursive",
+    "test": "BABEL_ENV=test jest",
     "dev-example": "npm run bundle && BABEL_ENV=dev webpack-dev-server --inline --hot --config ./example/webpack.config.js --content-base ./example",
     "clean": "rm -rf build",
     "minify": "uglifyjs ./build/ngVue.umd.js -c -m -o ./build/ngVue.min.js",
@@ -30,6 +30,7 @@
     "vue": "^2.1.8"
   },
   "devDependencies": {
+    "angular-mocks": "^1.6.1",
     "babel-cli": "^6.18.0",
     "babel-core": "^6.21.0",
     "babel-helper-vue-jsx-merge-props": "^2.0.2",
@@ -38,7 +39,6 @@
     "babel-plugin-transform-vue-jsx": "^3.3.0",
     "babel-preset-es2015-rollup": "^3.0.0",
     "babel-preset-stage-1": "^6.16.0",
-    "chai": "^3.5.0",
     "css-loader": "^0.26.1",
     "eslint": "^3.13.0",
     "eslint-config-standard": "^6.2.1",
@@ -46,13 +46,11 @@
     "eslint-plugin-react": "^6.8.0",
     "eslint-plugin-standard": "^2.0.1",
     "file-loader": "^0.9.0",
-    "mocha": "^3.2.0",
+    "jest": "^18.1.0",
     "rollup": "^0.41.1",
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-commonjs": "^7.0.0",
     "rollup-plugin-node-resolve": "^2.0.0",
-    "sinon": "^1.17.7",
-    "sinon-chai": "^2.8.0",
     "uglifyjs": "^2.4.10",
     "vue-loader": "^10.0.2",
     "vue-template-compiler": "^2.1.8",
@@ -67,5 +65,9 @@
     "url": "https://github.com/ngVue/ngVue/issues"
   },
   "homepage": "https://github.com/ngVue/ngVue#readme",
-  "license": "MIT"
+  "license": "MIT",
+  "jest": {
+    "testPathDirs": ["src"],
+    "setupTestFrameworkScriptFile": "./src/jest.init.js"
+  }
 }

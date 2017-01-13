@@ -21,3 +21,7 @@ rules:
   func-names: 0
   react/jsx-uses-react: error
   react/jsx-uses-vars: error
+
+globals:
+    inject: false
+    expect: false
