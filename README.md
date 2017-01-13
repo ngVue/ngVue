@@ -1,5 +1,7 @@
 # ngVue
 
+[![Build status](https://api.travis-ci.org/ngVue/ngVue.svg)](https://travis-ci.org/ngVue/ngVue)
+
 [**VueJS**](https://vuejs.org/) is a library to build web interfaces with composable view components and reactive data binding. **ngVue**, inspired by [ngReact](https://github.com/ngReact/ngReact), is an Angular module that allows you to develop/use Vue components in AngularJS applications. ngVue can be used in the existing Angular applications and helps migrate the view parts of the application from Angular 1.x to Vue 2.
 
 The motivation for this is similar to ngReact's:
@@ -8,7 +10,7 @@ The motivation for this is similar to ngReact's:
 - Instead of two-way data flow between controllers and views, VueJS defaults to a one-way, parent-to-child data flow between components which makes the application more predictable
 - VueJS offers a much easier way to compose the web interfaces, and you can take advantage of the functional reactive programming in VueJS 2. Angular directives introduce a high learning barrier, such as the compile and link function, and the directives are prone to get confused with the components
 - The VueJS community offers a component or a UI framework that you would like to try out
-- Too deep into an AngularJS application to move it away from the code but you would like to experiment with VueJS 
+- Too deep into an AngularJS application to move it away from the code but you would like to experiment with VueJS
 
 # Features
 
