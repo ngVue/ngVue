@@ -12,7 +12,7 @@ The motivation for this is similar to ngReact's:
 - The VueJS community offers a component or a UI framework that you would like to try out
 - Too deep into an AngularJS application to move it away from the code but you would like to experiment with VueJS
 
-# Features
+## Features
 
 **ngVue** is composed of a directive `vue-component`, a factory `createVueComponent` and a directive helper `vdirectives`
 
@@ -33,7 +33,7 @@ The motivation for this is similar to ngReact's:
 <hello-component vdirectives="hello"></hello-component>
 ```
 
-# the `vue-component` directive
+### the `vue-component` directive
 
 The `vue-component` directive wraps the vue component into an angular directive so that the vue component can be created and initialized while the angular is compiling the templates.
 
@@ -53,16 +53,16 @@ Then declare **a Vue component** like this:
 
 ```jsx
 const VComponent = Vue.component('hello-component', {
-    props: {
-      firstName: String,
-      lastName: String
-    },
-    render (h) {
-      return (
-        <span>Hi, { this.firstName } { this.lastName }</span>
-      )
-    }
-  })
+  props: {
+    firstName: String,
+    lastName: String
+  },
+  render (h) {
+    return (
+      <span>Hi, { this.firstName } { this.lastName }</span>
+    )
+  }
+})
 ```
 
 In the end, **register the Vue component** to the Angular module with `value` method like this:
@@ -84,7 +84,7 @@ Now you can use `hello-component` in Angular templates:
 </body>
 ```
 
- The `vue-component` directive provides three main attributes:
+The `vue-component` directive provides three main attributes:
 
 - `name` attribute checks for Angular injectable of that name
 
@@ -93,20 +93,22 @@ Now you can use `hello-component` in Angular templates:
 - `vprops-*` attribute allows you to name the partial data extracted from the angular scope. `vue-component` wraps them into a new object and pass it to the Vue component. For example `props-first-name` and `props-last-name` will create two properties `firstName` and `lastName` in a new object as the component data
 
 ```html
-    <vue-component vprops="ctrl.person" />
-    // equals to
-    <vue-component vprops-first-name="ctrl.person.firstName" vprops-last-name="ctrl.person.lastName" />
+<vue-component vprops="ctrl.person" />
+// equals to
+<vue-component vprops-first-name="ctrl.person.firstName" vprops-last-name="ctrl.person.lastName" />
 ```
 
 - `watch-depth` attribute indicates which watch strategy to detect the changes of the scope. The possible values as follows:
 
-  | value                 | description                              | notes                                    |
-  | --------------------- | ---------------------------------------- | ---------------------------------------- |
-  | reference *(default)* | watches the object reference             | |
-  | collection            | same as angular `$watchCollection`, shallow watches the properties of the object: for arrays, it watches the array items; for object maps, it watches the properties | |
-  | value                 | deep watches every property inside the object | (**not recommended**)  Angular copies the entire object and traverses every property insides to detect the changes in each digest cycle so it may cause a heavy computation |
+  | value                 | description                              |
+  | --------------------- | ---------------------------------------- |
+  | reference *(default)* | watches the object reference             |
+  | collection            | same as angular `$watchCollection`, shallow watches the properties of the object: for arrays, it watches the array items; for object maps, it watches the properties |
+  | value                 | deep watches every property inside the object |
 
-# the `createVueComponent` factory
+**NOTE** the `value` strategy is not recommended because Angular copies the entire object and traverses every property insides to detect the changes in each digest cycle and it therefore causes a heavy computation.
+
+### the `createVueComponent` factory
 
 The `createVueComponent` factory creates a reusable Angular directive which is bound to a specific Vue component.
 
@@ -134,5 +136,6 @@ app.directive('helloComponent', function (createVueComponent) {
 - [x] vue directives
 - [ ] unit tests
 - [x] docs + simple examples
+- [ ] ng filters in VueJS
 - [ ] supports vuex
 - [ ] performance optimization
