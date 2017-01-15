@@ -10,12 +10,12 @@ export default {
     nodeResolve({
       browser: true
     }),
+    babel(),
     commonjs({
       namedExports: {
         'node_modules/babel-helper-vue-jsx-merge-props/index.js': ['_mergeJSXProps']
       }
-    }),
-    babel()
+    })
   ],
   globals: {
     vue: 'Vue',
