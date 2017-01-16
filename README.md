@@ -178,7 +178,7 @@ Those hooks share the same signature `($injector, Vue, context) => void`:
 
 ### available plugins
 
-- *(built-in)* ngVue.plugins.filter
+- *(built-in)* [ngVue.plugins.filter](docs/ngVue.plugins.filters.md)
 
 ### install a plugin
 
