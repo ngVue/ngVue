@@ -70,9 +70,11 @@
   "homepage": "https://github.com/ngVue/ngVue#readme",
   "license": "MIT",
   "jest": {
+    "rootDir": "",
     "testPathDirs": [
       "src"
     ],
-    "setupTestFrameworkScriptFile": "./src/jest.init.js"
+    "setupTestFrameworkScriptFile": "<rootDir>/jest.setup.js",
+    "testRegex": "/__tests__/"
   }
 }

@@ -1,3 +1,3 @@
 import 'angular'
 import 'angular-mocks'
-import './index'
+import './src/index'
