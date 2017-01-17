@@ -12,6 +12,18 @@ The motivation for this is similar to ngReact's:
 - The VueJS community offers a component or a UI framework that you would like to try out
 - Too deep into an AngularJS application to move it away from the code but you would like to experiment with VueJS
 
+**Table of Contents**
+
+- [Features](#features)
+	- [the `vue-component` directive](#the-vue-component-directive)
+	- [the `createVueComponent` factory](#the-createvuecomponent-factory)
+- [Plugins](#plugins)
+	- [the `$ngVue` provider](#the-ngvue-provider)
+	- [available plugins](#available-plugins)
+	- [install a plugin](#install-a-plugin)
+	- [set up a plugin](#set-up-a-plugin)
+	- [write a plugin](#write-a-plugin)
+
 ## Features
 
 **ngVue** is composed of a directive `vue-component`, a factory `createVueComponent` and a directive helper `vdirectives`. It also provides some plugins for enhancement.
