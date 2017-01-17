@@ -14,6 +14,7 @@ const HelloComponent = Vue.component('hello-component', {
 describe('vue-component', () => {
   let provide
   let compiledElement
+  let rootScope
 
   beforeEach(() => {
     angular.mock.module('ngVue')
@@ -23,6 +24,8 @@ describe('vue-component', () => {
     })
 
     inject(($rootScope, $compile) => {
+      rootScope = $rootScope
+
       compiledElement = (html, scope) => {
         scope = scope || $rootScope.$new()
         const elem = angular.element(`<div>${html}</div>`)
@@ -40,10 +43,25 @@ describe('vue-component', () => {
     expect(elem[0].innerHTML.replace(/\s/g, '')).toBe('<span>Hello</span>')
   })
 
-  it('should render a vue component with properties from scope', inject(($rootScope) => {
-    const scope = $rootScope.$new()
+  it('should render a vue component with properties from scope', () => {
+    const scope = rootScope.$new()
     scope.person = { firstName: 'John', lastName: 'Doe' }
     const elem = compiledElement('<vue-component name="HelloComponent" vprops="person" />', scope)
     expect(elem[0].innerHTML).toBe('<span>Hello John Doe</span>')
-  }))
+  })
+
+  it('should re-render the vue component when properties from scope change', (done) => {
+    const scope = rootScope.$new()
+    scope.person = { firstName: 'John', lastName: 'Doe' }
+    const elem = compiledElement('<vue-component name="HelloComponent" vprops="person" />', scope)
+    expect(elem[0].innerHTML).toBe('<span>Hello John Doe</span>')
+
+    scope.person.firstName = 'Jane'
+    scope.person.lastName = 'Smith'
+    // We don't need scope.$digest() call here because scope.person was converted to a "Vue" reactive object
+    Vue.nextTick(() => {
+      expect(elem[0].innerHTML).toBe('<span>Hello Jane Smith</span>')
+      done()
+    })
+  })
 })
