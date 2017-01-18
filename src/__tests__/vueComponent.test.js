@@ -27,7 +27,7 @@ describe('vue-component', () => {
       rootScope = $rootScope
 
       compiledElement = (html, scope) => {
-        scope = scope || $rootScope.$new()
+        scope = scope || rootScope.$new()
         const elem = angular.element(`<div>${html}</div>`)
         $compile(elem)(scope)
         scope.$digest()
@@ -43,10 +43,23 @@ describe('vue-component', () => {
     expect(elem[0].innerHTML.replace(/\s/g, '')).toBe('<span>Hello</span>')
   })
 
-  it('should render a vue component with properties from scope', () => {
+  it('should render a vue component with vprops object from scope', () => {
     const scope = rootScope.$new()
     scope.person = { firstName: 'John', lastName: 'Doe' }
     const elem = compiledElement('<vue-component name="HelloComponent" vprops="person" />', scope)
+    expect(elem[0].innerHTML).toBe('<span>Hello John Doe</span>')
+  })
+
+  it('should render a vue component with vprops-name properties from scope', () => {
+    const scope = rootScope.$new()
+    scope.person = { firstName: 'John', lastName: 'Doe' }
+    const elem = compiledElement(
+      `<vue-component
+        name="HelloComponent"
+        vprops-first-name="person.firstName"
+        vprops-last-name="person.lastName" />`,
+      scope
+    )
     expect(elem[0].innerHTML).toBe('<span>Hello John Doe</span>')
   })
 
