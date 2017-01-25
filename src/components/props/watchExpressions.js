@@ -1,16 +1,22 @@
-import angular from 'angular'
+import {isString, isArray} from 'angular'
+import Vue from 'vue'
 
-function watch (expressions) {
+function watch (expressions, reactiveData) {
   return (watchFunc) => {
-    if (angular.isString(expressions)) {
-      // the `vprops` / `vdata` object is reactive
-      // no need to watch their changes
+    // for `vprops` / `vdata`
+    if (isString(expressions)) {
+      watchFunc(expressions, (newVal) => {
+        Vue.set(reactiveData, '_v', isArray(newVal) ? [...newVal] : newVal)
+      })
       return
     }
 
+    // for `vprops-something`
     Object.keys(expressions)
       .forEach((name) => {
-        watchFunc(name, expressions[name])
+        watchFunc(expressions[name], (newVal) => {
+          Vue.set(reactiveData._v, name, isArray(newVal) ? [...newVal] : newVal)
+        })
       })
   }
 }
@@ -20,40 +26,35 @@ function watch (expressions) {
  * @param dataExprsMap Object
  * @param dataExprsMap.data Object|string|null
  * @param dataExprsMap.props Object|string|null
- * @param watchCallback Function
- * @param elAttributes {{watchDepth: 'reference'|'value'|'collection'}}
+ * @param reactiveData Object
+ * @param reactiveData._v Object
+ * @param depth 'reference'|'value'|'collection'
  * @param scope Object
  */
-export default function watchExpressions (dataExprsMap, watchCallback, elAttributes, scope) {
+export default function watchExpressions (dataExprsMap, reactiveData, depth, scope) {
   const expressions = dataExprsMap.props ? dataExprsMap.props : dataExprsMap.data
 
   if (!expressions) {
     return
   }
 
-  const depth = elAttributes.watchDepth
-  const watcher = watch(expressions)
-  const callback = (propName, newVal) => {
-    if (newVal) {
-      watchCallback(propName, newVal)
-    }
-  }
+  const watcher = watch(expressions, reactiveData)
 
   switch (depth) {
     case 'value':
-      watcher((name, expression) => {
-        scope.$watch(expression, callback.bind(null, name), true)
+      watcher((expression, setter) => {
+        scope.$watch(expression, setter, true)
       })
       break
     case 'collection':
-      watcher((name, expression) => {
-        scope.$watchCollection(expression, callback.bind(null, name))
+      watcher((expression, setter) => {
+        scope.$watchCollection(expression, setter)
       })
       break
     case 'reference':
     default:
-      watcher((name, expression) => {
-        scope.$watch(expression, callback.bind(null, name))
+      watcher((expression, setter) => {
+        scope.$watch(expression, setter)
       })
   }
 }
