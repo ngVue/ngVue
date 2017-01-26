@@ -18,7 +18,7 @@ function watch (expressions, reactiveData) {
 }
 
 /**
- * @param setter Function a reactive setter from VueKS
+ * @param setter Function a reactive setter from VueJS
  * @returns Function a watch callback when the expression value is changed
  */
 function notify (setter) {
