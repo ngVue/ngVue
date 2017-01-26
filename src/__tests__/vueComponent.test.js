@@ -50,6 +50,34 @@ describe('vue-component', () => {
     expect(elem[0].innerHTML).toBe('<span>Hello John Doe</span>')
   })
 
+  it('should re-render the vue component when vprops value changes', (done) => {
+    const scope = rootScope.$new()
+    scope.person = { firstName: 'John', lastName: 'Doe' }
+    const elem = compiledElement('<vue-component name="HelloComponent" vprops="person" />', scope)
+    expect(elem[0].innerHTML).toBe('<span>Hello John Doe</span>')
+
+    scope.person.firstName = 'Jane'
+    scope.person.lastName = 'Smith'
+    Vue.nextTick(() => {
+      expect(elem[0].innerHTML).toBe('<span>Hello Jane Smith</span>')
+      done()
+    })
+  })
+
+  it('should re-render the vue component when vprops reference changes', (done) => {
+    const scope = rootScope.$new()
+    scope.person = { firstName: 'John', lastName: 'Doe' }
+    const elem = compiledElement('<vue-component name="HelloComponent" vprops="person" />', scope)
+    expect(elem[0].innerHTML).toBe('<span>Hello John Doe</span>')
+
+    scope.person = { firstName: 'Jane', lastName: 'Smith' }
+    scope.$digest()
+    Vue.nextTick(() => {
+      expect(elem[0].innerHTML).toBe('<span>Hello Jane Smith</span>')
+      done()
+    })
+  })
+
   it('should render a vue component with vprops-name properties from scope', () => {
     const scope = rootScope.$new()
     scope.person = { firstName: 'John', lastName: 'Doe' }
@@ -63,15 +91,41 @@ describe('vue-component', () => {
     expect(elem[0].innerHTML).toBe('<span>Hello John Doe</span>')
   })
 
-  it('should re-render the vue component when properties from scope change', (done) => {
+  it('should re-render the vue component when vprops-name value change', (done) => {
     const scope = rootScope.$new()
     scope.person = { firstName: 'John', lastName: 'Doe' }
-    const elem = compiledElement('<vue-component name="HelloComponent" vprops="person" />', scope)
+    const elem = compiledElement(
+      `<vue-component
+        name="HelloComponent"
+        vprops-first-name="person.firstName"
+        vprops-last-name="person.lastName" />`,
+      scope
+    )
     expect(elem[0].innerHTML).toBe('<span>Hello John Doe</span>')
 
     scope.person.firstName = 'Jane'
     scope.person.lastName = 'Smith'
-    // We don't need scope.$digest() call here because scope.person was converted to a "Vue" reactive object
+    scope.$digest()
+    Vue.nextTick(() => {
+      expect(elem[0].innerHTML).toBe('<span>Hello Jane Smith</span>')
+      done()
+    })
+  })
+
+  it('should re-render the vue component when vprops-name reference change', (done) => {
+    const scope = rootScope.$new()
+    scope.person = { firstName: 'John', lastName: 'Doe' }
+    const elem = compiledElement(
+      `<vue-component
+        name="HelloComponent"
+        vprops-first-name="person.firstName"
+        vprops-last-name="person.lastName" />`,
+      scope
+    )
+    expect(elem[0].innerHTML).toBe('<span>Hello John Doe</span>')
+
+    scope.person = { firstName: 'Jane', lastName: 'Smith' }
+    scope.$digest()
     Vue.nextTick(() => {
       expect(elem[0].innerHTML).toBe('<span>Hello Jane Smith</span>')
       done()
