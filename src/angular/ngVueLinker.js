@@ -11,14 +11,13 @@ export function ngVueLinker (componentName, jqElement, elAttributes, scope, $inj
   const dataExprsMap = getPropExprs(elAttributes)
   const Component = getVueComponent(componentName, $injector)
   const directives = evaluateDirectives(elAttributes, scope) || []
-  const reactiveData = evalPropValues(dataExprsMap, scope) || {}
-  const reactiveSetter = Vue.set.bind(Vue, reactiveData)
+  const reactiveData = { _v: evalPropValues(dataExprsMap, scope) || {} }
 
   let vueOptions = {
     el: jqElement[0],
     data: reactiveData,
     render (h) {
-      return <Component {...{ directives }} {...{ props: reactiveData }} />
+      return <Component {...{ directives }} {...{ props: reactiveData._v }} />
     }
   }
 
@@ -27,9 +26,10 @@ export function ngVueLinker (componentName, jqElement, elAttributes, scope, $inj
     vueOptions = { ...vueOptions, ...hooks }
   }
 
-  const vueInstance = new Vue(vueOptions)
+  const watchDepth = elAttributes.watchDepth
+  watchPropExprs(dataExprsMap, reactiveData, watchDepth, scope)
 
-  watchPropExprs(dataExprsMap, reactiveSetter, elAttributes, scope)
+  const vueInstance = new Vue(vueOptions)
 
   scope.$on('$destroy', () => {
     vueInstance.$destroy()
