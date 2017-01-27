@@ -11,6 +11,19 @@ const HelloComponent = Vue.component('hello-component', {
   }
 })
 
+const PersonsComponent = Vue.component('persons-component', {
+  props: {
+    persons: Array
+  },
+  render (h) {
+    return (
+      <ul>
+        {this.persons.map(p => <li>{p.firstName} {p.lastName}</li>)}
+      </ul>
+    )
+  }
+})
+
 describe('vue-component', () => {
   let provide
   let compiledElement
@@ -36,6 +49,7 @@ describe('vue-component', () => {
     })
 
     provide.value('HelloComponent', HelloComponent)
+    provide.value('PersonsComponent', PersonsComponent)
   })
 
   it('should render a vue component with name', () => {
@@ -128,6 +142,30 @@ describe('vue-component', () => {
     scope.$digest()
     Vue.nextTick(() => {
       expect(elem[0].innerHTML).toBe('<span>Hello Jane Smith</span>')
+      done()
+    })
+  })
+
+  it('should re-render the vue component when vprops-name is an array and its items change', (done) => {
+    const scope = rootScope.$new()
+    scope.persons = [
+      { firstName: 'John', lastName: 'Doe' },
+      { firstName: 'Jane', lastName: 'Doe' }
+    ]
+    const elem = compiledElement(
+      `<vue-component
+        name="PersonsComponent"
+        vprops-persons="persons"
+        watch-depth="collection" />`,
+      scope
+    )
+    expect(elem[0].innerHTML).toBe('<ul><li>John Doe</li><li>Jane Doe</li></ul>')
+
+    scope.persons[0] = { firstName: 'John', lastName: 'Smith' }
+    scope.persons[1] = { firstName: 'Jane', lastName: 'Smith' }
+    scope.$digest()
+    Vue.nextTick(() => {
+      expect(elem[0].innerHTML).toBe('<ul><li>John Smith</li><li>Jane Smith</li></ul>')
       done()
     })
   })
