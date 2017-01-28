@@ -1,7 +1,5 @@
 import angular from 'angular'
 import { ngVueLinker } from './angular/ngVueLinker'
-import './plugins/provider'
-import './plugins/filters'
 
 /**
  *
@@ -57,6 +55,6 @@ function ngVueComponentDirective ($injector) {
   }
 }
 
-export const ngVue = angular.module('ngVue', ['ngVue.plugins', 'ngVue.plugins.filters'])
+export const ngVue = angular.module('ngVue', [])
   .directive('vueComponent', ['$injector', ngVueComponentDirective])
   .factory('createVueComponent', ['$injector', ngVueComponentFactory])

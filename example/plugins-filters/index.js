@@ -1,9 +1,10 @@
 import angular from 'angular'
 import Vue from 'vue'
-import '../../src'
+import '../../src/index.js'
+import '../../src/plugins.js'
 import Tags from './tags.vue'
 
-angular.module('vue.components', ['ngVue'])
+angular.module('vue.components', ['ngVue', 'ngVue.plugins'])
   .config(function ($ngVueProvider) {
     $ngVueProvider.filters.register(['uppercase'])
   })

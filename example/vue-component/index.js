@@ -1,6 +1,6 @@
 import angular from 'angular'
 import Vue from 'vue'
-import '../../src'
+import '../../src/index.js'
 
 angular.module('vue.components', ['ngVue'])
   .controller('MainController', function () {
