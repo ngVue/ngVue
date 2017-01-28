@@ -12,8 +12,10 @@ The motivation for this is similar to ngReact's:
 - The VueJS community offers a component or a UI framework that you would like to try out
 - Too deep into an AngularJS application to move it away from the code but you would like to experiment with VueJS
 
-**Table of Contents**
+## Table of Contents
 
+- [Install](#install)
+- [Usage](#usage)
 - [Features](#features)
 	- [the `vue-component` directive](#the-vue-component-directive)
 	- [the `createVueComponent` factory](#the-createvuecomponent-factory)
@@ -23,6 +25,51 @@ The motivation for this is similar to ngReact's:
 	- [install a plugin](#install-a-plugin)
 	- [set up a plugin](#set-up-a-plugin)
 	- [write a plugin](#write-a-plugin)
+
+## Install
+
+via npm:
+
+```
+npm install ngVue
+```
+
+## Usage
+
+**ngVue** is a UMD module (known as Universal Module Definition), so it's CommonJS and AMD compatible, as well as supporting browser global variable definition.
+
+First of all, remember to load AngularJS 1.x and VueJS:
+
+```html
+// load on the page with the `script` tag
+<script src="./node_modules/angular/angular.js"></script>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script src="./node_modules/ngVue/build/index.js"></script>
+```
+
+or ...
+
+```javascript
+// the CommonJS style
+const ng = require('angular')
+const vue = require('vue')
+require('ngVue')
+
+// the AMD style
+require(['angular', 'vue', 'ngVue'], function(ng, Vue) {
+})
+
+// the ECMAScript module style
+import angular from 'angular'
+import vue from 'vue'
+import 'ngVue'
+```
+
+and then require `ngVue` as a dependency for the Angular app:
+
+```javascript
+angular.module('yourApp', ['ngVue'])
+```
 
 ## Features
 
