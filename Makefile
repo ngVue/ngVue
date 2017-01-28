@@ -1,7 +1,7 @@
 .PHONY: build
 
 dev:
-	npm run dev-example
+	npm run example
 
 build:
 	npm run build
