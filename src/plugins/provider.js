@@ -41,6 +41,12 @@ function createVueHooksMap (hookCallback) {
 }
 
 function ngVueProvider ($injector) {
+  let inQuirkMode = false
+
+  this.activeQuirkMode = () => {
+    inQuirkMode = true
+  }
+
   this.install = (plugin) => {
     const {
       $name,
@@ -67,7 +73,8 @@ function ngVueProvider ($injector) {
     const vueHooks = createVueHooksMap(cb)
 
     return {
-      getVueHooks: () => vueHooks
+      getVueHooks: () => vueHooks,
+      inQuirkMode: () => inQuirkMode
     }
   }]
 }

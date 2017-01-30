@@ -13,23 +13,23 @@ export function ngVueLinker (componentName, jqElement, elAttributes, scope, $inj
   const directives = evaluateDirectives(elAttributes, scope) || []
   const reactiveData = { _v: evalPropValues(dataExprsMap, scope) || {} }
 
-  let vueOptions = {
+  const inQuirkMode = $ngVue ? $ngVue.inQuirkMode() : false
+  const vueHooks = $ngVue ? $ngVue.getVueHooks() : {}
+
+  const watchOptions = {
+    depth: elAttributes.watchDepth,
+    quirk: inQuirkMode
+  }
+  watchPropExprs(dataExprsMap, reactiveData, watchOptions, scope)
+
+  const vueInstance = new Vue({
     el: jqElement[0],
     data: reactiveData,
     render (h) {
       return <Component {...{ directives }} {...{ props: reactiveData._v }} />
-    }
-  }
-
-  if ($ngVue) {
-    const hooks = $ngVue.getVueHooks()
-    vueOptions = { ...vueOptions, ...hooks }
-  }
-
-  const watchDepth = elAttributes.watchDepth
-  watchPropExprs(dataExprsMap, reactiveData, watchDepth, scope)
-
-  const vueInstance = new Vue(vueOptions)
+    },
+    ...vueHooks
+  })
 
   scope.$on('$destroy', () => {
     vueInstance.$destroy()
