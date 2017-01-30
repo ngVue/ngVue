@@ -165,8 +165,11 @@ describe('vue-component', () => {
         scope
       )
 
-      scope.persons[0] = { firstName: 'John', lastName: 'Smith' }
-      scope.persons[1] = { firstName: 'Jane', lastName: 'Smith' }
+      // use Array.prototype.splice
+      scope.persons.splice(0, 1, { firstName: 'John', lastName: 'Smith' })
+      // use Vue.set
+      Vue.set(scope.persons, 1, { firstName: 'Jane', lastName: 'Smith' })
+
       scope.$digest()
       Vue.nextTick(() => {
         expect(elem[0].innerHTML).toBe('<ul><li>John Smith</li><li>Jane Smith</li></ul>')
