@@ -8,12 +8,13 @@ There are more complicated problems when we try to integrate Angular 1.x with Vu
 
 ## Table of Contents
 
-- [the `$ngVue` factory](#the-ngvue-factory)
+- [the $ngVue factory](#the-ngvue-factory)
+- [Plugins](#plugins)
 	- [available plugins](#available-plugins)
-	- [API: `install(callback)`](#api-install-callback)
-- [install a plugin](#install-a-plugin)
-- [set up a plugin](#set-up-a-plugin)
-- [write a plugin](#write-a-plugin)
+	- [API: install(callback)](#api-install-callback)
+	- [How to install a plugin](#how-to-install-a-plugin)
+	- [How to set up a plugin](#how-to-set-up-a-plugin)
+	- [How to write a plugin](#how-to-write-a-plugin)
 
 ## Usage
 
@@ -30,9 +31,11 @@ import 'ngVue/build/plugins.js'
 angular.module('yourApp', ['ngVue', 'ngVue.plugins'])
 ```
 
-## the `$ngVue` factory
+## the $ngVue factory
 
-**ngVue.plugins** creates the Angular provider `$ngVue`. This provider is responsible for registering **plugins**. Those **plugins** control the Vue instances with the lifecycle hooks, so you can simply use VueJS plugins or retrieve Angular modules resolved by the inject service and then apply them to VueJS.
+**ngVue.plugins** creates an Angular service `$ngVue`. This service implements a **plugins** system and other functionality. For the **plugins**, they will control the Vue instances with the lifecycle hooks, so you can use VueJS plugins or use Angular factories/services resolved by the inject service to VueJS.
+
+## Plugins
 
 ### available plugins
 
@@ -40,7 +43,7 @@ angular.module('yourApp', ['ngVue', 'ngVue.plugins'])
 | --- | --- |
 | [filters](./plugins.filters.md) | *(built-in)* register Angular filters to VueJS |
 
-### API: `install(callback)`
+### API: install(callback)
 
 The provider `$ngVue` has only one method `install` to use a plugin during the configuration phase of Angular.
 
@@ -53,7 +56,7 @@ The provider `$ngVue` has only one method `install` to use a plugin during the c
 	- `$vue` (*Object*): optional, it contains the lifecycle hooks of the Vue instances
 	- `$plugin` (*Object*): optional, it contains the lifecycle hooks of the ngVue plugins
 
-### lifecycle hooks
+### Lifecycle hooks
 
 There are two types of lifecycle hooks:
 
@@ -72,7 +75,7 @@ Those hooks share the same signature `($injector, Vue, context) => void`:
 - ``Vue`` the base class of Vue instances
 - ``context`` only useful for the Vue instance hooks, the context points to the Vue instance invoking it
 
-## install a plugin
+### How to install a plugin
 
 Require `ngVue.plugins` and the plugin module. That's it :-)
 
@@ -80,7 +83,7 @@ Require `ngVue.plugins` and the plugin module. That's it :-)
 angular.module('app', ['ngVue.plugins', 'custom.plugin'])
 ```
 
-## set up a plugin
+### How to set up a plugin
 
 Each ngVue plugin has a namespace object (defined by the plugin's `$name`) and all the configuration options are contained there
 
@@ -91,7 +94,7 @@ angular.module('app', ['ngVue.plugins', 'custom.plugin'])
 	})
 ```
 
-## write a plugin
+### How to write a plugin
 
 Require the module `ngVue.plugins` and then install the plugin in `$ngVue` provider during the configuration phase:
 
