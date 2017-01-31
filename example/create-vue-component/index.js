@@ -1,6 +1,6 @@
 import angular from 'angular'
 import Vue from 'vue'
-import '../../build/ngVue.es'
+import '../../src/index.js'
 
 const VueComponent = Vue.component('hello-component', {
   props: {

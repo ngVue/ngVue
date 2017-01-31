@@ -12,17 +12,58 @@ The motivation for this is similar to ngReact's:
 - The VueJS community offers a component or a UI framework that you would like to try out
 - Too deep into an AngularJS application to move it away from the code but you would like to experiment with VueJS
 
-**Table of Contents**
+## Table of Contents
 
+- [Install](#install)
+- [Usage](#usage)
 - [Features](#features)
-	- [the `vue-component` directive](#the-vue-component-directive)
-	- [the `createVueComponent` factory](#the-createvuecomponent-factory)
-- [Plugins](#plugins)
-	- [the `$ngVue` provider](#the-ngvue-provider)
-	- [available plugins](#available-plugins)
-	- [install a plugin](#install-a-plugin)
-	- [set up a plugin](#set-up-a-plugin)
-	- [write a plugin](#write-a-plugin)
+	- [the vue-component directive](#the-vue-component-directive)
+	- [the createVueComponent factory](#the-createvuecomponent-factory)
+
+## Install
+
+via npm:
+
+```
+npm install ngVue
+```
+
+## Usage
+
+**ngVue** is a UMD module (known as Universal Module Definition), so it's CommonJS and AMD compatible, as well as supporting browser global variable definition.
+
+First of all, remember to load AngularJS 1.x, VueJS and ngVue:
+
+```html
+// load on the page with the `script` tag
+<script src="./node_modules/angular/angular.js"></script>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script src="./node_modules/ngVue/build/index.js"></script>
+```
+
+or ...
+
+```javascript
+// the CommonJS style
+const ng = require('angular')
+const vue = require('vue')
+require('ngVue')
+
+// the AMD style
+require(['angular', 'vue', 'ngVue'], function(ng, Vue) {
+})
+
+// the ECMAScript module style
+import angular from 'angular'
+import vue from 'vue'
+import 'ngVue'
+```
+
+and then require `ngVue` as a dependency for the Angular app:
+
+```javascript
+angular.module('yourApp', ['ngVue'])
+```
 
 ## Features
 
@@ -45,7 +86,7 @@ The motivation for this is similar to ngReact's:
 <hello-component vdirectives="hello"></hello-component>
 ```
 
-### the `vue-component` directive
+### the vue-component directive
 
 The `vue-component` directive wraps the vue component into an angular directive so that the vue component can be created and initialized while the angular is compiling the templates.
 
@@ -110,17 +151,19 @@ The `vue-component` directive provides three main attributes:
 <vue-component vprops-first-name="ctrl.person.firstName" vprops-last-name="ctrl.person.lastName" />
 ```
 
-- `watch-depth` attribute indicates which watch strategy to detect the changes of the scope. The possible values as follows:
+- `watch-depth` attribute indicates which watch strategy to detect the changes on Angular Scope objects. The possible values as follows:
 
   | value                 | description                              |
   | --------------------- | ---------------------------------------- |
-  | reference *(default)* | watches the object reference             |
-  | collection            | same as angular `$watchCollection`, shallow watches the properties of the object: for arrays, it watches the array items; for object maps, it watches the properties |
-  | value                 | deep watches every property inside the object |
+  | reference | *(default)* watches the object reference             |
+  | collection            | *(rarely used)* same as angular `$watchCollection`, shallow watches the properties of the object: for arrays, it watches the array items; for object maps, it watches the properties |
+  | value                 | *(rarely used)* deep watches every property inside the object |
 
-**NOTE** the `value` strategy is not recommended because Angular copies the entire object and traverses every property insides to detect the changes in each digest cycle and it therefore causes a heavy computation.
+**NOTES**
 
-### the `createVueComponent` factory
+- The `value` strategy is **not recommended** and it causes a heavy computation. To detect the change, Angular copies the entire object and traverses every property insides in each digest cycle.
+
+### the createVueComponent factory
 
 The `createVueComponent` factory creates a reusable Angular directive which is bound to a specific Vue component.
 
@@ -140,94 +183,6 @@ Alternatively, the name of the Vue component registered by `angular.value` can a
 app.directive('helloComponent', function (createVueComponent) {
   return createVueComponent('HelloComponent')
 })
-```
-
-## Plugins
-
-> this is an experimental feature
-
-What if I want to use Angular filters in VueJS templates? Is it possible to use vuex to manage the state? How can I reuse the business code in VueJS when the application is too deep into Angular 1.x? ... 
-
-There are more complicated problems when we try to integrate Angular 1.x with VueJS. It is impossible to solve them all but it's important to provide flexibility for enhancement while keeping **ngVue** small and simple. So we introduce a new module **ngVue.plugins**.
-
-### the `$ngVue` provider
-
-> `$ngVue` is a built-in module for now but will be moved out from the module `ngVue` at a later time
-
-**ngVue.plugins** creates the Angular provider `$ngVue`. This provider is responsible for registering **plugins**. Those **plugins** control the Vue instances with the lifecycle hooks, so you can simply use VueJS plugins or retrieve Angular modules resolved by the inject service and then apply them to VueJS.
-
-#### API: `install(callback)`
-
-The provider `$ngVue` has only one method `install` to use a plugin during the configuration phase of Angular.
-
-**Arguments**
-
-- `callback` (*Function*): the callback function receives the inject service `$injector` and this service injects the provider instances only. The callback should return a plain object `{$name[, $config, $vue, $plugin]}`: 
-
-	- `$name` (*String*): required to avoid name collisions in the provider, it is used as the namespace in the `$ngVue` provider
-	- `$config` (*Object*): optional, it contains the methods for users to set up the plugin and those methods will be exposed only to the namespace object created by `$name` in the `$ngVue` provider
-	- `$vue` (*Object*): optional, it contains the lifecycle hooks of the Vue instances
-	- `$plugin` (*Object*): optional, it contains the lifecycle hooks of the ngVue plugins
-
-#### lifecycle hooks
-
-There are two types of lifecycle hooks:
-
-| type | hook name |
-| --- | --- |
-| ngVue plugins | init |
-| Vue instances | beforeCreated, created, beforeMount, mounted, beforeUpdate, updated, beforeDestroy, destroyed |
-
-For the ngVue plugin hook `init`, it is invoked when the service `$ngVue` is instantiated by the inject service. It is when you can add global-level functionality to VueJS.
-
-The Vue instance hooks will be invoked when any Vue instance in Angular application calls its own lifecycle hooks. You can subscribe those hooks to do anything with Angular services (it is not recommended to use Angular services in Vue components).
-
-Those hooks share the same signature `($injector, Vue, context) => void`:
-
-- ``$injector`` the injector service that can access to all the instantiated services
-- ``Vue`` the base class of Vue instances
-- ``context`` only useful for the Vue instance hooks, the context points to the Vue instance invoking it
-
-### available plugins
-
-- *(built-in)* [ngVue.plugins.filter](docs/ngVue.plugins.filters.md)
-
-### install a plugin
-
-Require `ngVue.plugins` and the plugin module. That's it :-)
-
-```javascript
-angular.module('app', ['ngVue.plugins', 'custom.plugin'])
-```
-
-### set up a plugin
-
-Each ngVue plugin has a namespace object (defined by the plugin's `$name`) and all the configuration options are contained there
-
-```javascript
-angular.module('app', ['ngVue.plugins', 'custom.plugin'])
-	.config(function($ngVueProvider) {
-		$ngVueProvider.namespace.configMethod()
-	})
-```
-
-### write a plugin
-
-Require the module `ngVue.plugins` and then install the plugin in `$ngVue` provider during the configuration phase:
-
-```javascript
-angular.module('custom.plugin', ['ngVue.plugins'])
-	.config(function($ngVueProvider) {
-		$ngVueProvider.install(($injector) => {
-			// do something with other providers injected by `$injector`
-			return {
-				$name: 'namespace',
-				$config: { ...configMethod },
-				$plugin: { ...pluginHooks },
-				$vue: { ...vueHooks }
-			}
-		})
-	})
 ```
 
 ## TODO

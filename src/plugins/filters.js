@@ -46,7 +46,7 @@ const onPluginInit = ($injector, Vue) => {
   Vue.use(ngFilters)
 }
 
-export default angular.module('ngVue.plugins.filters', ['ngVue.plugins'])
+export default angular.module('ngVue.plugins')
   .config(['$ngVueProvider', ($ngVueProvider) => {
     $ngVueProvider.install(() => ({
       $name: 'filters',

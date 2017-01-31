@@ -1,10 +1,9 @@
 {
   "name": "ngVue",
   "author": "Doray Hong <hongduhui@gmail.com>",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Use Vue Components in Angular 1.x",
-  "main": "build/ngVue.umd.js",
-  "jsnext:main": "build/ngVue.es.js",
+  "main": "build/index.js",
   "keywords": [
     "javascript",
     "migration",
@@ -16,12 +15,11 @@
   ],
   "scripts": {
     "test": "BABEL_ENV=test jest",
-    "dev-example": "npm run bundle && BABEL_ENV=dev webpack-dev-server --inline --hot --config ./example/webpack.config.js --content-base ./example",
+    "example": "BABEL_ENV=dev webpack-dev-server --inline --hot --config ./example/webpack.config.js --content-base ./example",
     "clean": "rm -rf build",
-    "minify": "uglifyjs ./build/ngVue.umd.js -c -m -o ./build/ngVue.min.js",
-    "bundle": "BABEL_ENV=build rollup -c",
+    "bundle": "./scripts/bundle.sh",
     "lint": "eslint src lib test example",
-    "build": "npm run lint && npm run clean && npm run bundle && npm run minify",
+    "build": "npm run lint && npm run clean && npm run bundle",
     "preversion": "npm run test",
     "prepublish": "npm run build"
   },
@@ -54,7 +52,8 @@
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-commonjs": "^7.0.0",
     "rollup-plugin-node-resolve": "^2.0.0",
-    "uglifyjs": "^2.4.10",
+    "rollup-plugin-uglify": "^1.0.1",
+    "uglify-js": "mishoo/UglifyJS2#harmony",
     "vue-loader": "^10.0.2",
     "vue-template-compiler": "^2.1.8",
     "webpack": "^2.2.0-rc.3",
