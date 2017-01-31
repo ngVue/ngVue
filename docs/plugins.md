@@ -15,6 +15,7 @@ There are more complicated problems when we try to integrate Angular 1.x with Vu
 	- [How to install a plugin](#how-to-install-a-plugin)
 	- [How to set up a plugin](#how-to-set-up-a-plugin)
 	- [How to write a plugin](#how-to-write-a-plugin)
+- [Quirk Mode](#quirk-mode)
 
 ## Usage
 
@@ -112,3 +113,26 @@ angular.module('custom.plugin', ['ngVue.plugins'])
 		})
 	})
 ```
+
+## Quirk Mode
+
+VueJS cannot detect these changes on the scope objects while AngularJS can -- read about their differences in [Caveats](./caveats.md).
+
+- dynamically add a new property to the reactive object: `vm.b = 'a'`
+- delete a property from the object: `delete vm.b`
+- set an array element with the index: `array[0] = newElement`
+- modify the length of the array: `array.length = 0`
+
+You have to mutate the scope object in a reactive way to trigger the view updates in VueJS. You are likely to refactor all the controller code. So we introduce the quirk mode.
+
+The quirk mode enables AngularJS to propagate all the watched changes to VueJS and so you will not have to refactor any controller code to trigger the reactivity system to re-render the components.
+
+You can activate it with `$ngVueProvider` during the config phase:
+
+```javascript
+angular.module('yourApp', ['ngVue', 'ngVue.plugins'])
+	.config(($ngVueProvider) => {
+		$ngVueProvider.activeQuirkMode()
+	})
+```
+

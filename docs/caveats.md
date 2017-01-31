@@ -8,6 +8,7 @@
 - [Limitations & Solutions](#limitations--solutions)
 	- [Adding an additional property](#adding-an-additional-property)
 	- [Mutating an array](#mutating-an-array)
+	- [Activating the quirk mode](#activating-the-quirk-mode)
 
 With ngVue integrating VueJS into AngularJS, to some extent, it makes the change detection efficient but complicated, especially when it comes to the difference between the dirty checking mechanism and the reactivity system. So it is necessary to understand how they work to avoid some gotchas.
 
@@ -101,3 +102,9 @@ this.array = this.array.filter((element) => element > 0)
 ```
 
 When you want to clear the array, instead of decreasing the length to `0`, it is better to replace it with an empty array: `this.array = []`. It is trackable for the reactivity system and a [performance test](https://jsperf.com/array-destroy) shows that it is faster on all current JavaScript engines.
+
+### Activating the quirk mode
+
+In ngVue, the quirk mode is a quick solution to avoiding the problems mentioned earlier. You can activate it in the plugins, please read more details on [Plugins - The Quirk Mode](./plugins.md#quirk-mode).
+
+In the quirk mode, any changes on the scope objects detected by the Angular watchers will force ngVue to copy the entire object to a new one and the reactivity system will walk through all the properties insides to convert them into getters/setters. So it is not efficient and may cause a performance issue.
