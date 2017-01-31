@@ -74,6 +74,6 @@
       "src"
     ],
     "setupTestFrameworkScriptFile": "<rootDir>/jest.setup.js",
-    "testRegex": "/__tests__/"
+    "testRegex": "/__tests__/.*\\.test\\.js"
   }
 }

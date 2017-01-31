@@ -1,75 +1,50 @@
 import angular from 'angular'
 import Vue from 'vue'
 
-const HelloComponent = Vue.component('hello-component', {
-  props: {
-    firstName: String,
-    lastName: String
-  },
-  render (h) {
-    return (<span>Hello {this.firstName} {this.lastName}</span>)
-  }
-})
+import ngHtmlCompiler from './utils/ngHtmlCompiler'
 
-const PersonsComponent = Vue.component('persons-component', {
-  props: {
-    persons: Array
-  },
-  render (h) {
-    return (
-      <ul>
-        {this.persons.map(p => <li>{p.firstName} {p.lastName}</li>)}
-      </ul>
-    )
-  }
-})
+import HelloComponent from './fixtures/HelloComponent'
+import PersonsComponent from './fixtures/PersonsComponent'
 
 describe('vue-component', () => {
-  let provide
-  let compiledElement
-  let rootScope
+  let $provide
+  let $rootScope
+  let compileHTML
 
   beforeEach(() => {
     angular.mock.module('ngVue')
 
-    angular.mock.module($provide => {
-      provide = $provide
+    angular.mock.module((_$provide_) => {
+      $provide = _$provide_
     })
 
-    inject(($rootScope, $compile) => {
-      rootScope = $rootScope
-
-      compiledElement = (html, scope) => {
-        scope = scope || rootScope.$new()
-        const elem = angular.element(`<div>${html}</div>`)
-        $compile(elem)(scope)
-        scope.$digest()
-        return elem
-      }
+    angular.mock.inject((_$rootScope_, _$compile_) => {
+      $rootScope = _$rootScope_
+      compileHTML = ngHtmlCompiler(_$rootScope_, _$compile_)
     })
   })
 
   describe('creation', () => {
     beforeEach(() => {
-      provide.value('HelloComponent', HelloComponent)
+      $provide.value('HelloComponent', HelloComponent)
     })
 
     it('should render a vue component with name', () => {
-      const elem = compiledElement('<vue-component name="HelloComponent" />')
+      const elem = compileHTML('<vue-component name="HelloComponent" />')
       expect(elem[0].innerHTML.replace(/\s/g, '')).toBe('<span>Hello</span>')
     })
 
     it('should render a vue component with vprops object from scope', () => {
-      const scope = rootScope.$new()
+      const scope = $rootScope.$new()
       scope.person = { firstName: 'John', lastName: 'Doe' }
-      const elem = compiledElement('<vue-component name="HelloComponent" vprops="person" />', scope)
+      const elem = compileHTML('<vue-component name="HelloComponent" vprops="person" />', scope)
       expect(elem[0].innerHTML).toBe('<span>Hello John Doe</span>')
     })
 
     it('should render a vue component with vprops-name properties from scope', () => {
-      const scope = rootScope.$new()
+      const scope = $rootScope.$new()
       scope.person = { firstName: 'John', lastName: 'Doe' }
-      const elem = compiledElement(
+      const elem = compileHTML(
         `<vue-component
           name="HelloComponent"
           vprops-first-name="person.firstName"
@@ -82,14 +57,14 @@ describe('vue-component', () => {
 
   describe('update', () => {
     beforeEach(() => {
-      provide.value('HelloComponent', HelloComponent)
-      provide.value('PersonsComponent', PersonsComponent)
+      $provide.value('HelloComponent', HelloComponent)
+      $provide.value('PersonsComponent', PersonsComponent)
     })
 
     it('should re-render the vue component when vprops value changes', (done) => {
-      const scope = rootScope.$new()
+      const scope = $rootScope.$new()
       scope.person = { firstName: 'John', lastName: 'Doe' }
-      const elem = compiledElement('<vue-component name="HelloComponent" vprops="person" />', scope)
+      const elem = compileHTML('<vue-component name="HelloComponent" vprops="person" />', scope)
 
       scope.person.firstName = 'Jane'
       scope.person.lastName = 'Smith'
@@ -100,9 +75,9 @@ describe('vue-component', () => {
     })
 
     it('should re-render the vue component when vprops reference changes', (done) => {
-      const scope = rootScope.$new()
+      const scope = $rootScope.$new()
       scope.person = { firstName: 'John', lastName: 'Doe' }
-      const elem = compiledElement('<vue-component name="HelloComponent" vprops="person" />', scope)
+      const elem = compileHTML('<vue-component name="HelloComponent" vprops="person" />', scope)
 
       scope.person = { firstName: 'Jane', lastName: 'Smith' }
       scope.$digest()
@@ -113,9 +88,9 @@ describe('vue-component', () => {
     })
 
     it('should re-render the vue component when vprops-name value change', (done) => {
-      const scope = rootScope.$new()
+      const scope = $rootScope.$new()
       scope.person = { firstName: 'John', lastName: 'Doe' }
-      const elem = compiledElement(
+      const elem = compileHTML(
         `<vue-component
           name="HelloComponent"
           vprops-first-name="person.firstName"
@@ -133,9 +108,9 @@ describe('vue-component', () => {
     })
 
     it('should re-render the vue component when vprops-name reference change', (done) => {
-      const scope = rootScope.$new()
+      const scope = $rootScope.$new()
       scope.person = { firstName: 'John', lastName: 'Doe' }
-      const elem = compiledElement(
+      const elem = compileHTML(
         `<vue-component
           name="HelloComponent"
           vprops-first-name="person.firstName"
@@ -152,16 +127,15 @@ describe('vue-component', () => {
     })
 
     it('should re-render the vue component when vprops-name is an array and its items change', (done) => {
-      const scope = rootScope.$new()
+      const scope = $rootScope.$new()
       scope.persons = [
         { firstName: 'John', lastName: 'Doe' },
         { firstName: 'Jane', lastName: 'Doe' }
       ]
-      const elem = compiledElement(
+      const elem = compileHTML(
         `<vue-component
           name="PersonsComponent"
-          vprops-persons="persons"
-          watch-depth="collection" />`,
+          vprops-persons="persons" />`,
         scope
       )
 
