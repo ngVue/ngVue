@@ -19,6 +19,7 @@ The motivation for this is similar to ngReact's:
 - [Features](#features)
 	- [the vue-component directive](#the-vue-component-directive)
 	- [the createVueComponent factory](#the-createvuecomponent-factory)
+- [Plugins](#plugins)
 
 ## Install
 
@@ -184,6 +185,10 @@ app.directive('helloComponent', function (createVueComponent) {
   return createVueComponent('HelloComponent')
 })
 ```
+
+## Plugins
+  
+ngVue is simple but flexible for enhancement. Please read more in the [Plugins](docs/plugins.md).
 
 ## TODO
 
