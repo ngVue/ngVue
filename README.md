@@ -19,6 +19,7 @@ The motivation for this is similar to ngReact's:
 - [Features](#features)
 	- [the vue-component directive](#the-vue-component-directive)
 	- [the createVueComponent factory](#the-createvuecomponent-factory)
+- [Caveats](#caveats)
 - [Plugins](#plugins)
 
 ## Install
@@ -152,17 +153,19 @@ The `vue-component` directive provides three main attributes:
 <vue-component vprops-first-name="ctrl.person.firstName" vprops-last-name="ctrl.person.lastName" />
 ```
 
-- `watch-depth` attribute indicates which watch strategy to detect the changes on Angular Scope objects. The possible values as follows:
+- `watch-depth` attribute indicates which watch strategy AngularJS will use to detect the changes on the scope objects. The possible values as follows:
 
-  | value                 | description                              |
-  | --------------------- | ---------------------------------------- |
-  | reference | *(default)* watches the object reference             |
-  | collection            | *(rarely used)* same as angular `$watchCollection`, shallow watches the properties of the object: for arrays, it watches the array items; for object maps, it watches the properties |
-  | value                 | *(rarely used)* deep watches every property inside the object |
+| value | description |
+| --- | --- |
+| reference | *(default)* watches the object reference |
+| collection | *(rarely used)* same as angular `$watchCollection`, shallow watches the properties of the object: for arrays, it watches the array items; for object maps, it watches the properties |
+| value | *(rarely used)* deep watches every property inside the object |
 
 **NOTES**
 
-- The `value` strategy is **not recommended** and it causes a heavy computation. To detect the change, Angular copies the entire object and traverses every property insides in each digest cycle.
+- `watch-depth` cannot propagate all the changes on the scope objects to VueJS due to the limitation of the reactivity system, but you can read about several solutions in [Caveats](docs/caveats.md#limitations--solutions).
+- The `collection` strategy and the `value` strategy are rarely used. The scope object will be converted into a reactive object by VueJS and so any changes on the reactive scope object will trigger the view updates.
+- The `value` strategy is **not recommended** because it causes a heavy computation. To detect the change, Angular copies the entire object and traverses every property insides in each digest cycle.
 
 ### the createVueComponent factory
 
@@ -186,8 +189,12 @@ app.directive('helloComponent', function (createVueComponent) {
 })
 ```
 
+## Caveats
+
+ngVue brings the reactivity system to the dirty checking mechanism and you should therefore understand how they work together and how to avoid some common gotchas. Please read more in the [Caveats](docs/caveats.md).
+
 ## Plugins
-  
+
 ngVue is simple but flexible for enhancement. Please read more in the [Plugins](docs/plugins.md).
 
 ## TODO
