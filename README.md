@@ -19,6 +19,7 @@ The motivation for this is similar to ngReact's:
 - [Features](#features)
 	- [the vue-component directive](#the-vue-component-directive)
 	- [the createVueComponent factory](#the-createvuecomponent-factory)
+- [Caveats](#caveats)
 - [Plugins](#plugins)
 
 ## Install
@@ -154,11 +155,11 @@ The `vue-component` directive provides three main attributes:
 
 - `watch-depth` attribute indicates which watch strategy to detect the changes on Angular Scope objects. The possible values as follows:
 
-  | value                 | description                              |
-  | --------------------- | ---------------------------------------- |
-  | reference | *(default)* watches the object reference             |
-  | collection            | *(rarely used)* same as angular `$watchCollection`, shallow watches the properties of the object: for arrays, it watches the array items; for object maps, it watches the properties |
-  | value                 | *(rarely used)* deep watches every property inside the object |
+| value | description |
+| --- | --- |
+| reference | *(default)* watches the object reference |
+| collection | *(rarely used)* same as angular `$watchCollection`, shallow watches the properties of the object: for arrays, it watches the array items; for object maps, it watches the properties |
+| value | *(rarely used)* deep watches every property inside the object |
 
 **NOTES**
 
@@ -186,8 +187,12 @@ app.directive('helloComponent', function (createVueComponent) {
 })
 ```
 
+## Caveats
+
+ngVue brings the reactivity system to the dirty checking mechanism and you should therefore understand how they work together and how to avoid some common gotchas. Please read more in the [Caveats](docs/caveats.md).
+
 ## Plugins
-  
+
 ngVue is simple but flexible for enhancement. Please read more in the [Plugins](docs/plugins.md).
 
 ## TODO
