@@ -1,7 +1,7 @@
 import angular from 'angular'
 import Vue from 'vue'
-import '../../src/index.js'
-import '../../src/plugins.js'
+import '../../src'
+import '../../src/plugins'
 import Tags from './tags.vue'
 
 angular.module('vue.components', ['ngVue', 'ngVue.plugins'])
