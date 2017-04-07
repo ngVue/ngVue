@@ -17,8 +17,8 @@ The motivation for this is similar to ngReact's:
 - [Install](#install)
 - [Usage](#usage)
 - [Features](#features)
-	- [the vue-component directive](#the-vue-component-directive)
-	- [the createVueComponent factory](#the-createvuecomponent-factory)
+	- [The vue-component directive](#the-vue-component-directive)
+	- [The createVueComponent factory](#the-createvuecomponent-factory)
 - [Caveats](#caveats)
 - [Plugins](#plugins)
 
@@ -88,7 +88,7 @@ angular.module('yourApp', ['ngVue'])
 <hello-component vdirectives="hello"></hello-component>
 ```
 
-### the vue-component directive
+### The vue-component directive
 
 The `vue-component` directive wraps the vue component into an angular directive so that the vue component can be created and initialized while the angular is compiling the templates.
 
@@ -161,13 +161,67 @@ The `vue-component` directive provides three main attributes:
 | collection | *(rarely used)* same as angular `$watchCollection`, shallow watches the properties of the object: for arrays, it watches the array items; for object maps, it watches the properties |
 | value | *(rarely used)* deep watches every property inside the object |
 
+#### Event Handling
+
+You can not use Vue events from a Vue component nested within an AngularJS view, because you are in AngularJS context. You have to bind event callbacks as props. Here's an example:
+
+**hello.controller.js (AngularJS)**
+```
+class HelloController {
+  constructor($scope) {
+    this.$scope = $scope;
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick(whateverArg) {
+    // Don't forget to use $scope.$apply in case you need to update model data
+    this.$scope.$apply(() => { ... });
+  }
+}
+```
+**hello.html (AngularJS)**
+```
+<vue-component name="Hello" vprops-on-click="$ctrl.handleClick"></vue-component>
+```
+**Hello.vue**
+```
+<script>
+export default {
+  props: {
+    onClick: Function
+  },
+  ...
+  methods: {
+    whateverMethod() {
+      this.onClick(this.whateverArg);
+    }
+  }
+};
+</script>
+```
+Or bind your scope methods directly:
+```
+<template>
+  <button v-on:click='onClick'></button>
+</template>
+
+<script>
+export default {
+  props: {
+    onClick: Function
+  }
+};
+</script>
+```
+
+
 **NOTES**
 
 - `watch-depth` cannot propagate all the changes on the scope objects to VueJS due to the limitation of the reactivity system, but you can read about several solutions in [Caveats](docs/caveats.md#limitations--solutions).
 - The `collection` strategy and the `value` strategy are rarely used. The scope object will be converted into a reactive object by VueJS and so any changes on the reactive scope object will trigger the view updates.
 - The `value` strategy is **not recommended** because it causes a heavy computation. To detect the change, Angular copies the entire object and traverses every property insides in each digest cycle.
 
-### the createVueComponent factory
+### The createVueComponent factory
 
 The `createVueComponent` factory creates a reusable Angular directive which is bound to a specific Vue component.
 
