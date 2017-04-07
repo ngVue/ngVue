@@ -19,7 +19,6 @@ The motivation for this is similar to ngReact's:
 - [Features](#features)
 	- [The vue-component directive](#the-vue-component-directive)
 	- [The createVueComponent factory](#the-createvuecomponent-factory)
-	- [Event Handling](#event-handling)
 - [Caveats](#caveats)
 - [Plugins](#plugins)
 
@@ -162,35 +161,7 @@ The `vue-component` directive provides three main attributes:
 | collection | *(rarely used)* same as angular `$watchCollection`, shallow watches the properties of the object: for arrays, it watches the array items; for object maps, it watches the properties |
 | value | *(rarely used)* deep watches every property inside the object |
 
-**NOTES**
-
-- `watch-depth` cannot propagate all the changes on the scope objects to VueJS due to the limitation of the reactivity system, but you can read about several solutions in [Caveats](docs/caveats.md#limitations--solutions).
-- The `collection` strategy and the `value` strategy are rarely used. The scope object will be converted into a reactive object by VueJS and so any changes on the reactive scope object will trigger the view updates.
-- The `value` strategy is **not recommended** because it causes a heavy computation. To detect the change, Angular copies the entire object and traverses every property insides in each digest cycle.
-
-### The createVueComponent factory
-
-The `createVueComponent` factory creates a reusable Angular directive which is bound to a specific Vue component.
-
-For example, with the `vue-component` directive as mentioned above, you have to register each Vue component with a string name and then write `<vue-component name="TheRegisteredName"></vue-component>` repeatedly. With this `createVueComponent` factory, however, you can create `<name-of-vue-component></name-of-vue-component>` directives and simply apply the exported Vue components to them.
-
-The factory returns a plain `$compile` options object which describes how to compile the Angular directive with VueJS, and it takes the Vue component as the first argument:
-
-```javascript
-app.directive('helloComponent', function (createVueComponent) {
-  return createVueComponent(VComponent)
-})
-```
-
-Alternatively, the name of the Vue component registered by `angular.value` can also be provided to the factory:
-
-```javascript
-app.directive('helloComponent', function (createVueComponent) {
-  return createVueComponent('HelloComponent')
-})
-```
-
-### Event Handling
+#### Event Handling
 
 You can not use Vue events from a Vue component nested within an AngularJS view, because you are in AngularJS context. You have to bind event callbacks as props. Here's an example:
 
@@ -241,6 +212,35 @@ export default {
   }
 };
 </script>
+```
+
+
+**NOTES**
+
+- `watch-depth` cannot propagate all the changes on the scope objects to VueJS due to the limitation of the reactivity system, but you can read about several solutions in [Caveats](docs/caveats.md#limitations--solutions).
+- The `collection` strategy and the `value` strategy are rarely used. The scope object will be converted into a reactive object by VueJS and so any changes on the reactive scope object will trigger the view updates.
+- The `value` strategy is **not recommended** because it causes a heavy computation. To detect the change, Angular copies the entire object and traverses every property insides in each digest cycle.
+
+### The createVueComponent factory
+
+The `createVueComponent` factory creates a reusable Angular directive which is bound to a specific Vue component.
+
+For example, with the `vue-component` directive as mentioned above, you have to register each Vue component with a string name and then write `<vue-component name="TheRegisteredName"></vue-component>` repeatedly. With this `createVueComponent` factory, however, you can create `<name-of-vue-component></name-of-vue-component>` directives and simply apply the exported Vue components to them.
+
+The factory returns a plain `$compile` options object which describes how to compile the Angular directive with VueJS, and it takes the Vue component as the first argument:
+
+```javascript
+app.directive('helloComponent', function (createVueComponent) {
+  return createVueComponent(VComponent)
+})
+```
+
+Alternatively, the name of the Vue component registered by `angular.value` can also be provided to the factory:
+
+```javascript
+app.directive('helloComponent', function (createVueComponent) {
+  return createVueComponent('HelloComponent')
+})
 ```
 
 ## Caveats
