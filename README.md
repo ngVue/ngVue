@@ -17,8 +17,8 @@ The motivation for this is similar to ngReact's:
 - [Install](#install)
 - [Usage](#usage)
 - [Features](#features)
-	- [the vue-component directive](#the-vue-component-directive)
-	- [the createVueComponent factory](#the-createvuecomponent-factory)
+	- [The vue-component directive](#the-vue-component-directive)
+	- [The createVueComponent factory](#the-createvuecomponent-factory)
 - [Caveats](#caveats)
 - [Plugins](#plugins)
 
@@ -78,17 +78,17 @@ angular.module('yourApp', ['ngVue'])
 
 - `vdirectives` is a directive to apply the vue directives to the vue components
 
-```javascript
-// This won't work
+```html
+<!-- This won't work -->
 <div vdirectives="hello"></div>
 
-// But this will work ...
+<!-- But this will work ... -->
 <vue-component name="HelloComponent" vdirectives="hello"></vue-component>
-// Or ...
+<!-- Or ... -->
 <hello-component vdirectives="hello"></hello-component>
 ```
 
-### the vue-component directive
+### The vue-component directive
 
 The `vue-component` directive wraps the vue component into an angular directive so that the vue component can be created and initialized while the angular is compiling the templates.
 
@@ -106,7 +106,7 @@ const app = angular.module('vue.components', ['ngVue'])
 
 Then declare **a Vue component** like this:
 
-```jsx
+```javascript
 const VComponent = Vue.component('hello-component', {
   props: {
     firstName: String,
@@ -149,7 +149,7 @@ The `vue-component` directive provides three main attributes:
 
 ```html
 <vue-component vprops="ctrl.person" />
-// equals to
+<!-- equals to -->
 <vue-component vprops-first-name="ctrl.person.firstName" vprops-last-name="ctrl.person.lastName" />
 ```
 
@@ -167,7 +167,37 @@ The `vue-component` directive provides three main attributes:
 - The `collection` strategy and the `value` strategy are rarely used. The scope object will be converted into a reactive object by VueJS and so any changes on the reactive scope object will trigger the view updates.
 - The `value` strategy is **not recommended** because it causes a heavy computation. To detect the change, Angular copies the entire object and traverses every property insides in each digest cycle.
 
-### the createVueComponent factory
+#### Handling events
+
+Events can bubble up from Vue to AngularJS components by binding functions references as `vprops-*`:
+
+```javascript
+app.controller('MainController', function ($scope) {
+  this.handleClick = function () {
+    // $scope.$apply should be used if you need to update model data
+    $scope.$apply(() => { ... });
+  }
+})
+```
+
+```html
+<vue-component vprops-on-click="ctrl.handleClick"></vue-component>
+```
+
+```javascript
+const VComponent = Vue.component('hello-component', {
+  props: {
+    onClick: Function
+  },
+  render (h) {
+    return (
+      <button onClick={this.onClick}></button>
+    )
+  }
+})
+```
+
+### The createVueComponent factory
 
 The `createVueComponent` factory creates a reusable Angular directive which is bound to a specific Vue component.
 
