@@ -47,7 +47,7 @@
     "eslint-plugin-react": "^6.8.0",
     "eslint-plugin-standard": "^2.0.1",
     "file-loader": "^0.9.0",
-    "jest": "^18.1.0",
+    "jest": "^20.0.3",
     "rollup": "^0.41.4",
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-commonjs": "^7.0.0",
@@ -70,7 +70,7 @@
   "license": "MIT",
   "jest": {
     "rootDir": "",
-    "testPathDirs": [
+    "roots": [
       "src"
     ],
     "setupTestFrameworkScriptFile": "<rootDir>/jest.setup.js",
