@@ -1,5 +1,5 @@
 import angular from 'angular'
-import Vue from 'Vue'
+import Vue from 'vue'
 
 import ngHtmlCompiler from './utils/ngHtmlCompiler'
 
