@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hello, World</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
+  <style>
+    html, body {
+      width: 100%;
+      height: 100%;
+    }
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hello-card {
+      width: 500px;
+    }
+  </style>
+</head>
+<body ng-app="vue.components">
+  <div class="hello-card">
+    <vue-component name="CounterComponent"></vue-component>
+    <vue-component name="IncrementComponent"></vue-component>
+    <vue-component name="DecrementComponent"></vue-component>
+  </div>
+  <script src="/assets/vuex.build.js"></script>
+</body>
+</html>

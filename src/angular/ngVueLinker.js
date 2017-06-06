@@ -15,6 +15,7 @@ export function ngVueLinker (componentName, jqElement, elAttributes, scope, $inj
 
   const inQuirkMode = $ngVue ? $ngVue.inQuirkMode() : false
   const vueHooks = $ngVue ? $ngVue.getVueHooks() : {}
+  const vuexStore = $ngVue ? $ngVue.getVuexStore() : null
 
   const watchOptions = {
     depth: elAttributes.watchDepth,
@@ -22,14 +23,18 @@ export function ngVueLinker (componentName, jqElement, elAttributes, scope, $inj
   }
   watchPropExprs(dataExprsMap, reactiveData, watchOptions, scope)
 
-  const vueInstance = new Vue({
+  const vueOptions = {
     el: jqElement[0],
     data: reactiveData,
     render (h) {
       return <Component {...{ directives }} {...{ props: reactiveData._v }} />
     },
     ...vueHooks
-  })
+  }
+  if (vuexStore) {
+    vueOptions.store = vuexStore
+  }
+  const vueInstance = new Vue(vueOptions)
 
   scope.$on('$destroy', () => {
     vueInstance.$destroy()
