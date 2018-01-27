@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`vue-component remove should remove a vue component when ng-if directive flag toggles from true to false 1`] = `
+<div
+  class="ng-scope"
+>
+  <!-- ngIf: visible -->
+  <span>
+    Hello  
+  </span>
+  <!-- end ngIf: visible -->
+</div>
+`;
+
+exports[`vue-component remove should remove a vue component when ng-if directive flag toggles from true to false 2`] = `
+<div
+  class="ng-scope"
+>
+  <!-- ngIf: visible -->
+</div>
+`;
