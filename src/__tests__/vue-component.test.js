@@ -151,4 +151,26 @@ describe('vue-component', () => {
       })
     })
   })
+
+  describe('remove', () => {
+    beforeEach(() => {
+      $provide.value('HelloComponent', HelloComponent)
+    })
+
+    it('should remove a vue component when ng-if directive flag toggles from true to false', () => {
+      const scope = $rootScope.$new()
+      scope.visible = true
+      const elem = compileHTML(
+        `<vue-component
+          name="HelloComponent"
+          ng-if="visible" />`,
+        scope
+      )
+      expect(elem[0]).toMatchSnapshot()
+
+      scope.visible = false
+      scope.$digest()
+      expect(elem[0]).toMatchSnapshot()
+    })
+  })
 })

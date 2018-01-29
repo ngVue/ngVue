@@ -231,7 +231,7 @@ ngVue is simple but flexible for enhancement. Please read more in the [Plugins](
 
 - [x] vue components
 - [x] vue directives
-- [ ] unit tests
+- [x] unit tests
 - [x] docs + simple examples
 - [x] ng filters in VueJS
 - [ ] supports vuex
