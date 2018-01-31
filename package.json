@@ -1,7 +1,7 @@
 {
   "name": "ngVue",
   "author": "Doray Hong <hongduhui@gmail.com>",
-  "version": "0.4.4",
+  "version": "0.4.5",
   "description": "Use Vue Components in Angular 1.x",
   "main": "build/index.js",
   "keywords": [
@@ -23,11 +23,9 @@
     "preversion": "npm run test",
     "prepublish": "npm run build"
   },
-  "dependencies": {
-    "angular": "^1.6.4",
-    "vue": "^2.3.3"
-  },
+  "dependencies": {},
   "devDependencies": {
+    "angular": "^1.6.8",
     "angular-mocks": "^1.6.4",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.24.1",
@@ -56,8 +54,9 @@
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-uglify": "^2.0.1",
     "uglify-js": "^3.0.11",
+    "vue": "^2.5.13",
     "vue-loader": "^12.1.0",
-    "vue-template-compiler": "^2.3.3",
+    "vue-template-compiler": "^2.5.13",
     "webpack": "^2.6.1",
     "webpack-dev-server": "^2.4.5"
   },
