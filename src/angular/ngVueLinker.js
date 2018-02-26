@@ -23,6 +23,7 @@ export function ngVueLinker (componentName, jqElement, elAttributes, scope, $inj
   watchPropExprs(dataExprsMap, reactiveData, watchOptions, scope)
 
   const vueInstance = new Vue({
+    name: 'NgVue',
     el: jqElement[0],
     data: reactiveData,
     render (h) {
