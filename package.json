@@ -1,7 +1,7 @@
 {
   "name": "ngVue",
   "author": "Doray Hong <hongduhui@gmail.com>",
-  "version": "0.5.5",
+  "version": "0.6.0",
   "description": "Use Vue Components in Angular 1.x",
   "main": "build/index.js",
   "keywords": [
