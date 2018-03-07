@@ -3,6 +3,7 @@ import getVueComponent from '../components/getVueComponent'
 import getPropExprs from '../components/props/getExpressions'
 import watchPropExprs from '../components/props/watchExpressions'
 import evalPropValues from '../components/props/evaluateValues'
+import evalPropEvents from '../components/props/evaluateEvents'
 import evaluateDirectives from '../directives/evaluateDirectives'
 
 export function ngVueLinker (componentName, jqElement, elAttributes, scope, $injector) {
@@ -12,6 +13,7 @@ export function ngVueLinker (componentName, jqElement, elAttributes, scope, $inj
   const Component = getVueComponent(componentName, $injector)
   const directives = evaluateDirectives(elAttributes, scope) || []
   const reactiveData = { _v: evalPropValues(dataExprsMap, scope) || {} }
+  const on = evalPropEvents(dataExprsMap, scope) || {}
 
   const inQuirkMode = $ngVue ? $ngVue.inQuirkMode() : false
   const vueHooks = $ngVue ? $ngVue.getVueHooks() : {}
@@ -28,7 +30,7 @@ export function ngVueLinker (componentName, jqElement, elAttributes, scope, $inj
     el: jqElement[0],
     data: reactiveData,
     render (h) {
-      return <Component {...{ directives }} {...{ props: reactiveData._v }} />
+      return <Component {...{ directives }} {...{ props: reactiveData._v, on }} />
     },
     ...vueHooks,
     ...vuexStore

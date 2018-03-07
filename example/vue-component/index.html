@@ -24,6 +24,7 @@
        ng-controller="MainController as ctrl">
     <vue-component name="HelloComponent"
                    v-props="ctrl.person"
+                   v-on-hello="ctrl.hello"
                    watch-depth="value"></vue-component>
     <div class="row">
       <div class="col s6">
