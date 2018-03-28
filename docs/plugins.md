@@ -136,3 +136,37 @@ angular.module('yourApp', ['ngVue', 'ngVue.plugins'])
 	})
 ```
 
+## Vuex
+
+Vuex support is a bit opinionated and its implementation focuses on simplicity. You _must_ use `Vue.use(Vuex)`
+to enable automatic injection of the store into child components.
+Then, import (or define) your `Vuex.Store` instance and tell `ngVue` to use it on all Vue instances created by it.
+
+You can enabled it during the config phase of the Angular.js app:
+
+```javascript
+// store.js
+import Vue
+import Vuex
+
+Vue.use(Vuex)
+
+export default new Vuex.Store({
+	state: {
+		message: 'Hello from ngVue!'
+	}
+})
+```
+
+```javascript
+// app.js
+import store from './store'
+
+angular.module('yourApp', ['ngVue', 'ngVue.plugins'])
+  .config(($ngVueProvider) => {
+		$ngVueProvider.enableVuex(store)
+	})
+```
+
+All components created by `ngVue` will have access to `this.$store`, as described in the 
+[Vuex documentation](https://vuex.vuejs.org/en/state.html)

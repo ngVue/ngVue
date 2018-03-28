@@ -15,6 +15,7 @@ export function ngVueLinker (componentName, jqElement, elAttributes, scope, $inj
 
   const inQuirkMode = $ngVue ? $ngVue.inQuirkMode() : false
   const vueHooks = $ngVue ? $ngVue.getVueHooks() : {}
+  const vuexStore = $ngVue ? {store: $ngVue.getVuexStore()} : {}
 
   const watchOptions = {
     depth: elAttributes.watchDepth,
@@ -29,7 +30,8 @@ export function ngVueLinker (componentName, jqElement, elAttributes, scope, $inj
     render (h) {
       return <Component {...{ directives }} {...{ props: reactiveData._v }} />
     },
-    ...vueHooks
+    ...vueHooks,
+    ...vuexStore
   })
 
   scope.$on('$destroy', () => {

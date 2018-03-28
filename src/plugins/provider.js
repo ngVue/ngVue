@@ -42,9 +42,14 @@ function createVueHooksMap (hookCallback) {
 
 function ngVueProvider ($injector) {
   let inQuirkMode = false
+  let vuexStore
 
   this.activeQuirkMode = () => {
     inQuirkMode = true
+  }
+
+  this.enableVuex = (store) => {
+    vuexStore = store
   }
 
   this.install = (plugin) => {
@@ -74,6 +79,7 @@ function ngVueProvider ($injector) {
 
     return {
       getVueHooks: () => vueHooks,
+      getVuexStore: () => vuexStore,
       inQuirkMode: () => inQuirkMode
     }
   }]
