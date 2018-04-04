@@ -10,8 +10,8 @@ import extractExpressionName from './extractPropName'
  * @returns {Object|string|null}
  */
 export function extractExpressions (exprType, attributes) {
-  const objectExprKey = exprType === 'props' ? 'vprops' : 'vdata'
-  const objectPropExprRegExp = exprType === 'props' ? /vprops/i : /vdata/i
+  const objectExprKey = exprType === 'props' ? 'vProps' : 'vData'
+  const objectPropExprRegExp = exprType === 'props' ? /vProps/i : /vData/i
 
   const objectExpr = attributes[objectExprKey]
 

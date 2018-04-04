@@ -12,17 +12,17 @@ const transformers = {
 
 /**
  *
- * vdirectives:
+ * v-directives:
  *  - Array: [{name: string, value: *, modifiers: Object, params: Object}]
  *  - Object: {name: string, value: *, modifiers: Object, params: Object}
  *  - String: a single directive name or multi-directive names separated with a comma
  *
- * @param attributes {{vdirectives: string|undefined}}
+ * @param attributes {{vDirectives: string|undefined}}
  * @param scope
  * @returns {Array|null}
  */
 export default function evaluateDirectives (attributes, scope) {
-  const directivesExpr = attributes.vdirectives
+  const directivesExpr = attributes.vDirectives
 
   if (angular.isUndefined(directivesExpr)) {
     return null
