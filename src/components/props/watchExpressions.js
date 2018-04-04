@@ -3,13 +3,13 @@ import Vue from 'vue'
 
 function watch (expressions, reactiveData) {
   return (watchFunc) => {
-    // for `vprops` / `vdata`
+    // for `v-props` / `v-data`
     if (isString(expressions)) {
       watchFunc(expressions, Vue.set.bind(Vue, reactiveData, '_v'))
       return
     }
 
-    // for `vprops-something`
+    // for `v-props-something`
     Object.keys(expressions)
       .forEach((name) => {
         watchFunc(expressions[name], Vue.set.bind(Vue, reactiveData._v, name))

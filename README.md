@@ -69,23 +69,23 @@ angular.module('yourApp', ['ngVue'])
 
 ## Features
 
-**ngVue** is composed of a directive `vue-component`, a factory `createVueComponent` and a directive helper `vdirectives`. It also provides some plugins for enhancement.
+**ngVue** is composed of a directive `vue-component`, a factory `createVueComponent` and a directive helper `v-directives`. It also provides some plugins for enhancement.
 
 - `vue-component` is a directive that delegates data to a Vue component so VueJS can compile it with the corresponding nodes
 - `createVueComponent` is a factory that converts a Vue component into a `vue-component` directive
 
 **ngVue** does support VueJS directives but currently they only work with a Vue component in AngularJS templates.
 
-- `vdirectives` is a directive to apply the vue directives to the vue components
+- `v-directives` is a directive to apply the vue directives to the vue components
 
 ```html
 <!-- This won't work -->
-<div vdirectives="hello"></div>
+<div v-directives="hello"></div>
 
 <!-- But this will work ... -->
-<vue-component name="HelloComponent" vdirectives="hello"></vue-component>
+<vue-component name="HelloComponent" v-directives="hello"></vue-component>
 <!-- Or ... -->
-<hello-component vdirectives="hello"></hello-component>
+<hello-component v-directives="hello"></hello-component>
 ```
 
 ### The vue-component directive
@@ -133,7 +133,7 @@ Now you can use `hello-component` in Angular templates:
   <div class="hello-card"
        ng-controller="MainController as ctrl">
     <vue-component name="HelloComponent"
-                   vprops="ctrl.person"
+                   v-props="ctrl.person"
                    watch-depth="value" />
   </div>
 </body>
@@ -143,14 +143,14 @@ The `vue-component` directive provides three main attributes:
 
 - `name` attribute checks for Angular injectable of that name
 
-- `vprops` attribute is a string expression evaluated to an object as the data exposed to Vue component
+- `v-props` attribute is a string expression evaluated to an object as the data exposed to Vue component
 
-- `vprops-*` attribute allows you to name the partial data extracted from the angular scope. `vue-component` wraps them into a new object and pass it to the Vue component. For example `props-first-name` and `props-last-name` will create two properties `firstName` and `lastName` in a new object as the component data
+- `v-props-*` attribute allows you to name the partial data extracted from the angular scope. `vue-component` wraps them into a new object and pass it to the Vue component. For example `props-first-name` and `props-last-name` will create two properties `firstName` and `lastName` in a new object as the component data
 
 ```html
-<vue-component vprops="ctrl.person" />
+<vue-component v-props="ctrl.person" />
 <!-- equals to -->
-<vue-component vprops-first-name="ctrl.person.firstName" vprops-last-name="ctrl.person.lastName" />
+<vue-component v-props-first-name="ctrl.person.firstName" v-props-last-name="ctrl.person.lastName" />
 ```
 
 - `watch-depth` attribute indicates which watch strategy AngularJS will use to detect the changes on the scope objects. The possible values as follows:
@@ -169,7 +169,7 @@ The `vue-component` directive provides three main attributes:
 
 #### Handling events
 
-Events can bubble up from Vue to AngularJS components by binding functions references as `vprops-*`:
+Events can bubble up from Vue to AngularJS components by binding functions references as `v-props-*`:
 
 ```javascript
 app.controller('MainController', function ($scope) {
@@ -181,7 +181,7 @@ app.controller('MainController', function ($scope) {
 ```
 
 ```html
-<vue-component vprops-on-click="ctrl.handleClick"></vue-component>
+<vue-component v-props-on-click="ctrl.handleClick"></vue-component>
 ```
 
 ```javascript

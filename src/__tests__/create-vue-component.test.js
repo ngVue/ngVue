@@ -34,20 +34,20 @@ describe('create-vue-component', () => {
       expect(elem[0].innerHTML.replace(/\s/g, '')).toBe('<span>Hello</span>')
     })
 
-    it('should render a vue component with vprops object from scope', () => {
+    it('should render a vue component with v-props object from scope', () => {
       const scope = $rootScope.$new()
       scope.person = { firstName: 'John', lastName: 'Doe' }
-      const elem = compileHTML('<hello vprops="person" />', scope)
+      const elem = compileHTML('<hello v-props="person" />', scope)
       expect(elem[0].innerHTML).toBe('<span>Hello John Doe</span>')
     })
 
-    it('should render a vue component with vprops-name properties from scope', () => {
+    it('should render a vue component with v-props-name properties from scope', () => {
       const scope = $rootScope.$new()
       scope.person = { firstName: 'John', lastName: 'Doe' }
       const elem = compileHTML(
         `<hello
-          vprops-first-name="person.firstName"
-          vprops-last-name="person.lastName" />`,
+          v-props-first-name="person.firstName"
+          v-props-last-name="person.lastName" />`,
         scope
       )
       expect(elem[0].innerHTML).toBe('<span>Hello John Doe</span>')
@@ -60,10 +60,10 @@ describe('create-vue-component', () => {
       $compileProvider.directive('persons', createVueComponent => createVueComponent(PersonsComponent))
     })
 
-    it('should re-render the vue component when vprops value changes', (done) => {
+    it('should re-render the vue component when v-props value changes', (done) => {
       const scope = $rootScope.$new()
       scope.person = { firstName: 'John', lastName: 'Doe' }
-      const elem = compileHTML('<hello vprops="person" />', scope)
+      const elem = compileHTML('<hello v-props="person" />', scope)
 
       scope.person.firstName = 'Jane'
       scope.person.lastName = 'Smith'
@@ -73,10 +73,10 @@ describe('create-vue-component', () => {
       })
     })
 
-    it('should re-render the vue component when vprops reference changes', (done) => {
+    it('should re-render the vue component when v-props reference changes', (done) => {
       const scope = $rootScope.$new()
       scope.person = { firstName: 'John', lastName: 'Doe' }
-      const elem = compileHTML('<hello vprops="person" />', scope)
+      const elem = compileHTML('<hello v-props="person" />', scope)
 
       scope.person = { firstName: 'Jane', lastName: 'Smith' }
       scope.$digest()
@@ -86,13 +86,13 @@ describe('create-vue-component', () => {
       })
     })
 
-    it('should re-render the vue component when vprops-name value change', (done) => {
+    it('should re-render the vue component when v-props-name value change', (done) => {
       const scope = $rootScope.$new()
       scope.person = { firstName: 'John', lastName: 'Doe' }
       const elem = compileHTML(
         `<hello
-          vprops-first-name="person.firstName"
-          vprops-last-name="person.lastName" />`,
+          v-props-first-name="person.firstName"
+          v-props-last-name="person.lastName" />`,
         scope
       )
 
@@ -105,13 +105,13 @@ describe('create-vue-component', () => {
       })
     })
 
-    it('should re-render the vue component when vprops-name reference change', (done) => {
+    it('should re-render the vue component when v-props-name reference change', (done) => {
       const scope = $rootScope.$new()
       scope.person = { firstName: 'John', lastName: 'Doe' }
       const elem = compileHTML(
         `<hello
-          vprops-first-name="person.firstName"
-          vprops-last-name="person.lastName" />`,
+          v-props-first-name="person.firstName"
+          v-props-last-name="person.lastName" />`,
         scope
       )
 
@@ -123,13 +123,13 @@ describe('create-vue-component', () => {
       })
     })
 
-    it('should re-render the vue component when vprops-name is an array and its items change', (done) => {
+    it('should re-render the vue component when v-props-name is an array and its items change', (done) => {
       const scope = $rootScope.$new()
       scope.persons = [
         { firstName: 'John', lastName: 'Doe' },
         { firstName: 'Jane', lastName: 'Doe' }
       ]
-      const elem = compileHTML(`<persons vprops-persons="persons" />`, scope)
+      const elem = compileHTML(`<persons v-props-persons="persons" />`, scope)
 
       // use Array.prototype.splice
       scope.persons.splice(0, 1, { firstName: 'John', lastName: 'Smith' })

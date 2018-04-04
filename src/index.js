@@ -19,9 +19,9 @@ import { ngVueLinker } from './angular/ngVueLinker'
  *    return vueComponentFactory('hello')
  *  })
  *
- * <hello-component vprops="person"></hello-component>
+ * <hello-component v-props="person"></hello-component>
  *
- * <hello-component vprops-first-name="person.firstName" vprops-last-name="person.lastName"></hello-component>
+ * <hello-component v-props-first-name="person.firstName" v-props-last-name="person.lastName"></hello-component>
  *
  * @param $injector
  * @returns {Function}
@@ -40,7 +40,7 @@ function ngVueComponentFactory ($injector) {
 }
 
 /**
- * <vue-component name="HelloComponent" vprops="person"></vue-component>
+ * <vue-component name="HelloComponent" v-props="person"></vue-component>
  *
  * @param $injector
  * @returns {{restrict: string, link: (function(*=, *=, *=))}}

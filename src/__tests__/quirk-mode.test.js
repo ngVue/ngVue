@@ -47,7 +47,7 @@ describe('quirk mode', () => {
       const elem = compileHTML(
         `<vue-component
           name="PersonsComponent"
-          vprops-persons="persons" />`,
+          v-props-persons="persons" />`,
         scope
       )
 
@@ -66,7 +66,7 @@ describe('quirk mode', () => {
       const elem = compileHTML(
         `<vue-component
           name="HelloComponent"
-          vprops="person"
+          v-props="person"
           watch-depth="value" />`,
         scope
       )
@@ -102,7 +102,7 @@ describe('quirk mode', () => {
       const elem = compileHTML(
         `<vue-component
           name="PersonsComponent"
-          vprops-persons="persons"
+          v-props-persons="persons"
           watch-depth="collection" />`,
         scope
       )
@@ -122,7 +122,7 @@ describe('quirk mode', () => {
       const elem = compileHTML(
         `<vue-component
           name="HelloComponent"
-          vprops="person"
+          v-props="person"
           watch-depth="value" />`,
         scope
       )
