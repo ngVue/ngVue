@@ -25,3 +25,4 @@ rules:
 globals:
     inject: false
     expect: false
+    jest: false

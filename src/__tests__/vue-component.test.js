@@ -5,6 +5,7 @@ import ngHtmlCompiler from './utils/ngHtmlCompiler'
 
 import HelloComponent from './fixtures/HelloComponent'
 import PersonsComponent from './fixtures/PersonsComponent'
+import ButtonComponent from './fixtures/ButtonComponent'
 
 describe('vue-component', () => {
   let $provide
@@ -171,6 +172,22 @@ describe('vue-component', () => {
       scope.visible = false
       scope.$digest()
       expect(elem[0]).toMatchSnapshot()
+    })
+  })
+
+  describe('events', () => {
+    it('should handle custom events from Vue', () => {
+      $provide.value('ButtonComponent', ButtonComponent)
+
+      const scope = $rootScope.$new()
+      scope.handleHelloEvent = jest.fn()
+
+      const elem = compileHTML(
+        `<vue-component name="ButtonComponent" v-on-hello="handleHelloEvent" />`,
+        scope
+      )
+      elem.find('button')[0].click()
+      expect(scope.handleHelloEvent).toHaveBeenCalledWith('Hello, World!')
     })
   })
 })
