@@ -171,6 +171,7 @@ describe('create-vue-component', () => {
 
       const elem = compileHTML(`<vbutton v-on-hello="handleHelloEvent" />`, scope)
       elem.find('button')[0].click()
+      scope.$digest()
       expect(scope.handleHelloEvent).toHaveBeenCalledWith('Hello, World!')
     })
   })

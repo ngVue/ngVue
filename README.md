@@ -175,9 +175,6 @@ Events can be handled from Vue to AngularJS components by binding functions refe
 app.controller('MainController', function ($scope) {
   this.handleHelloEvent = function (greetings) {
     console.log(greetings); // "Hello, World!"
-
-    // $scope.$apply should be used if you need to update model data
-    $scope.$apply(() => { ... });
   }
 })
 ```

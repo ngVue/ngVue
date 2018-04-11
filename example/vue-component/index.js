@@ -10,8 +10,8 @@ angular.module('vue.components', ['ngVue'])
       description: 'ngVue helps you use Vue components in your angular application ' +
                    'so that you are able to create a faster and reactive web interfaces.'
     }
-    this.hello = () => {
-      alert('Hello from Vue!')
+    this.updateFirstName = firstName => {
+      this.person.firstName = firstName
     }
   })
   .value('HelloComponent', Vue.component('hello-component', {
@@ -21,8 +21,8 @@ angular.module('vue.components', ['ngVue'])
       description: String
     },
     methods: {
-      helloFromVue () {
-        this.$emit('hello')
+      updateFirstName () {
+        this.$emit('newFirstName', 'THE')
       }
     },
     render (h) {
@@ -34,7 +34,7 @@ angular.module('vue.components', ['ngVue'])
           </div>
           <div class="card-action">
             <a href="https://vuejs.org/v2/guide/">Vue.js</a>
-            <button onClick={this.helloFromVue}>Hello from Vue</button>
+            <button onClick={this.updateFirstName}>Update first name from Vue</button>
           </div>
         </div>
       )
