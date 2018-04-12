@@ -169,29 +169,30 @@ The `vue-component` directive provides three main attributes:
 
 #### Handling events
 
-Events can bubble up from Vue to AngularJS components by binding functions references as `v-props-*`:
+Events can be handled from Vue to AngularJS components by binding functions references as `v-on-*`:
 
 ```javascript
 app.controller('MainController', function ($scope) {
-  this.handleClick = function () {
-    // $scope.$apply should be used if you need to update model data
-    $scope.$apply(() => { ... });
+  this.handleHelloEvent = function (greetings) {
+    console.log(greetings); // "Hello, World!"
   }
 })
 ```
 
 ```html
-<vue-component v-props-on-click="ctrl.handleClick"></vue-component>
+<vue-component v-on-hello="ctrl.handleHelloEvent"></vue-component>
 ```
 
 ```javascript
 const VComponent = Vue.component('hello-component', {
-  props: {
-    onClick: Function
+  methods: {
+    helloFromVue() {
+      this.$emit('hello', 'Hello, World!');
+    }
   },
   render (h) {
     return (
-      <button onClick={this.onClick}></button>
+      <button onClick={this.helloFromVue}></button>
     )
   }
 })

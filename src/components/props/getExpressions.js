@@ -4,14 +4,19 @@ import extractExpressionName from './extractPropName'
 /**
  * Extract the property/data expressions from the element attribute.
  *
- * @param exprType 'props'|'data'
+ * @param exprType 'props'|'data'|'on'
  * @param attributes Object
  *
  * @returns {Object|string|null}
  */
 export function extractExpressions (exprType, attributes) {
-  const objectExprKey = exprType === 'props' ? 'vProps' : 'vData'
-  const objectPropExprRegExp = exprType === 'props' ? /vProps/i : /vData/i
+  const exprKeys = {
+    props: 'vProps',
+    data: 'vData',
+    on: 'vOn'
+  }
+  const objectExprKey = exprKeys[exprType]
+  const objectPropExprRegExp = new RegExp(objectExprKey, 'i')
 
   const objectExpr = attributes[objectExprKey]
 
@@ -42,6 +47,7 @@ export function extractExpressions (exprType, attributes) {
 export default function getExpressions (attributes) {
   return {
     data: extractExpressions('data', attributes),
-    props: extractExpressions('props', attributes)
+    props: extractExpressions('props', attributes),
+    events: extractExpressions('on', attributes)
   }
 }
