@@ -30,7 +30,11 @@ export function ngVueLinker (componentName, jqElement, elAttributes, scope, $inj
     el: jqElement[0],
     data: reactiveData,
     render (h) {
-      return <Component {...{ directives }} {...{ props: reactiveData._v, on }} />
+      return (
+        <Component {...{ directives }} {...{ props: reactiveData._v, on }}>
+          {jqElement.html()}
+        </Component>
+      )
     },
     ...vueHooks,
     ...vuexStore

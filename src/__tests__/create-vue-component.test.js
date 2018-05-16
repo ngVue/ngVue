@@ -6,6 +6,7 @@ import ngHtmlCompiler from './utils/ngHtmlCompiler'
 import HelloComponent from './fixtures/HelloComponent'
 import PersonsComponent from './fixtures/PersonsComponent'
 import ButtonComponent from './fixtures/ButtonComponent'
+import WelcomeComponent from './fixtures/WelcomeComponent'
 
 describe('create-vue-component', () => {
   let $compileProvider
@@ -173,6 +174,17 @@ describe('create-vue-component', () => {
       elem.find('button')[0].click()
       scope.$digest()
       expect(scope.handleHelloEvent).toHaveBeenCalledWith('Hello, World!')
+    })
+  })
+
+  describe('slots', () => {
+    beforeEach(() => {
+      $compileProvider.directive('welcome', createVueComponent => createVueComponent(WelcomeComponent))
+    })
+
+    it('should render a vue component including the slot content', () => {
+      const elem = compileHTML('<welcome>John Doe</welcome>')
+      expect(elem[0].innerHTML).toBe('<span>Welcome, John Doe!</span>')
     })
   })
 })
