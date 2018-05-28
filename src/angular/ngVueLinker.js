@@ -1,3 +1,4 @@
+import angular from 'angular'
 import Vue from 'vue'
 import getVueComponent from '../components/getVueComponent'
 import getPropExprs from '../components/props/getExpressions'
@@ -8,6 +9,7 @@ import evaluateDirectives from '../directives/evaluateDirectives'
 
 export function ngVueLinker (componentName, jqElement, elAttributes, scope, $injector) {
   const $ngVue = $injector.has('$ngVue') ? $injector.get('$ngVue') : null
+  const $compile = $injector.get('$compile')
 
   const dataExprsMap = getPropExprs(elAttributes)
   const Component = getVueComponent(componentName, $injector)
@@ -17,6 +19,19 @@ export function ngVueLinker (componentName, jqElement, elAttributes, scope, $inj
 
   const inQuirkMode = $ngVue ? $ngVue.inQuirkMode() : false
   const vueHooks = $ngVue ? $ngVue.getVueHooks() : {}
+
+  const mounted = vueHooks.mounted
+  vueHooks.mounted = function () {
+    if (jqElement[0].innerHTML.trim()) {
+      const html = $compile(jqElement[0].innerHTML)(scope)
+      const slot = this.$refs.__slot__
+      slot.parentNode.replaceChild(html[0], slot)
+    }
+    if (angular.isFunction(mounted)) {
+      mounted.apply(this, arguments)
+    }
+  }
+
   const vuexStore = $ngVue ? {store: $ngVue.getVuexStore()} : {}
 
   const watchOptions = {
@@ -32,7 +47,7 @@ export function ngVueLinker (componentName, jqElement, elAttributes, scope, $inj
     render (h) {
       return (
         <Component {...{ directives }} {...{ props: reactiveData._v, on }}>
-          {jqElement.html()}
+          { <span ref="__slot__" /> }
         </Component>
       )
     },

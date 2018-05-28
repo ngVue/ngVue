@@ -6,7 +6,7 @@ import ngHtmlCompiler from './utils/ngHtmlCompiler'
 import HelloComponent from './fixtures/HelloComponent'
 import PersonsComponent from './fixtures/PersonsComponent'
 import ButtonComponent from './fixtures/ButtonComponent'
-import WelcomeComponent from './fixtures/WelcomeComponent'
+import GreetingsComponent from './fixtures/GreetingsComponent'
 
 describe('vue-component', () => {
   let $provide
@@ -195,12 +195,24 @@ describe('vue-component', () => {
 
   describe('slots', () => {
     beforeEach(() => {
-      $provide.value('WelcomeComponent', WelcomeComponent)
+      $provide.value('GreetingsComponent', GreetingsComponent)
     })
 
-    it('should render a vue component with name including the slot content', () => {
-      const elem = compileHTML('<vue-component name="WelcomeComponent">John Doe</vue-component>')
-      expect(elem[0].innerHTML).toBe('<span>Welcome, John Doe!</span>')
+    it('should render a vue component with a button in the slot content', () => {
+      const scope = $rootScope.$new()
+      scope.onClick = jest.fn()
+
+      const elem = compileHTML(`
+        <vue-component name="GreetingsComponent">
+          <button ng-click="onClick()">Click me!</button>
+        </vue-component>`,
+        scope
+      )
+      expect(elem[0]).toMatchSnapshot()
+
+      elem.find('button')[0].click()
+      scope.$digest()
+      expect(scope.onClick).toHaveBeenCalled()
     })
   })
 })
