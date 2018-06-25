@@ -19,3 +19,21 @@ exports[`create-vue-component remove should remove a vue component when ng-if di
   <!-- ngIf: visible -->
 </div>
 `;
+
+exports[`create-vue-component slots should render a vue component with a button in the slot content 1`] = `
+<div
+  class="ng-scope"
+>
+  <div>
+    <span>
+      Welcome, John Doe!
+    </span>
+    <button
+      ng-click="onClick()"
+      class="ng-scope"
+    >
+      Click me!
+    </button>
+  </div>
+</div>
+`;
