@@ -50,6 +50,7 @@ function notify (setter, inQuirkMode) {
  * @param options.depth 'reference'|'value'|'collection'
  * @param options.quirk 'reference'|'value'|'collection'
  * @param scope Object
+ * @param type String 'props'|'attrs'
  */
 export default function watchExpressions (dataExprsMap, reactiveData, options, scope, type) {
   let expressions
