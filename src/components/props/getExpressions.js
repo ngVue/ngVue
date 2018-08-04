@@ -1,10 +1,11 @@
 import angular from 'angular'
 import extractExpressionName from './extractPropName'
+import extractHtmlAttributes from './extractHtmlAttributes'
 
 /**
- * Extract the property/data expressions from the element attribute.
+ * Extract a subset of expressions from the element attributes, e.g. property/data, on, or htmlAttribute
  *
- * @param exprType 'props'|'data'|'on'
+ * @param exprType 'props'|'data'|'on'|'htmlAttributes'
  * @param attributes Object
  *
  * @returns {Object|string|null}
@@ -24,8 +25,13 @@ export function extractExpressions (exprType, attributes) {
     return objectExpr
   }
 
-  const expressions = Object.keys(attributes)
-    .filter((attr) => objectPropExprRegExp.test(attr))
+  let expressions
+  if (exprType === 'htmlAttributes') {
+    expressions = extractHtmlAttributes(attributes)
+  } else {
+    expressions = Object.keys(attributes)
+      .filter((attr) => objectPropExprRegExp.test(attr))
+  }
 
   if (expressions.length === 0) {
     return null
@@ -33,7 +39,13 @@ export function extractExpressions (exprType, attributes) {
 
   const exprsMap = {/* name : expression */}
   expressions.forEach((attrExprName) => {
-    const exprName = extractExpressionName(attrExprName, objectExprKey)
+    let exprName
+    if (objectExprKey) {
+      exprName = extractExpressionName(attrExprName, objectExprKey)
+    } else {
+      // Non-prefixed attributes, i.e. a regular HTML attribute
+      exprName = attrExprName
+    }
     exprsMap[exprName] = attributes[attrExprName]
   })
 
@@ -48,6 +60,7 @@ export default function getExpressions (attributes) {
   return {
     data: extractExpressions('data', attributes),
     props: extractExpressions('props', attributes),
-    events: extractExpressions('on', attributes)
+    events: extractExpressions('on', attributes),
+    htmlAttributes: extractExpressions('htmlAttributes', attributes)
   }
 }
