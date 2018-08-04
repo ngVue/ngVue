@@ -1,18 +1,18 @@
 import {isString, isArray, isObject} from 'angular'
 import Vue from 'vue'
 
-function watch (expressions, reactiveData) {
+function watch (expressions, reactiveData, type) {
   return (watchFunc) => {
     // for `v-props` / `v-data`
     if (isString(expressions)) {
-      watchFunc(expressions, Vue.set.bind(Vue, reactiveData, '_v'))
+      watchFunc(expressions, Vue.set.bind(Vue, reactiveData._v, type))
       return
     }
 
     // for `v-props-something`
     Object.keys(expressions)
       .forEach((name) => {
-        watchFunc(expressions[name], Vue.set.bind(Vue, reactiveData._v, name))
+        watchFunc(expressions[name], Vue.set.bind(Vue, reactiveData._v[type], name))
       })
   }
 }
@@ -51,15 +51,20 @@ function notify (setter, inQuirkMode) {
  * @param options.quirk 'reference'|'value'|'collection'
  * @param scope Object
  */
-export default function watchExpressions (dataExprsMap, reactiveData, options, scope) {
-  const expressions = dataExprsMap.props ? dataExprsMap.props : dataExprsMap.data
+export default function watchExpressions (dataExprsMap, reactiveData, options, scope, type) {
+  let expressions
+  if (type === 'props') {
+    expressions = dataExprsMap.props ? dataExprsMap.props : dataExprsMap.data
+  } else if (type === 'attrs') {
+    expressions = dataExprsMap.htmlAttributes
+  }
 
   if (!expressions) {
     return
   }
 
   const { depth, quirk } = options
-  const watcher = watch(expressions, reactiveData)
+  const watcher = watch(expressions, reactiveData, type)
 
   switch (depth) {
     case 'value':

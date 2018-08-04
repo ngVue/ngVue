@@ -43,8 +43,8 @@ export function ngVueLinker (componentName, jqElement, elAttributes, scope, $inj
     depth: elAttributes.watchDepth,
     quirk: inQuirkMode
   }
-  watchPropExprs(dataExprsMap, reactiveData, watchOptions, scope)
-
+  watchPropExprs(dataExprsMap, reactiveData, watchOptions, scope, 'props')
+  watchPropExprs(dataExprsMap, reactiveData, watchOptions, scope, 'attrs')
   const vueInstance = new Vue({
     name: 'NgVue',
     el: jqElement[0],
