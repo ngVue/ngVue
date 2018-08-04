@@ -51,7 +51,7 @@ export function ngVueLinker (componentName, jqElement, elAttributes, scope, $inj
     data: reactiveData,
     render (h) {
       return (
-        <Component {...{ directives }} {...{ props: reactiveData._v, on }}>
+        <Component {...{ directives }} {...{ props: reactiveData._v.props, on, attrs: reactiveData._v.attrs }}>
           { <span ref="__slot__" /> }
         </Component>
       )
