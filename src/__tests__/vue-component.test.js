@@ -55,6 +55,18 @@ describe('vue-component', () => {
       )
       expect(elem[0].innerHTML).toBe('<span>Hello John Doe</span>')
     })
+
+    it('should render a vue component with original html attributes ', () => {
+      const elem = compileHTML(
+        `<vue-component
+          name="HelloComponent"
+          random="'hello'"
+          tabindex="1"
+          disabled
+          data-qa="'John'" />`
+      )
+      expect(elem[0].innerHTML).toBe('<span random="hello" tabindex="1" disabled="disabled" data-qa="John">Hello  </span>')
+    })
   })
 
   describe('update', () => {
@@ -149,6 +161,31 @@ describe('vue-component', () => {
       scope.$digest()
       Vue.nextTick(() => {
         expect(elem[0].innerHTML).toBe('<ul><li>John Smith</li><li>Jane Smith</li></ul>')
+        done()
+      })
+    })
+
+    it('should re-render a vue component with attribute values change', (done) => {
+      const scope = $rootScope.$new()
+      scope.isDisabled = false
+      scope.tabindex = 0
+      scope.randomAttr = "enabled"
+      const elem = compileHTML(
+        `<vue-component
+          name="HelloComponent"
+          random="randomAttr"
+          tabindex="tabindex"
+          disabled="isDisabled" />`,
+        scope
+      )
+      expect(elem[0].innerHTML).toBe('<span random="enabled" tabindex="0">Hello  </span>')
+
+      scope.isDisabled = true
+      scope.tabindex = 1
+      scope.randomAttr = "disabled"
+      scope.$digest()
+      Vue.nextTick(() => {
+        expect(elem[0].innerHTML).toBe('<span random="disabled" tabindex="1" disabled="disabled">Hello  </span>')
         done()
       })
     })
