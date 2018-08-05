@@ -4,6 +4,7 @@ import Vue from 'vue'
 import ngHtmlCompiler from './utils/ngHtmlCompiler'
 
 import HelloComponent from './fixtures/HelloComponent'
+import HelloWrappedComponent from './fixtures/HelloWrappedComponent'
 import PersonsComponent from './fixtures/PersonsComponent'
 import ButtonComponent from './fixtures/ButtonComponent'
 import GreetingsComponent from './fixtures/GreetingsComponent'
@@ -64,6 +65,18 @@ describe('create-vue-component', () => {
           data-qa="'John'" />`
       )
       expect(elem[0].innerHTML).toBe('<span random="hello" tabindex="1" disabled="disabled" data-qa="John">Hello  </span>')
+    })
+
+    it('should render a vue component with original html attributes on elements that bind $attrs ', () => {
+      $compileProvider.directive('helloWrapped', createVueComponent => createVueComponent(HelloWrappedComponent))
+      const elem = compileHTML(
+        `<hello-wrapped
+          random="'hello'"
+          tabindex="1"
+          disabled
+          data-qa="'John'" />`
+      )
+      expect(elem[0].innerHTML).toBe('<div><span random="hello" tabindex="1" disabled="disabled" data-qa="John">Hello  </span></div>')
     })
   })
 
