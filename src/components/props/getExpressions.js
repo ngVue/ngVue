@@ -39,14 +39,22 @@ export function extractExpressions (exprType, attributes) {
 
   const exprsMap = {/* name : expression */}
   expressions.forEach((attrExprName) => {
-    let exprName
     if (objectExprKey) {
-      exprName = extractExpressionName(attrExprName, objectExprKey)
+      const exprName = extractExpressionName(attrExprName, objectExprKey)
+      exprsMap[exprName] = attributes[attrExprName]
     } else {
       // Non-prefixed attributes, i.e. a regular HTML attribute
-      exprName = attrExprName
+      // Get original attribute name from $attr not stripped by Angular, e.g. data-qa and not qa
+      const attrName = attributes.$attr[attrExprName]
+      let attrValue
+      // Handle attributes with no value, e.g. <button disabled></button>
+      if (attributes[attrExprName] === '') {
+        attrValue = `'${attrExprName}'`
+      } else {
+        attrValue = attributes[attrExprName]
+      }
+      exprsMap[attrName] = attrValue
     }
-    exprsMap[exprName] = attributes[attrExprName]
   })
 
   return exprsMap
