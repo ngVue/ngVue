@@ -198,6 +198,64 @@ const VComponent = Vue.component('hello-component', {
 })
 ```
 
+### Handling HTML attributes
+
+Just like regular Vue components, you can pass HTML attributes from the parent Angular component to your Vue component.
+Keep in mind that when you pass down literal strings, they must be surrounded by quotes, e.g. `data-value="'enabled'"`
+
+```javascript
+angular.module("app")
+  .directive("myCustomButton", createVueComponent => {
+    return createVueComponent(Vue.component("MyCustomButton", MyCustomButton))
+  })
+```
+
+```html
+<my-custom-button
+  disabled="ctrl.isDisabled"
+  tabindex="3"
+  type="'submit'"
+  v-props-button-text="'Click me'" />
+```
+
+```vue
+<template>
+<!-- tabindex, type, and disabled will appear on the button element -->
+<button>
+  {{ buttonText }}
+</button>
+</template>
+
+<script>
+export default {
+  name: "my-custom-button",
+  props: ["buttonText"],
+}
+</script>
+```
+
+Note that using `inheritAttrs: false` and binding `$attrs` to another element is also supported:
+
+```vue
+<template>
+<div>
+  <!-- tabindex and type should appear on the button element instead of the parent div -->
+  <button v-bind="$attrs">
+    {{ buttonText }}
+  </button>
+  <span>Other elements</span>
+</div>
+</template>
+
+<script>
+export default {
+  inheritAttrs: false,
+  name: "my-custom-button",
+  props: ["buttonText"],
+}
+</script>
+```
+
 ### The createVueComponent factory
 
 The `createVueComponent` factory creates a reusable Angular directive which is bound to a specific Vue component.

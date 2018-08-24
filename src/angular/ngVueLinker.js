@@ -3,7 +3,7 @@ import Vue from 'vue'
 import getVueComponent from '../components/getVueComponent'
 import getPropExprs from '../components/props/getExpressions'
 import watchPropExprs from '../components/props/watchExpressions'
-import evalPropValues from '../components/props/evaluateValues'
+import evalValues from '../components/props/evaluateValues'
 import evalPropEvents from '../components/props/evaluateEvents'
 import evaluateDirectives from '../directives/evaluateDirectives'
 
@@ -14,7 +14,12 @@ export function ngVueLinker (componentName, jqElement, elAttributes, scope, $inj
   const dataExprsMap = getPropExprs(elAttributes)
   const Component = getVueComponent(componentName, $injector)
   const directives = evaluateDirectives(elAttributes, scope) || []
-  const reactiveData = { _v: evalPropValues(dataExprsMap, scope) || {} }
+  const reactiveData = {
+    _v: {
+      props: evalValues(dataExprsMap.props || dataExprsMap.data, scope) || {},
+      attrs: evalValues(dataExprsMap.htmlAttributes, scope) || {}
+    }
+  }
   const on = evalPropEvents(dataExprsMap, scope) || {}
 
   const inQuirkMode = $ngVue ? $ngVue.inQuirkMode() : false
@@ -38,7 +43,8 @@ export function ngVueLinker (componentName, jqElement, elAttributes, scope, $inj
     depth: elAttributes.watchDepth,
     quirk: inQuirkMode
   }
-  watchPropExprs(dataExprsMap, reactiveData, watchOptions, scope)
+  watchPropExprs(dataExprsMap, reactiveData, watchOptions, scope, 'props')
+  watchPropExprs(dataExprsMap, reactiveData, watchOptions, scope, 'attrs')
 
   let vueInstance = new Vue({
     name: 'NgVue',
@@ -46,7 +52,7 @@ export function ngVueLinker (componentName, jqElement, elAttributes, scope, $inj
     data: reactiveData,
     render (h) {
       return (
-        <Component {...{ directives }} {...{ props: reactiveData._v, on }}>
+        <Component {...{ directives }} {...{ props: reactiveData._v.props, on, attrs: reactiveData._v.attrs }}>
           { <span ref="__slot__" /> }
         </Component>
       )
