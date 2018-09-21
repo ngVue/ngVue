@@ -1,6 +1,7 @@
 var path = require('path')
 var fs = require('fs')
 var webpack = require('webpack')
+const VueLoaderPlugin = require("vue-loader/lib/plugin")
 
 function getExampleEntries () {
   var dir = 'example'
@@ -16,6 +17,7 @@ function getExampleEntries () {
 }
 
 module.exports = {
+  mode: 'development', // This is used only for development purposes
   entry: getExampleEntries(),
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -39,6 +41,13 @@ module.exports = {
         exclude: /node_modules/
       },
       {
+        test: /\.css$/,
+        use: [
+          'vue-style-loader',
+          'css-loader'
+        ]
+      },
+      {
         test: /\.(png|jpg|gif|svg)$/,
         loader: 'file',
         query: {
@@ -55,7 +64,10 @@ module.exports = {
   devtool: '#eval-source-map',
   performance: {
     hints: false
-  }
+  },
+  plugins: [
+    new VueLoaderPlugin()
+  ]
 }
 
 if (process.env.NODE_ENV === 'production') {

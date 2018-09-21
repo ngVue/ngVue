@@ -25,6 +25,7 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "ajv": "^6.5.3",
     "angular": "^1.6.8",
     "angular-mocks": "^1.6.4",
     "babel-cli": "^6.24.1",
@@ -55,11 +56,12 @@
     "rollup-plugin-uglify": "^2.0.1",
     "uglify-js": "^3.0.11",
     "vue": "^2.5.13",
-    "vue-loader": "^12.1.0",
+    "vue-loader": "^15.4.2",
     "vue-template-compiler": "^2.5.13",
     "vuex": "^3.0.1",
-    "webpack": "^2.6.1",
-    "webpack-dev-server": "^2.4.5"
+    "webpack": "^4.19.1",
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-server": "^3.1.8"
   },
   "repository": {
     "type": "git",
