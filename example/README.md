@@ -8,8 +8,8 @@ Here we provide three simple examples:
 ## How
 
 In the root directory, run:
-- `npm install` (install the dependencies)
-- `npm run example` (bundle the files with Webpack and start a dev server on the port `12345`)
+- `yarn` (install the dependencies)
+- `yarn example` (bundle the files with Webpack and start a dev server on the port `12345`)
 
 The different examples will be available at:
 - http://localhost:12345/vue-component/
