@@ -23,10 +23,10 @@ export function ngVueLinker (componentName, jqElement, elAttributes, scope, $inj
   const on = evalPropEvents(dataExprsMap, scope) || {}
 
   const inQuirkMode = $ngVue ? $ngVue.inQuirkMode() : false
-  const vueHooks = $ngVue ? $ngVue.getVueHooks() : {}
+  const rootProps = $ngVue ? $ngVue.getRootProps() : {}
 
-  const mounted = vueHooks.mounted
-  vueHooks.mounted = function () {
+  const mounted = rootProps.mounted
+  rootProps.mounted = function () {
     if (jqElement[0].innerHTML.trim()) {
       const html = $compile(jqElement[0].innerHTML)(scope)
       const slot = this.$refs.__slot__
@@ -36,8 +36,6 @@ export function ngVueLinker (componentName, jqElement, elAttributes, scope, $inj
       mounted.apply(this, arguments)
     }
   }
-
-  const vuexStore = $ngVue ? {store: $ngVue.getVuexStore()} : {}
 
   const watchOptions = {
     depth: elAttributes.watchDepth,
@@ -57,8 +55,7 @@ export function ngVueLinker (componentName, jqElement, elAttributes, scope, $inj
         </Component>
       )
     },
-    ...vueHooks,
-    ...vuexStore
+    ...rootProps
   })
 
   scope.$on('$destroy', () => {

@@ -164,7 +164,7 @@ import store from './store'
 
 angular.module('yourApp', ['ngVue', 'ngVue.plugins'])
   .config(($ngVueProvider) => {
-		$ngVueProvider.enableVuex(store)
+		$ngVueProvider.setRootVueInstanceProps({store: store})
 	})
 ```
 
