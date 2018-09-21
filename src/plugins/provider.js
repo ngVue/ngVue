@@ -113,9 +113,7 @@ function ngVueProvider ($injector) {
     Object.assign(rootProps, createVueHooksMap(cb))
 
     return {
-      getRootProps: () => {
-        return rootProps
-      },
+      getRootProps: () => rootProps,
       inQuirkMode: () => inQuirkMode
     }
   }]
