@@ -34,7 +34,7 @@ describe('vuex', () => {
     beforeEach(inject)
 
     it('should not have any Vuex store by default', () => {
-      expect($ngVue.getVuexStore()).toBeUndefined()
+      expect($ngVue.getRootProps().store).toBeUndefined()
     })
   })
 
@@ -47,7 +47,7 @@ describe('vuex', () => {
     })
 
     it('should have a Vuex store', () => {
-      expect($ngVue.getVuexStore()).toEqual(store)
+      expect($ngVue.getRootProps().store).toEqual(store)
     })
 
     it('should render with store data', (done) => {

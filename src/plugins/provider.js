@@ -3,15 +3,19 @@ import Vue from 'vue'
 
 // init
 const pluginHooks = Object.create(null)
+const _warn = (typeof console !== 'undefined' && typeof console.warn === 'function') ? console.warn : () => {} //  Default to a noop function
 
-// beforeCreated
-// created
-// beforeMount
-// mounted
-// beforeUpdate
-// updated
-// beforeDestroy
-// destroyed
+const defaultHooks = [
+  'beforeCreated',
+  'created',
+  'beforeMount',
+  'mounted',
+  'beforeUpdate',
+  'updated',
+  'beforeDestroy',
+  'destroyed'
+]
+
 const vueHooks = Object.create(null)
 
 function addHooks (map, hooks) {
@@ -42,14 +46,43 @@ function createVueHooksMap (hookCallback) {
 
 function ngVueProvider ($injector) {
   let inQuirkMode = false
-  let vuexStore
+  let rootProps = {}
 
   this.activeQuirkMode = () => {
     inQuirkMode = true
   }
 
   this.enableVuex = (store) => {
-    vuexStore = store
+    _warn(`
+    enableVuex() is deprecated and will be removed in a future release.
+    Consider switching to setRootVueInstanceProps().
+    `)
+    Object.assign(rootProps, {store: store})
+  }
+
+  /**
+   * @param {props} Object with arbitrary properties to be added to the root Vue instance (i.e.,
+   * Vuex's `store`, Vue i18n `i18n`, Vue Router's `router`, and so on)
+   *
+   * Usage:
+   * import store from './store'
+   * import i18n from './i18n'
+   * import customProp './customVuePlugin'
+   *
+   * angular.module('app').config(($ngVueProvider) => {
+   *   $ngVueProvider.setRootVueInstanceProps({
+   *     store,
+   *     i18n,
+   *     customProp
+   *   })
+   * })
+   *
+   */
+  this.setRootVueInstanceProps = (props) => {
+    const hooksFound = Object.keys(props).filter(hookName => defaultHooks.includes(hookName))
+    hooksFound.forEach(hookName => delete props[hookName])
+
+    Object.assign(rootProps, props)
   }
 
   this.install = (plugin) => {
@@ -75,11 +108,12 @@ function ngVueProvider ($injector) {
 
     callHooks(pluginHooks, 'init', cb)
 
-    const vueHooks = createVueHooksMap(cb)
+    // Explicitly overwrite any hook defined with `setRootVueInstanceProps` so that
+    // the current behavior is kept and no breaking changes are introduced.
+    Object.assign(rootProps, createVueHooksMap(cb))
 
     return {
-      getVueHooks: () => vueHooks,
-      getVuexStore: () => vuexStore,
+      getRootProps: () => rootProps,
       inQuirkMode: () => inQuirkMode
     }
   }]
