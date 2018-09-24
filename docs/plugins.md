@@ -97,9 +97,9 @@ Each ngVue plugin has a namespace object (defined by the plugin's `$name`) and a
 
 ```javascript
 angular.module('app', ['ngVue.plugins', 'custom.plugin'])
-	.config(function($ngVueProvider) {
-		$ngVueProvider.namespace.configMethod()
-	})
+  .config(function($ngVueProvider) {
+    $ngVueProvider.namespace.configMethod()
+  })
 ```
 
 ### How to write a plugin
@@ -108,17 +108,17 @@ Require the module `ngVue.plugins` and then install the plugin in `$ngVue` provi
 
 ```javascript
 angular.module('custom.plugin', ['ngVue.plugins'])
-	.config(function($ngVueProvider) {
-		$ngVueProvider.install(($injector) => {
-			// do something with other providers injected by `$injector`
-			return {
-				$name: 'namespace',
-				$config: { ...configMethod },
-				$plugin: { ...pluginHooks },
-				$vue: { ...vueHooks }
-			}
-		})
-	})
+  .config(function($ngVueProvider) {
+    $ngVueProvider.install(($injector) => {
+      // do something with other providers injected by `$injector`
+      return {
+        $name: 'namespace',
+        $config: { ...configMethod },
+        $plugin: { ...pluginHooks },
+        $vue: { ...vueHooks }
+      }
+    })
+  })
 ```
 
 ## Quirk Mode
@@ -138,9 +138,9 @@ You can activate it with `$ngVueProvider` during the config phase:
 
 ```javascript
 angular.module('yourApp', ['ngVue', 'ngVue.plugins'])
-	.config(($ngVueProvider) => {
-		$ngVueProvider.activeQuirkMode()
-	})
+  .config(($ngVueProvider) => {
+    $ngVueProvider.activeQuirkMode()
+  })
 ```
 
 ## Root Vue instance props
@@ -159,10 +159,10 @@ const myPluginFeature = new myPlugin.Feature()
 
 angular.module('yourApp', ['ngVue', 'ngVue.plugins'])
   .config(($ngVueProvider) => {
-		$ngVueProvider.setRootVueInstanceProps({
+    $ngVueProvider.setRootVueInstanceProps({
       myPluginFeature: myPluginFeature
     })
-	})
+  })
 ```
 
 > Note: Vue's instance [lifecycle hooks](https://vuejs.org/v2/guide/instance.html#Instance-Lifecycle-Hooks) will be discarded when
@@ -183,9 +183,9 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-	state: {
-		message: 'Hello from ngVue!'
-	}
+  state: {
+    message: 'Hello from ngVue!'
+  }
 })
 ```
 
@@ -195,10 +195,10 @@ import store from './store'
 
 angular.module('yourApp', ['ngVue', 'ngVue.plugins'])
   .config(($ngVueProvider) => {
-		$ngVueProvider.setRootVueInstanceProps({
+    $ngVueProvider.setRootVueInstanceProps({
       store: store
     })
-	})
+  })
 ```
 
 All components created by `ngVue` will have access to `this.$store`, as described in the 
