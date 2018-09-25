@@ -48,7 +48,7 @@ export function ngVueLinker (componentName, jqElement, elAttributes, scope, $inj
   }
   watchPropExprs(dataExprsMap, reactiveData, watchOptions, scope, 'props')
   watchPropExprs(dataExprsMap, reactiveData, watchOptions, scope, 'attrs')
-  watchSpecialAttributes(reactiveData, jqElement, scope, 'special')
+  watchSpecialAttributes(reactiveData, jqElement, scope)
 
   let vueInstance = new Vue({
     name: 'NgVue',
