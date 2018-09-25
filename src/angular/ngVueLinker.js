@@ -6,6 +6,8 @@ import watchPropExprs from '../components/props/watchExpressions'
 import evalValues from '../components/props/evaluateValues'
 import evalPropEvents from '../components/props/evaluateEvents'
 import evaluateDirectives from '../directives/evaluateDirectives'
+import extractSpecialAttributes from '../components/props/extractSpecialAttributes'
+import watchSpecialAttributes from '../components/props/watchSpecialAttributes'
 
 export function ngVueLinker (componentName, jqElement, elAttributes, scope, $injector) {
   const $ngVue = $injector.has('$ngVue') ? $injector.get('$ngVue') : null
@@ -17,7 +19,8 @@ export function ngVueLinker (componentName, jqElement, elAttributes, scope, $inj
   const reactiveData = {
     _v: {
       props: evalValues(dataExprsMap.props || dataExprsMap.data, scope) || {},
-      attrs: evalValues(dataExprsMap.htmlAttributes, scope) || {}
+      attrs: evalValues(dataExprsMap.htmlAttributes, scope) || {},
+      special: extractSpecialAttributes(elAttributes)
     }
   }
   const on = evalPropEvents(dataExprsMap, scope) || {}
@@ -43,6 +46,7 @@ export function ngVueLinker (componentName, jqElement, elAttributes, scope, $inj
   }
   watchPropExprs(dataExprsMap, reactiveData, watchOptions, scope, 'props')
   watchPropExprs(dataExprsMap, reactiveData, watchOptions, scope, 'attrs')
+  watchSpecialAttributes(reactiveData, jqElement, scope)
 
   let vueInstance = new Vue({
     name: 'NgVue',
@@ -50,7 +54,7 @@ export function ngVueLinker (componentName, jqElement, elAttributes, scope, $inj
     data: reactiveData,
     render (h) {
       return (
-        <Component {...{ directives }} {...{ props: reactiveData._v.props, on, attrs: reactiveData._v.attrs }}>
+        <Component {...{ directives }} {...{ props: reactiveData._v.props, on, attrs: reactiveData._v.attrs }} {... reactiveData._v.special}>
           { <span ref="__slot__" /> }
         </Component>
       )

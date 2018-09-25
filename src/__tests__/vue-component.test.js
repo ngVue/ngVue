@@ -63,10 +63,12 @@ describe('vue-component', () => {
           name="HelloComponent"
           random="'hello'"
           tabindex="1"
+          class="foo"
+          style="font-size: 2em;"
           disabled
           data-qa="'John'" />`
       )
-      expect(elem[0].innerHTML).toBe('<span random="hello" tabindex="1" disabled="disabled" data-qa="John">Hello  </span>')
+      expect(elem[0].innerHTML).toBe('<span random="hello" tabindex="1" disabled="disabled" data-qa="John" class="foo" style="font-size: 2em;">Hello  </span>')
     })
 
     it('should render a vue component with original html attributes on elements that bind $attrs ', () => {
@@ -76,10 +78,12 @@ describe('vue-component', () => {
           name="HelloWrappedComponent"
           random="'hello'"
           tabindex="1"
+          class="foo"
+          style="font-size: 2em;"
           disabled
           data-qa="'John'" />`
       )
-      expect(elem[0].innerHTML).toBe('<div><span random="hello" tabindex="1" disabled="disabled" data-qa="John">Hello  </span></div>')
+      expect(elem[0].innerHTML).toBe('<div class="foo" style="font-size: 2em;"><span random="hello" tabindex="1" disabled="disabled" data-qa="John">Hello  </span></div>')
     })
   })
 
@@ -184,23 +188,35 @@ describe('vue-component', () => {
       scope.isDisabled = false
       scope.tabindex = 0
       scope.randomAttr = "enabled"
+      scope.class = 'foo'
+      scope.size = '2em'
       const elem = compileHTML(
         `<vue-component
           name="HelloComponent"
           random="randomAttr"
           tabindex="tabindex"
+          class="{{class}}"
+          ng-style="{'font-size': size}"
           disabled="isDisabled" />`,
         scope
       )
-      expect(elem[0].innerHTML).toBe('<span random="enabled" tabindex="0">Hello  </span>')
+      $rootScope.$digest()  // extra full digest needed for $animate to apply new class
 
-      scope.isDisabled = true
-      scope.tabindex = 1
-      scope.randomAttr = "disabled"
-      scope.$digest()
-      Vue.nextTick(() => {
-        expect(elem[0].innerHTML).toBe('<span random="disabled" tabindex="1" disabled="disabled">Hello  </span>')
-        done()
+      Vue.nextTick(() => {  // wait a tick for ng-* directives' settled values to propagate
+        expect(elem[0].innerHTML).toBe('<span random="enabled" tabindex="0" class="foo" style="font-size: 2em;">Hello  </span>')
+
+        scope.isDisabled = true
+        scope.tabindex = 1
+        scope.randomAttr = "disabled"
+        scope.class = 'bar'
+        scope.size = '3em'
+        scope.$digest()
+        $rootScope.$digest()  // extra full digest needed for $animate to apply new class
+
+        Vue.nextTick(() => {
+          expect(elem[0].innerHTML).toBe('<span random="disabled" tabindex="1" class="bar" style="font-size: 3em;" disabled="disabled">Hello  </span>')
+          done()
+        })
       })
     })
   })

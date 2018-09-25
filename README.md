@@ -201,7 +201,8 @@ const VComponent = Vue.component('hello-component', {
 ### Handling HTML attributes
 
 Just like regular Vue components, you can pass HTML attributes from the parent Angular component to your Vue component.
-Keep in mind that when you pass down literal strings, they must be surrounded by quotes, e.g. `data-value="'enabled'"`
+The parent's `class` and `style` attributes will be merged with the corresponding Vue component attributes, while others will be passed down unless they conflict with attributes in the Vue component's own template.
+Keep in mind that when you pass down literal strings for anything other than `class` and `style` attributes, they must be surrounded by quotes, e.g. `data-value="'enabled'"`.
 
 ```javascript
 angular.module("app")
@@ -213,6 +214,7 @@ angular.module("app")
 ```html
 <my-custom-button
   disabled="ctrl.isDisabled"
+  class="excellent"
   tabindex="3"
   type="'submit'"
   v-props-button-text="'Click me'" />
@@ -220,7 +222,7 @@ angular.module("app")
 
 ```vue
 <template>
-<!-- tabindex, type, and disabled will appear on the button element -->
+<!-- tabindex, type, class, and disabled will appear on the button element -->
 <button>
   {{ buttonText }}
 </button>
