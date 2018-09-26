@@ -1,0 +1,11 @@
+# Ignore everything
+*
+
+# Except **/*.js
+!*.js
+
+# Even if they are in subdirectories
+!*/
+
+# Except in build
+build
