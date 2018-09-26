@@ -2,7 +2,7 @@ import angular from 'angular'
 import Vue from 'vue'
 import '../plugins'
 
-import ngHtmlCompiler from "./utils/ngHtmlCompiler"
+import ngHtmlCompiler from './utils/ngHtmlCompiler'
 import Button from './fixtures/ButtonComponent.js'
 
 describe('root Vue instance props', () => {
@@ -25,7 +25,7 @@ describe('root Vue instance props', () => {
 
   describe('Simple props', () => {
     beforeEach(() => {
-      angular.mock.module((_$ngVueProvider_) => {
+      angular.mock.module(_$ngVueProvider_ => {
         _$ngVueProvider_.setRootVueInstanceProps({
           foo: 1,
           bar: 2,
@@ -35,7 +35,7 @@ describe('root Vue instance props', () => {
       inject()
     })
 
-    it("should contain props as defined by in the provider", () => {
+    it('should contain props as defined by in the provider', () => {
       expect($ngVue.getRootProps().foo).toEqual(1)
       expect($ngVue.getRootProps().bar).toEqual(2)
       expect($ngVue.getRootProps().baz).toEqual(3)
@@ -75,7 +75,7 @@ describe('root Vue instance props', () => {
       })
     })
 
-    it('should keep mounted hook untouched', (done) => {
+    it('should keep mounted hook untouched', done => {
       $ngVueProvider.setRootVueInstanceProps({
         mounted: "Awesome! I'm mounted!"
       })

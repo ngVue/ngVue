@@ -1,17 +1,19 @@
 var path = require('path')
 var fs = require('fs')
 var webpack = require('webpack')
-const VueLoaderPlugin = require("vue-loader/lib/plugin")
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 function getExampleEntries () {
   var dir = 'example'
   var entry = {}
 
-  fs.readdirSync('./' + dir).filter(function (name) {
-    return fs.statSync('./' + dir + '/' + name).isDirectory()
-  }).forEach(function (name) {
-    entry[name] = path.resolve(__dirname, './' + name)
-  })
+  fs.readdirSync('./' + dir)
+    .filter(function (name) {
+      return fs.statSync('./' + dir + '/' + name).isDirectory()
+    })
+    .forEach(function (name) {
+      entry[name] = path.resolve(__dirname, './' + name)
+    })
 
   return entry
 }
@@ -25,9 +27,7 @@ module.exports = {
     filename: '[name].build.js'
   },
   resolve: {
-    modules: [
-      path.join(__dirname, '../node_modules')
-    ]
+    modules: [path.join(__dirname, '../node_modules')]
   },
   module: {
     rules: [
@@ -42,10 +42,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [
-          'vue-style-loader',
-          'css-loader'
-        ]
+        use: ['vue-style-loader', 'css-loader']
       },
       {
         test: /\.(png|jpg|gif|svg)$/,
@@ -65,9 +62,7 @@ module.exports = {
   performance: {
     hints: false
   },
-  plugins: [
-    new VueLoaderPlugin()
-  ]
+  plugins: [new VueLoaderPlugin()]
 }
 
 if (process.env.NODE_ENV === 'production') {

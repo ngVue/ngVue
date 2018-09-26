@@ -5,9 +5,15 @@ function getTypeOf (value) {
 }
 
 const transformers = {
-  'Object': (value) => [value],
-  'Array': (value) => value,
-  'String': (value) => value.split(/\s*,\s*/g).filter(Boolean).map((name) => { return { name } })
+  Object: value => [value],
+  Array: value => value,
+  String: value =>
+    value
+      .split(/\s*,\s*/g)
+      .filter(Boolean)
+      .map(name => {
+        return { name }
+      })
 }
 
 /**

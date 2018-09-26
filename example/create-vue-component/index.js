@@ -12,7 +12,9 @@ const VueComponent = Vue.component('hello-component', {
     return (
       <div class="card blue-grey darken-1">
         <div class="card-content white-text">
-          <span class="card-title">Hi, {this.firstName} {this.lastName}</span>
+          <span class="card-title">
+            Hi, {this.firstName} {this.lastName}
+          </span>
           <p>{this.description}</p>
         </div>
         <div class="card-action">
@@ -23,13 +25,15 @@ const VueComponent = Vue.component('hello-component', {
   }
 })
 
-angular.module('vue.components', ['ngVue'])
+angular
+  .module('vue.components', ['ngVue'])
   .controller('MainController', function () {
     this.person = {
       firstName: 'The',
       lastName: 'World',
-      description: 'ngVue helps you use Vue components in your angular application ' +
-                   'so that you are able to create a faster and reactive web interfaces.'
+      description:
+        'ngVue helps you use Vue components in your angular application ' +
+        'so that you are able to create a faster and reactive web interfaces.'
     }
   })
   .directive('helloComponent', function (createVueComponent) {

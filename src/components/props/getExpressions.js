@@ -29,16 +29,17 @@ export function extractExpressions (exprType, attributes) {
   if (exprType === 'htmlAttributes') {
     expressions = extractHtmlAttributes(attributes)
   } else {
-    expressions = Object.keys(attributes)
-      .filter((attr) => objectPropExprRegExp.test(attr))
+    expressions = Object.keys(attributes).filter(attr => objectPropExprRegExp.test(attr))
   }
 
   if (expressions.length === 0) {
     return null
   }
 
-  const exprsMap = {/* name : expression */}
-  expressions.forEach((attrExprName) => {
+  const exprsMap = {
+    /* name : expression */
+  }
+  expressions.forEach(attrExprName => {
     if (objectExprKey) {
       const exprName = extractExpressionName(attrExprName, objectExprKey)
       exprsMap[exprName] = attributes[attrExprName]

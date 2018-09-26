@@ -55,6 +55,7 @@ function ngVueComponentDirective ($injector) {
   }
 }
 
-export const ngVue = angular.module('ngVue', [])
+export const ngVue = angular
+  .module('ngVue', [])
   .directive('vueComponent', ['$injector', ngVueComponentDirective])
   .factory('createVueComponent', ['$injector', ngVueComponentFactory])
