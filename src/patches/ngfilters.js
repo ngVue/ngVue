@@ -24,17 +24,21 @@ angular.module = function (moduleName, ...otherArgs) {
   const originalFilter = module.filter
   let filters = []
 
-  module.provider('$ngVueFilter', ['$filterProvider', '$ngVueProvider', function ($filterProvider, $ngVueProvider) {
-    this.register = (name, ngDef) => {
-      $filterProvider.register(name, ngDef)
-      if (!_hasDependence($injector, ngDef)) {
-        $ngVueProvider.filters.register(evaluateFilterFunction(name, ngDef))
+  module.provider('$ngVueFilter', [
+    '$filterProvider',
+    '$ngVueProvider',
+    function ($filterProvider, $ngVueProvider) {
+      this.register = (name, ngDef) => {
+        $filterProvider.register(name, ngDef)
+        if (!_hasDependence($injector, ngDef)) {
+          $ngVueProvider.filters.register(evaluateFilterFunction(name, ngDef))
+        }
       }
-    }
 
-    // `$ngVueFilter` only works in the config phase
-    this.$get = () => {}
-  }])
+      // `$ngVueFilter` only works in the config phase
+      this.$get = () => {}
+    }
+  ])
 
   module.filter = function (name, ngDef) {
     if (!_hasDependence($injector, ngDef)) {
@@ -43,10 +47,13 @@ angular.module = function (moduleName, ...otherArgs) {
     return originalFilter.apply(this, arguments)
   }
 
-  module.config(['$ngVueProvider', function ($ngVueProvider) {
-    filters.forEach((f) => $ngVueProvider.filters.register(f))
-    filters = []
-  }])
+  module.config([
+    '$ngVueProvider',
+    function ($ngVueProvider) {
+      filters.forEach(f => $ngVueProvider.filters.register(f))
+      filters = []
+    }
+  ])
 
   return module
 }

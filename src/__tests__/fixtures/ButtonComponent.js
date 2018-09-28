@@ -7,6 +7,6 @@ export default Vue.component('button-component', {
     }
   },
   render (h) {
-    return (<button onClick={this.helloFromVue}>Hello from Vue!</button>)
+    return <button onClick={this.helloFromVue}>Hello from Vue!</button>
   }
 })

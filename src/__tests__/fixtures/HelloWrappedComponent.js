@@ -6,7 +6,7 @@ export default Vue.component('hello-wrapped-component', {
   render (h) {
     return (
       <div>
-        <HelloComponent {...{attrs: this.$attrs}}/>
+        <HelloComponent {...{ attrs: this.$attrs }} />
       </div>
     )
   }

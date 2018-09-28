@@ -22,19 +22,22 @@ export default {
         'node_modules/babel-helper-vue-jsx-merge-props/index.js': ['_mergeJSXProps']
       }
     }),
-    uglify(minified ? {} : {
-      output: {
-        beautify: true
-      },
-      mangle: false
-    }, minify)
+    uglify(
+      minified
+        ? {}
+        : {
+          output: {
+            beautify: true
+          },
+          mangle: false
+        },
+      minify
+    )
   ],
   globals: {
     vue: 'Vue',
     angular: 'angular'
   },
   external: ['vue', 'angular'],
-  targets: [
-    { dest: `build/${output}.js`, format: 'umd' }
-  ]
+  targets: [{ dest: `build/${output}.js`, format: 'umd' }]
 }

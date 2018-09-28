@@ -14,7 +14,7 @@ export default function evaluateEvents (dataExprsMap, scope) {
   }
 
   const evaluatedEvents = {}
-  Object.keys(events).forEach((eventName) => {
+  Object.keys(events).forEach(eventName => {
     evaluatedEvents[eventName] = scope.$eval(events[eventName])
     const fn = evaluatedEvents[eventName]
     if (!angular.isFunction(fn)) {

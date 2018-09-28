@@ -7,7 +7,11 @@ export default Vue.component('persons-component', {
   render (h) {
     return (
       <ul>
-        {this.persons.map(p => <li>{p.firstName} {p.lastName}</li>)}
+        {this.persons.map(p => (
+          <li>
+            {p.firstName} {p.lastName}
+          </li>
+        ))}
       </ul>
     )
   }

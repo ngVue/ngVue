@@ -6,6 +6,10 @@ export default Vue.component('hello-component', {
     lastName: String
   },
   render (h) {
-    return (<span>Hello {this.firstName} {this.lastName}</span>)
+    return (
+      <span>
+        Hello {this.firstName} {this.lastName}
+      </span>
+    )
   }
 })

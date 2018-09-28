@@ -25,7 +25,7 @@ describe('vuex', () => {
   beforeEach(() => {
     angular.mock.module('ngVue')
     angular.mock.module('ngVue.plugins')
-    angular.mock.module((_$provide_) => {
+    angular.mock.module(_$provide_ => {
       _$provide_.value('VuexComponent', VuexComponent)
     })
   })
@@ -40,7 +40,7 @@ describe('vuex', () => {
 
   describe('active state', () => {
     beforeEach(() => {
-      angular.mock.module((_$ngVueProvider_) => {
+      angular.mock.module(_$ngVueProvider_ => {
         _$ngVueProvider_.enableVuex(store)
       })
       inject()
@@ -50,7 +50,7 @@ describe('vuex', () => {
       expect($ngVue.getRootProps().store).toEqual(store)
     })
 
-    it('should render with store data', (done) => {
+    it('should render with store data', done => {
       const scope = $rootScope.$new()
       const elem = compileHTML('<vue-component name="VuexComponent" />', scope)
       scope.$digest()
@@ -61,10 +61,10 @@ describe('vuex', () => {
       })
     })
 
-    it('should re-render the component when store changes', (done) => {
+    it('should re-render the component when store changes', done => {
       const scope = $rootScope.$new()
       const elem = compileHTML('<vue-component name="VuexComponent" />', scope)
-      store.commit('addPerson', {firstName: 'Count', lastName: 'Dracula'})
+      store.commit('addPerson', { firstName: 'Count', lastName: 'Dracula' })
 
       scope.$digest()
       Vue.nextTick(() => {

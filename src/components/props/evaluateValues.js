@@ -15,7 +15,7 @@ export default function evaluateValues (expr, scope) {
   }
 
   const evaluatedValues = {}
-  Object.keys(expr).forEach((key) => {
+  Object.keys(expr).forEach(key => {
     evaluatedValues[key] = scope.$eval(expr[key])
   })
 

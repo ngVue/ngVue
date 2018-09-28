@@ -1,8 +1,8 @@
-import {isString, isArray, isObject} from 'angular'
+import { isString, isArray, isObject } from 'angular'
 import Vue from 'vue'
 
 function watch (expressions, reactiveData, type) {
-  return (watchFunc) => {
+  return watchFunc => {
     // for `v-props` / `v-data`
     if (isString(expressions)) {
       watchFunc(expressions, Vue.set.bind(Vue, reactiveData._v, type))
@@ -10,10 +10,9 @@ function watch (expressions, reactiveData, type) {
     }
 
     // for `v-props-something`
-    Object.keys(expressions)
-      .forEach((name) => {
-        watchFunc(expressions[name], Vue.set.bind(Vue, reactiveData._v[type], name))
-      })
+    Object.keys(expressions).forEach(name => {
+      watchFunc(expressions[name], Vue.set.bind(Vue, reactiveData._v[type], name))
+    })
   }
 }
 
@@ -32,7 +31,7 @@ function notify (setter, inQuirkMode) {
       // for an object and an array, we have to create a new one to force the reactivity
       // system to walk through all the properties to detect the change and to convert the
       // new values into a reactive data.
-      value = isArray(newVal) ? [...newVal] : (isObject(newVal) ? {...newVal} : newVal)
+      value = isArray(newVal) ? [...newVal] : isObject(newVal) ? { ...newVal } : newVal
     }
 
     setter(value)
