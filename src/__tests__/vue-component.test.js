@@ -250,14 +250,26 @@ describe('vue-component', () => {
   })
 
   describe('events', () => {
-    it('should handle custom events from Vue', () => {
+    it('should handle custom events from Vue, with camelCase syntax in $emit function', () => {
       $provide.value('ButtonComponent', ButtonComponent)
 
       const scope = $rootScope.$new()
       scope.handleHelloEvent = jest.fn()
 
-      const elem = compileHTML(`<vue-component name="ButtonComponent" v-on-hello="handleHelloEvent" />`, scope)
+      const elem = compileHTML(`<vue-component name="ButtonComponent" v-on-hello-world="handleHelloEvent" />`, scope)
       elem.find('button')[0].click()
+      scope.$digest()
+      expect(scope.handleHelloEvent).toHaveBeenCalledWith('Hello, World!')
+    })
+
+    it('should handle custom events from Vue, with kebab-case syntax in $emit function', () => {
+      $provide.value('ButtonComponent', ButtonComponent)
+
+      const scope = $rootScope.$new()
+      scope.handleHelloEvent = jest.fn()
+
+      const elem = compileHTML(`<vue-component name="ButtonComponent" v-on-hello-world="handleHelloEvent" />`, scope)
+      elem.find('button')[1].click()
       scope.$digest()
       expect(scope.handleHelloEvent).toHaveBeenCalledWith('Hello, World!')
     })
