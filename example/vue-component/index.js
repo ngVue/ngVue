@@ -26,7 +26,7 @@ angular
       },
       methods: {
         updateFirstName () {
-          this.$emit('newFirstName', 'THE')
+          this.$emit('new-first-name', 'THE')
         }
       },
       render (h) {

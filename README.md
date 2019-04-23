@@ -180,14 +180,14 @@ app.controller('MainController', function ($scope) {
 ```
 
 ```html
-<vue-component v-on-hello="ctrl.handleHelloEvent"></vue-component>
+<vue-component v-on-hello-world="ctrl.handleHelloEvent"></vue-component>
 ```
 
 ```javascript
 const VComponent = Vue.component('hello-component', {
   methods: {
     helloFromVue() {
-      this.$emit('hello', 'Hello, World!');
+      this.$emit('hello-world', 'Hello, World!');
     }
   },
   render (h) {
@@ -197,6 +197,8 @@ const VComponent = Vue.component('hello-component', {
   }
 })
 ```
+
+Events name in `$emit` function should be using kebab-case syntax.
 
 ### Handling HTML attributes
 

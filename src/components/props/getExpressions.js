@@ -1,6 +1,7 @@
 import angular from 'angular'
 import extractExpressionName from './extractPropName'
 import extractHtmlAttributes from './extractHtmlAttributes'
+import camelToKebab from '../../../lib/camelToKebab'
 
 /**
  * Extract a subset of expressions from the element attributes, e.g. property/data, on, or htmlAttribute
@@ -43,6 +44,9 @@ export function extractExpressions (exprType, attributes) {
     if (objectExprKey) {
       const exprName = extractExpressionName(attrExprName, objectExprKey)
       exprsMap[exprName] = attributes[attrExprName]
+      if (objectExprKey === 'vOn') {
+        exprsMap[camelToKebab(exprName)] = attributes[attrExprName]
+      }
     } else {
       // Non-prefixed attributes, i.e. a regular HTML attribute
       // Get original attribute name from $attr not stripped by Angular, e.g. data-qa and not qa

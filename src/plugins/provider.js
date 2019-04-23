@@ -1,9 +1,9 @@
 import angular, { extend } from 'angular'
 import Vue from 'vue'
+import logger from '../../lib/logger'
 
 // init
 const pluginHooks = Object.create(null)
-const _warn = typeof console !== 'undefined' && typeof console.warn === 'function' ? console.warn : () => {} //  Default to a noop function
 
 const defaultHooks = [
   'beforeCreated',
@@ -56,7 +56,7 @@ function ngVueProvider ($injector) {
   }
 
   this.enableVuex = store => {
-    _warn(`
+    logger.warn(`
     enableVuex() is deprecated and will be removed in a future release.
     Consider switching to setRootVueInstanceProps().
     `)
