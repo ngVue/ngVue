@@ -43,6 +43,9 @@ export function extractExpressions (exprType, attributes) {
   expressions.forEach(attrExprName => {
     if (objectExprKey) {
       const exprName = extractExpressionName(attrExprName, objectExprKey)
+      if (!exprName) {
+        return
+      }
       exprsMap[exprName] = attributes[attrExprName]
       if (objectExprKey === 'vOn') {
         exprsMap[camelToKebab(exprName)] = attributes[attrExprName]
