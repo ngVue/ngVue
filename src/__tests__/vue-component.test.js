@@ -13,8 +13,9 @@ import GreetingsComponent from './fixtures/GreetingsComponent'
 describe('vue-component', () => {
   let $provide
   let $rootScope
+  let $compile
   let compileHTML
-
+  
   beforeEach(() => {
     angular.mock.module('ngVue')
 
@@ -24,6 +25,7 @@ describe('vue-component', () => {
 
     angular.mock.inject((_$rootScope_, _$compile_) => {
       $rootScope = _$rootScope_
+      $compile = _$compile_
       compileHTML = ngHtmlCompiler(_$rootScope_, _$compile_)
     })
   })
@@ -90,6 +92,13 @@ describe('vue-component', () => {
         '<div class="foo" style="font-size: 2em;"><span random="hello" tabindex="1" disabled="disabled" data-qa="John">Hello  </span></div>'
       )
     })
+
+    it('should throw an error if there is no parent tag', () => {
+      expect(()=>{
+        $compile('<vue-component name="HelloComponent" />')($rootScope.$new());
+      }).toThrowErrorMatchingSnapshot();
+    })
+
   })
 
   describe('v-props extraction', () => {
