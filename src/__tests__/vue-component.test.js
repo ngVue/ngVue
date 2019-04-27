@@ -15,7 +15,7 @@ describe('vue-component', () => {
   let $rootScope
   let $compile
   let compileHTML
-  
+
   beforeEach(() => {
     angular.mock.module('ngVue')
 
@@ -94,11 +94,10 @@ describe('vue-component', () => {
     })
 
     it('should throw an error if there is no parent tag', () => {
-      expect(()=>{
-        $compile('<vue-component name="HelloComponent" />')($rootScope.$new());
-      }).toThrowErrorMatchingSnapshot();
+      expect(() => {
+        $compile('<vue-component name="HelloComponent" />')($rootScope.$new())
+      }).toThrowErrorMatchingSnapshot()
     })
-
   })
 
   describe('v-props extraction', () => {
