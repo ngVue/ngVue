@@ -1,5 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`vue-component creation should throw an error if there is no parent tag 1`] = `"ngVue components must have a parent tag or they will not render"`;
+
 exports[`vue-component remove should remove a vue component when ng-if directive flag toggles from true to false 1`] = `
 <div
   class="ng-scope"
