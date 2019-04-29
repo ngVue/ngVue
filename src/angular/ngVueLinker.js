@@ -10,7 +10,7 @@ import extractSpecialAttributes from '../components/props/extractSpecialAttribut
 import watchSpecialAttributes from '../components/props/watchSpecialAttributes'
 
 export function ngVueLinker (componentName, jqElement, elAttributes, scope, $injector) {
-  if (!jqElement.parent().length) throw new Error("ngVue components must have a parent tag or they will not render")
+  if (!jqElement.parent().length) throw new Error('ngVue components must have a parent tag or they will not render')
 
   const $ngVue = $injector.has('$ngVue') ? $injector.get('$ngVue') : null
   const $compile = $injector.get('$compile')
