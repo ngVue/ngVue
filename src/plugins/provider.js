@@ -56,10 +56,9 @@ function ngVueProvider ($injector) {
   }
 
   this.enableVuex = store => {
-    logger.warn(`
-    enableVuex() is deprecated and will be removed in a future release.
-    Consider switching to setRootVueInstanceProps().
-    `)
+    logger.warn(
+      'enableVuex() is deprecated and will be removed in a future release.\nConsider switching to setRootVueInstanceProps().'
+    )
     Object.assign(rootProps, { store: store })
   }
 
