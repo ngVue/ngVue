@@ -60,7 +60,7 @@ export const ngVue = angular
   .module('ngVue', [])
   .run(function () {
     logger.warn(
-      'camelCase syntax for events name (in $emit function) will be deprecated in a futur release.\nPlease, make sure to use kebab-case syntax when emitting events from Vue.'
+      'camelCase syntax for events name (in $emit function) will be deprecated in a future release.\nPlease, make sure to use kebab-case syntax when emitting events from Vue.'
     )
   })
   .directive('vueComponent', ['$injector', ngVueComponentDirective])
