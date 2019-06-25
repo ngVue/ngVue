@@ -13,7 +13,6 @@ export function ngVueLinker (componentName, jqElement, elAttributes, scope, $inj
   if (!jqElement.parent().length) throw new Error('ngVue components must have a parent tag or they will not render')
 
   const $ngVue = $injector.has('$ngVue') ? $injector.get('$ngVue') : null
-  const $compile = $injector.get('$compile')
 
   const dataExprsMap = getPropExprs(elAttributes)
   const Component = getVueComponent(componentName, $injector)
@@ -32,10 +31,18 @@ export function ngVueLinker (componentName, jqElement, elAttributes, scope, $inj
 
   const mounted = rootProps.mounted
   rootProps.mounted = function () {
-    if (jqElement[0].innerHTML.trim()) {
-      const html = $compile(jqElement[0].innerHTML)(scope)
+    const element = jqElement[0]
+    if (element.innerHTML.trim()) {
+      let html
+      if (element.children.length === 0) {
+        const span = document.createElement('span')
+        span.innerHTML = element.innerHTML.trim()
+        html = span
+      } else {
+        html = element.children[0]
+      }
       const slot = this.$refs.__slot__
-      slot.parentNode.replaceChild(html[0], slot)
+      slot.parentNode.replaceChild(html, slot)
     }
     if (angular.isFunction(mounted)) {
       mounted.apply(this, arguments)
