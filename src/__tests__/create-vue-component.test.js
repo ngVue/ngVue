@@ -275,5 +275,19 @@ describe('create-vue-component', () => {
       scope.$digest()
       expect(scope.onClick).toHaveBeenCalled()
     })
+
+    it('should render a vue component with only a text node in the slot content', () => {
+      const scope = $rootScope.$new()
+      scope.onClick = jest.fn()
+
+      const elem = compileHTML(
+        `
+        <greetings>
+          Hello, World!
+        </greetings>`,
+        scope
+      )
+      expect(elem[0]).toMatchSnapshot()
+    })
   })
 })

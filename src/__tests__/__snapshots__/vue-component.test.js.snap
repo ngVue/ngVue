@@ -32,10 +32,24 @@ exports[`vue-component slots should render a vue component with a button in the 
     </span>
     <button
       ng-click="onClick()"
-      class="ng-scope"
     >
       Click me!
     </button>
+  </div>
+</div>
+`;
+
+exports[`vue-component slots should render a vue component with only a text node in the slot content 1`] = `
+<div
+  class="ng-scope"
+>
+  <div>
+    <span>
+      Welcome, John Doe!
+    </span>
+    <span>
+      Hello, World!
+    </span>
   </div>
 </div>
 `;
