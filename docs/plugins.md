@@ -143,6 +143,26 @@ angular.module('yourApp', ['ngVue', 'ngVue.plugins'])
   })
 ```
 
+## Custom Vue Parent
+Sometimes using a specific parent in components is needed. E.g. the app's root Vue instance if you are using a bunch of plugins and don't want to pass every one of them.
+You can use `$ngVueProvider` at a configuration phase of your Angular.js application to pass that extra information.
+
+```javascript
+// app.js
+import Vue from 'vue'
+import App from './App.vue
+
+const rootVue = new Vue({
+    render: (h) => h(App),
+})
+rootVue.$mount('#app')
+
+angular.module('yourApp', ['ngVue', 'ngVue.plugins'])
+  .config(($ngVueProvider) => {
+    $ngVueProvider.setDefaultParent(rootVue)
+  })
+```
+
 ## Root Vue instance props
 Sometimes a plugin requires you to pass extra properties to the root Vue instance in order to access its features on
 any child component. You can use `$ngVueProvider` at a configuration phase of your Angular.js application to

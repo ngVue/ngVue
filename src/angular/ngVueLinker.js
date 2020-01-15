@@ -28,6 +28,7 @@ export function ngVueLinker (componentName, jqElement, elAttributes, scope, $inj
 
   const inQuirkMode = $ngVue ? $ngVue.inQuirkMode() : false
   const rootProps = $ngVue ? $ngVue.getRootProps() : {}
+  const parent = $ngVue && $ngVue.getDefaultParent()
 
   const mounted = rootProps.mounted
   rootProps.mounted = function () {
@@ -61,6 +62,7 @@ export function ngVueLinker (componentName, jqElement, elAttributes, scope, $inj
     name: 'NgVue',
     el: jqElement[0],
     data: reactiveData,
+    parent,
     render (h) {
       return (
         <Component

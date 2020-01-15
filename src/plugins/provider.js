@@ -87,6 +87,11 @@ function ngVueProvider ($injector) {
     Object.assign(rootProps, props)
   }
 
+  let defaultParent
+  this.setDefaultParent = parent => {
+    defaultParent = parent
+  }
+
   this.install = plugin => {
     const { $name, $config, $plugin, $vue } = plugin($injector)
 
@@ -113,6 +118,7 @@ function ngVueProvider ($injector) {
 
       return {
         getRootProps: () => rootProps,
+        getDefaultParent: () => defaultParent,
         inQuirkMode: () => inQuirkMode
       }
     }
