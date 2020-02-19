@@ -6,4 +6,4 @@ node_modules
 coverage
 logs
 pids
-build
+# build

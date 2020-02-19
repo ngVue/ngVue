@@ -22,8 +22,7 @@
     "lint": "eslint src lib test example",
     "build": "npm run lint && npm run clean && npm run bundle",
     "preversion": "npm run test",
-    "prepare": "npm run build",
-    "postinstall": "npm run build"
+    "prepare": "npm run build"
   },
   "dependencies": {},
   "devDependencies": {
