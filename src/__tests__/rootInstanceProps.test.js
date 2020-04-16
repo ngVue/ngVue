@@ -55,10 +55,17 @@ describe('root Vue instance props', () => {
     ]
 
     let $ngVueProvider
+    let mountedPluginHook
 
     beforeEach(() => {
       angular.mock.module((_$ngVueProvider_, _$provide_) => {
         $ngVueProvider = _$ngVueProvider_
+        mountedPluginHook = jest.fn()
+        $ngVueProvider.install(() => ({
+          $vue: {
+            mounted: mountedPluginHook
+          }
+        }))
         _$provide_.value('Button', Button)
       })
       inject()
@@ -86,6 +93,7 @@ describe('root Vue instance props', () => {
         expect($ngVue.getRootProps().mounted).not.toEqual("Awesome! I'm mounted!")
         expect($ngVue.getRootProps().mounted).not.toBeUndefined()
         expect($ngVue.getRootProps().mounted).toBeInstanceOf(Function)
+        expect(mountedPluginHook).toHaveBeenCalled()
         done()
       })
     })

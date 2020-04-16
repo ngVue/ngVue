@@ -30,7 +30,8 @@ export function ngVueLinker (componentName, jqElement, elAttributes, scope, $inj
   const rootProps = $ngVue ? $ngVue.getRootProps() : {}
 
   const mounted = rootProps.mounted
-  rootProps.mounted = function () {
+  const props = Object.assign({}, rootProps)
+  props.mounted = function () {
     const element = jqElement[0]
     if (element.innerHTML.trim()) {
       let html
@@ -72,7 +73,7 @@ export function ngVueLinker (componentName, jqElement, elAttributes, scope, $inj
         </Component>
       )
     },
-    ...rootProps
+    ...props
   })
 
   scope.$on('$destroy', () => {
