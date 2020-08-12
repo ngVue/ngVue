@@ -203,7 +203,10 @@ describe('vue-component', () => {
 
     it('should re-render the vue component when v-props-name is an array and its items change', done => {
       const scope = $rootScope.$new()
-      scope.persons = [{ firstName: 'John', lastName: 'Doe' }, { firstName: 'Jane', lastName: 'Doe' }]
+      scope.persons = [
+        { firstName: 'John', lastName: 'Doe' },
+        { firstName: 'Jane', lastName: 'Doe' }
+      ]
       const elem = compileHTML(
         `<vue-component
           name="PersonsComponent"
@@ -345,6 +348,21 @@ describe('vue-component', () => {
         `
         <vue-component name="GreetingsComponent">
           Hello, World!
+        </vue-component>`,
+        scope
+      )
+      expect(elem[0]).toMatchSnapshot()
+    })
+
+    it('should render a vue component with more than one root element in the slot content', () => {
+      const scope = $rootScope.$new()
+      scope.onClick = jest.fn()
+
+      const elem = compileHTML(
+        `
+        <vue-component name="GreetingsComponent">
+          <button ng-click="onClick()">Click me!</button>
+          <button ng-click="onClick()">Click me, too!</button>
         </vue-component>`,
         scope
       )

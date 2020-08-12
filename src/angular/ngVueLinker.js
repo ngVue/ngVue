@@ -40,10 +40,31 @@ export function ngVueLinker (componentName, jqElement, elAttributes, scope, $inj
         span.innerHTML = element.innerHTML.trim()
         html = span
       } else {
-        html = element.children[0]
+        html = element.children // allow for multiple children on root
       }
       const slot = this.$refs.__slot__
-      slot.parentNode.replaceChild(html, slot)
+      const parent = slot.parentNode
+      let i = html.length
+      let currentNode = null
+      if (parent) {
+        if (!i) {
+          parent.replaceChild(html, slot)
+        }
+        while (i--) {
+          currentNode = html[i]
+          if (typeof currentNode !== 'object') {
+            currentNode = slot.ownerDocument.createTextNode(currentNode)
+          } else if (currentNode.parentNode) {
+            currentNode.parentNode.removeChild(currentNode)
+          }
+
+          if (!i) {
+            parent.replaceChild(currentNode, slot)
+          } else {
+            parent.insertBefore(currentNode, slot.nextSibling)
+          }
+        }
+      }
     }
     if (angular.isFunction(mounted)) {
       mounted.apply(this, arguments)
