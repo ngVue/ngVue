@@ -47,16 +47,15 @@ exports[`vue-component slots should render a vue component with more than one ro
     <span>
       Welcome, John Doe!
     </span>
-    <button
-      ng-click="onClick()"
+    <label
+      for="name"
     >
-      Click me!
-    </button>
-    <button
-      ng-click="onClick()"
-    >
-      Click me, too!
-    </button>
+      Name
+    </label>
+    <input
+      id="name"
+      type="text"
+    />
   </div>
 </div>
 `;

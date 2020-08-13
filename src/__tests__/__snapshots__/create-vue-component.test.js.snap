@@ -37,6 +37,27 @@ exports[`create-vue-component slots should render a vue component with a button 
 </div>
 `;
 
+exports[`create-vue-component slots should render a vue component with multiple root nodes in slot content 1`] = `
+<div
+  class="ng-scope"
+>
+  <div>
+    <span>
+      Welcome, John Doe!
+    </span>
+    <label
+      for="name"
+    >
+      Name
+    </label>
+    <input
+      id="name"
+      type="text"
+    />
+  </div>
+</div>
+`;
+
 exports[`create-vue-component slots should render a vue component with only a text node in the slot content 1`] = `
 <div
   class="ng-scope"

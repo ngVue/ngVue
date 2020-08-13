@@ -159,7 +159,10 @@ describe('create-vue-component', () => {
 
     it('should re-render the vue component when v-props-name is an array and its items change', done => {
       const scope = $rootScope.$new()
-      scope.persons = [{ firstName: 'John', lastName: 'Doe' }, { firstName: 'Jane', lastName: 'Doe' }]
+      scope.persons = [
+        { firstName: 'John', lastName: 'Doe' },
+        { firstName: 'Jane', lastName: 'Doe' }
+      ]
       const elem = compileHTML(`<persons v-props-persons="persons" />`, scope)
 
       // use Array.prototype.splice
@@ -284,6 +287,20 @@ describe('create-vue-component', () => {
         `
         <greetings>
           Hello, World!
+        </greetings>`,
+        scope
+      )
+      expect(elem[0]).toMatchSnapshot()
+    })
+
+    it('should render a vue component with multiple root nodes in slot content', () => {
+      const scope = $rootScope.$new()
+
+      const elem = compileHTML(
+        `
+        <greetings>
+          <label for="name">Name</label>
+          <input id="name" type="text" />
         </greetings>`,
         scope
       )

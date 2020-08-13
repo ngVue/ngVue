@@ -342,7 +342,6 @@ describe('vue-component', () => {
 
     it('should render a vue component with only a text node in the slot content', () => {
       const scope = $rootScope.$new()
-      scope.onClick = jest.fn()
 
       const elem = compileHTML(
         `
@@ -356,13 +355,12 @@ describe('vue-component', () => {
 
     it('should render a vue component with more than one root element in the slot content', () => {
       const scope = $rootScope.$new()
-      scope.onClick = jest.fn()
 
       const elem = compileHTML(
         `
         <vue-component name="GreetingsComponent">
-          <button ng-click="onClick()">Click me!</button>
-          <button ng-click="onClick()">Click me, too!</button>
+          <label for="name">Name</label>
+          <input id="name" type="text" />
         </vue-component>`,
         scope
       )
