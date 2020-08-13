@@ -15,3 +15,4 @@ The different examples will be available at:
 - http://localhost:12345/vue-component/
 - http://localhost:12345/create-vue-component/
 - http://localhost:12345/plugins-filters/
+- http://localhost:12345/vue-component-slots/

@@ -25,31 +25,46 @@
     <vue-component name="HelloComponent"
                    v-props="ctrl.person"
                    v-on-new-first-name="ctrl.updateFirstName"
-                   watch-depth="value"></vue-component>
-    <vue-component name="GreetingsComponent">
-      <p>Hey what's up</p>
-      <p>A second hello!</p>
-    </vue-component>
+                   watch-depth="value">
+              <div class="col s6">
+                <input class="row"
+                   type="text"
+                   ng-model="ctrl.person.firstName"
+                   placeholder="first name"
+                   aria-label="first name"
+                   autofocus>
+              </div>
+              <div class="col s6">
+                <input class="row"
+                   type="text"
+                   ng-model="ctrl.person.lastName"
+                   aria-label="last name"
+                   placeholder="last name">
+              </div>
+      </vue-component>
     <div class="row">
       <div class="col s6">
         <input class="row"
                type="text"
                ng-model="ctrl.person.firstName"
                placeholder="first name"
+               aria-label="first name"
                autofocus>
       </div>
       <div class="col s6">
         <input class="row"
                type="text"
                ng-model="ctrl.person.lastName"
+               aria-label="last name"
                placeholder="last name">
       </div>
       <div class="input-field col s12">
         <textarea class="materialize-textarea"
+                  arial-label="person description"
                   ng-model="ctrl.person.description"></textarea>
       </div>
     </div>
   </div>
-  <script src="/assets/vue-component.build.js"></script>
+  <script src="/assets/vue-component-slots.build.js"></script>
 </body>
 </html>

@@ -24,11 +24,6 @@ angular
         lastName: String,
         description: String
       },
-      methods: {
-        updateFirstName () {
-          this.$emit('new-first-name', 'THE')
-        }
-      },
       render (h) {
         return (
           <div class="card blue-grey darken-1">
@@ -38,23 +33,12 @@ angular
               </span>
               <p>{this.description}</p>
             </div>
+            <div class="white-text">
+              <div class="row">{this.$slots.default}</div>
+            </div>
             <div class="card-action">
               <a href="https://vuejs.org/v2/guide/">Vue.js</a>
-              <button onClick={this.updateFirstName}>Update first name from Vue</button>
             </div>
-          </div>
-        )
-      }
-    })
-  )
-  .value(
-    'GreetingsComponent',
-    Vue.component('greetings-component', {
-      render (h) {
-        return (
-          <div>
-            <span>Welcome, John Doe!</span>
-            {this.$slots.default}
           </div>
         )
       }
