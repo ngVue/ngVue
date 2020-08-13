@@ -61,7 +61,7 @@
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-uglify": "^2.0.1",
     "uglify-js": "^3.0.11",
-    "vue": "^2.6.11",
+    "vue": "^2.5.13",
     "vue-loader": "^15.4.2",
     "vue-template-compiler": "^2.5.13",
     "vuex": "^3.0.1",
