@@ -26,7 +26,6 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "ajv": "^6.5.3",
     "angular": "^1.6.8",
     "angular-mocks": "^1.8.3",
     "babel-cli": "^6.24.1",
