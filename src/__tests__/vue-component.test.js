@@ -19,7 +19,7 @@ describe('vue-component', () => {
   beforeEach(() => {
     angular.mock.module('ngVue')
 
-    angular.mock.module(_$provide_ => {
+    angular.mock.module((_$provide_) => {
       $provide = _$provide_
     })
 
@@ -136,7 +136,7 @@ describe('vue-component', () => {
       $provide.value('PersonsComponent', PersonsComponent)
     })
 
-    it('should re-render the vue component when v-props value changes', done => {
+    it('should re-render the vue component when v-props value changes', (done) => {
       const scope = $rootScope.$new()
       scope.person = { firstName: 'John', lastName: 'Doe' }
       const elem = compileHTML('<vue-component name="HelloComponent" v-props="person" />', scope)
@@ -149,7 +149,7 @@ describe('vue-component', () => {
       })
     })
 
-    it('should re-render the vue component when v-props reference changes', done => {
+    it('should re-render the vue component when v-props reference changes', (done) => {
       const scope = $rootScope.$new()
       scope.person = { firstName: 'John', lastName: 'Doe' }
       const elem = compileHTML('<vue-component name="HelloComponent" v-props="person" />', scope)
@@ -162,7 +162,7 @@ describe('vue-component', () => {
       })
     })
 
-    it('should re-render the vue component when v-props-name value change', done => {
+    it('should re-render the vue component when v-props-name value change', (done) => {
       const scope = $rootScope.$new()
       scope.person = { firstName: 'John', lastName: 'Doe' }
       const elem = compileHTML(
@@ -182,7 +182,7 @@ describe('vue-component', () => {
       })
     })
 
-    it('should re-render the vue component when v-props-name reference change', done => {
+    it('should re-render the vue component when v-props-name reference change', (done) => {
       const scope = $rootScope.$new()
       scope.person = { firstName: 'John', lastName: 'Doe' }
       const elem = compileHTML(
@@ -201,9 +201,12 @@ describe('vue-component', () => {
       })
     })
 
-    it('should re-render the vue component when v-props-name is an array and its items change', done => {
+    it('should re-render the vue component when v-props-name is an array and its items change', (done) => {
       const scope = $rootScope.$new()
-      scope.persons = [{ firstName: 'John', lastName: 'Doe' }, { firstName: 'Jane', lastName: 'Doe' }]
+      scope.persons = [
+        { firstName: 'John', lastName: 'Doe' },
+        { firstName: 'Jane', lastName: 'Doe' },
+      ]
       const elem = compileHTML(
         `<vue-component
           name="PersonsComponent"
@@ -223,7 +226,7 @@ describe('vue-component', () => {
       })
     })
 
-    it('should re-render a vue component with attribute values change', done => {
+    it('should re-render a vue component with attribute values change', (done) => {
       const scope = $rootScope.$new()
       scope.isDisabled = false
       scope.tabindex = 0

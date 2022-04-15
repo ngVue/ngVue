@@ -1,8 +1,8 @@
 import { isString, isArray, isObject } from 'angular'
 import Vue from 'vue'
 
-function watch (expressions, reactiveData, type) {
-  return watchFunc => {
+function watch(expressions, reactiveData, type) {
+  return (watchFunc) => {
     // for `v-props` / `v-data`
     if (isString(expressions)) {
       watchFunc(expressions, Vue.set.bind(Vue, reactiveData._v, type))
@@ -10,7 +10,7 @@ function watch (expressions, reactiveData, type) {
     }
 
     // for `v-props-something`
-    Object.keys(expressions).forEach(name => {
+    Object.keys(expressions).forEach((name) => {
       watchFunc(expressions[name], Vue.set.bind(Vue, reactiveData._v[type], name))
     })
   }
@@ -22,7 +22,7 @@ function watch (expressions, reactiveData, type) {
  *                            caused by the limitation of the reactivity system
  * @returns Function a watch callback when the expression value is changed
  */
-function notify (setter, inQuirkMode) {
+function notify(setter, inQuirkMode) {
   return function (newVal) {
     let value = newVal
 
@@ -51,7 +51,7 @@ function notify (setter, inQuirkMode) {
  * @param scope Object
  * @param type String 'props'|'attrs'
  */
-export default function watchExpressions (dataExprsMap, reactiveData, options, scope, type) {
+export default function watchExpressions(dataExprsMap, reactiveData, options, scope, type) {
   let expressions
   if (type === 'props') {
     expressions = dataExprsMap.props ? dataExprsMap.props : dataExprsMap.data

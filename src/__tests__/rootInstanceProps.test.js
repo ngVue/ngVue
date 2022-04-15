@@ -25,11 +25,11 @@ describe('root Vue instance props', () => {
 
   describe('Simple props', () => {
     beforeEach(() => {
-      angular.mock.module(_$ngVueProvider_ => {
+      angular.mock.module((_$ngVueProvider_) => {
         _$ngVueProvider_.setRootVueInstanceProps({
           foo: 1,
           bar: 2,
-          baz: 3
+          baz: 3,
         })
       })
       inject()
@@ -51,7 +51,7 @@ describe('root Vue instance props', () => {
       'beforeUpdate',
       'updated',
       'beforeDestroy',
-      'destroyed'
+      'destroyed',
     ]
 
     let $ngVueProvider
@@ -63,18 +63,18 @@ describe('root Vue instance props', () => {
         mountedPluginHook = jest.fn()
         $ngVueProvider.install(() => ({
           $vue: {
-            mounted: mountedPluginHook
-          }
+            mounted: mountedPluginHook,
+          },
         }))
         _$provide_.value('Button', Button)
       })
       inject()
     })
 
-    hookNames.forEach(hookName => {
+    hookNames.forEach((hookName) => {
       it(`${hookName} should not be SUPER valid!`, () => {
         const evilProps = {
-          [hookName]: "Hello! I'm SUPER valid!"
+          [hookName]: "Hello! I'm SUPER valid!",
         }
         $ngVueProvider.setRootVueInstanceProps(evilProps)
         const props = $ngVue.getRootProps()
@@ -82,9 +82,9 @@ describe('root Vue instance props', () => {
       })
     })
 
-    it('should keep mounted hook untouched', done => {
+    it('should keep mounted hook untouched', (done) => {
       $ngVueProvider.setRootVueInstanceProps({
-        mounted: "Awesome! I'm mounted!"
+        mounted: "Awesome! I'm mounted!",
       })
       const scope = $rootScope.$new()
       compileHTML('<vue-component name="Button" />', scope)

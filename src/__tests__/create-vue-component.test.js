@@ -17,7 +17,7 @@ describe('create-vue-component', () => {
   beforeEach(() => {
     angular.mock.module('ngVue')
 
-    angular.mock.module(_$compileProvider_ => {
+    angular.mock.module((_$compileProvider_) => {
       $compileProvider = _$compileProvider_
     })
 
@@ -29,7 +29,7 @@ describe('create-vue-component', () => {
 
   describe('creation', () => {
     beforeEach(() => {
-      $compileProvider.directive('hello', createVueComponent => createVueComponent(HelloComponent))
+      $compileProvider.directive('hello', (createVueComponent) => createVueComponent(HelloComponent))
     })
 
     it('should render a vue component', () => {
@@ -72,7 +72,7 @@ describe('create-vue-component', () => {
     })
 
     it('should render a vue component with original html attributes on elements that bind $attrs ', () => {
-      $compileProvider.directive('helloWrapped', createVueComponent => createVueComponent(HelloWrappedComponent))
+      $compileProvider.directive('helloWrapped', (createVueComponent) => createVueComponent(HelloWrappedComponent))
       const elem = compileHTML(
         `<hello-wrapped
           random="'hello'"
@@ -90,11 +90,11 @@ describe('create-vue-component', () => {
 
   describe('update', () => {
     beforeEach(() => {
-      $compileProvider.directive('hello', createVueComponent => createVueComponent(HelloComponent))
-      $compileProvider.directive('persons', createVueComponent => createVueComponent(PersonsComponent))
+      $compileProvider.directive('hello', (createVueComponent) => createVueComponent(HelloComponent))
+      $compileProvider.directive('persons', (createVueComponent) => createVueComponent(PersonsComponent))
     })
 
-    it('should re-render the vue component when v-props value changes', done => {
+    it('should re-render the vue component when v-props value changes', (done) => {
       const scope = $rootScope.$new()
       scope.person = { firstName: 'John', lastName: 'Doe' }
       const elem = compileHTML('<hello v-props="person" />', scope)
@@ -107,7 +107,7 @@ describe('create-vue-component', () => {
       })
     })
 
-    it('should re-render the vue component when v-props reference changes', done => {
+    it('should re-render the vue component when v-props reference changes', (done) => {
       const scope = $rootScope.$new()
       scope.person = { firstName: 'John', lastName: 'Doe' }
       const elem = compileHTML('<hello v-props="person" />', scope)
@@ -120,7 +120,7 @@ describe('create-vue-component', () => {
       })
     })
 
-    it('should re-render the vue component when v-props-name value change', done => {
+    it('should re-render the vue component when v-props-name value change', (done) => {
       const scope = $rootScope.$new()
       scope.person = { firstName: 'John', lastName: 'Doe' }
       const elem = compileHTML(
@@ -139,7 +139,7 @@ describe('create-vue-component', () => {
       })
     })
 
-    it('should re-render the vue component when v-props-name reference change', done => {
+    it('should re-render the vue component when v-props-name reference change', (done) => {
       const scope = $rootScope.$new()
       scope.person = { firstName: 'John', lastName: 'Doe' }
       const elem = compileHTML(
@@ -157,9 +157,12 @@ describe('create-vue-component', () => {
       })
     })
 
-    it('should re-render the vue component when v-props-name is an array and its items change', done => {
+    it('should re-render the vue component when v-props-name is an array and its items change', (done) => {
       const scope = $rootScope.$new()
-      scope.persons = [{ firstName: 'John', lastName: 'Doe' }, { firstName: 'Jane', lastName: 'Doe' }]
+      scope.persons = [
+        { firstName: 'John', lastName: 'Doe' },
+        { firstName: 'Jane', lastName: 'Doe' },
+      ]
       const elem = compileHTML(`<persons v-props-persons="persons" />`, scope)
 
       // use Array.prototype.splice
@@ -174,7 +177,7 @@ describe('create-vue-component', () => {
       })
     })
 
-    it('should re-render a vue component with attribute values change', done => {
+    it('should re-render a vue component with attribute values change', (done) => {
       const scope = $rootScope.$new()
       scope.isDisabled = false
       scope.tabindex = 0
@@ -212,7 +215,7 @@ describe('create-vue-component', () => {
 
   describe('remove', () => {
     beforeEach(() => {
-      $compileProvider.directive('hello', createVueComponent => createVueComponent(HelloComponent))
+      $compileProvider.directive('hello', (createVueComponent) => createVueComponent(HelloComponent))
     })
 
     it('should remove a vue component when ng-if directive flag toggles from true to false', () => {
@@ -229,7 +232,7 @@ describe('create-vue-component', () => {
 
   describe('events', () => {
     it('should handle custom events from Vue, with cameCase syntax in $emit function', () => {
-      $compileProvider.directive('vbutton', createVueComponent => createVueComponent(ButtonComponent))
+      $compileProvider.directive('vbutton', (createVueComponent) => createVueComponent(ButtonComponent))
 
       const scope = $rootScope.$new()
       scope.handleHelloEvent = jest.fn()
@@ -241,7 +244,7 @@ describe('create-vue-component', () => {
     })
 
     it('should handle custom events from Vue, with kebab-case syntax in $emit function', () => {
-      $compileProvider.directive('vbutton', createVueComponent => createVueComponent(ButtonComponent))
+      $compileProvider.directive('vbutton', (createVueComponent) => createVueComponent(ButtonComponent))
 
       const scope = $rootScope.$new()
       scope.handleHelloEvent = jest.fn()
@@ -255,7 +258,7 @@ describe('create-vue-component', () => {
 
   describe('slots', () => {
     beforeEach(() => {
-      $compileProvider.directive('greetings', createVueComponent => createVueComponent(GreetingsComponent))
+      $compileProvider.directive('greetings', (createVueComponent) => createVueComponent(GreetingsComponent))
     })
 
     it('should render a vue component with a button in the slot content', () => {

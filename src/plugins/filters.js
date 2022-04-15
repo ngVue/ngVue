@@ -8,15 +8,15 @@ const registered = Object.create(null)
 let lazyStringFilters = []
 
 // add an ng filter function
-function addFilter (name, filter) {
+function addFilter(name, filter) {
   registered[name] = filter
 }
 
 // resolve the strings with $injector
-function resolveStringFilters ($injector) {
+function resolveStringFilters($injector) {
   const $filter = $injector.get('$filter')
 
-  lazyStringFilters.forEach(name => {
+  lazyStringFilters.forEach((name) => {
     addFilter(name, $filter(name))
   })
 
@@ -24,20 +24,20 @@ function resolveStringFilters ($injector) {
 }
 
 // register a list of ng filters to ngVue
-function registerFilters (filters) {
+function registerFilters(filters) {
   if (isArray(filters)) {
     lazyStringFilters = lazyStringFilters.concat(filters)
   } else if (isObject(filters)) {
-    Object.keys(filters).forEach(name => {
+    Object.keys(filters).forEach((name) => {
       addFilter(name, filters[name])
     })
   }
 }
 
 // a Vue plugin will register the ng filters to Vue
-const ngFilters = Vue => {
+const ngFilters = (Vue) => {
   const filterNames = Object.keys(registered)
-  filterNames.forEach(name => Vue.filter(name, registered[name]))
+  filterNames.forEach((name) => Vue.filter(name, registered[name]))
 }
 
 // initialize all the ng filters and install the ngFilters plugin
@@ -48,11 +48,11 @@ const onPluginInit = ($injector, Vue) => {
 
 export default angular.module('ngVue.plugins').config([
   '$ngVueProvider',
-  $ngVueProvider => {
+  ($ngVueProvider) => {
     $ngVueProvider.install(() => ({
       $name: 'filters',
       $config: { register: registerFilters },
-      $plugin: { init: onPluginInit }
+      $plugin: { init: onPluginInit },
     }))
-  }
+  },
 ])

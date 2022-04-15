@@ -27,13 +27,13 @@ import logger from '../lib/logger'
  * @param $injector
  * @returns {Function}
  */
-function ngVueComponentFactory ($injector) {
+function ngVueComponentFactory($injector) {
   return function (componentName, ngDirectiveConfig) {
     const config = {
       restrict: 'E',
-      link (scope, elem, attrs) {
+      link(scope, elem, attrs) {
         ngVueLinker(componentName, elem, attrs, scope, $injector)
-      }
+      },
     }
 
     return angular.extend(config, ngDirectiveConfig)
@@ -46,13 +46,13 @@ function ngVueComponentFactory ($injector) {
  * @param $injector
  * @returns {{restrict: string, link: (function(*=, *=, *=))}}
  */
-function ngVueComponentDirective ($injector) {
+function ngVueComponentDirective($injector) {
   return {
     restrict: 'E',
-    link (scope, elem, attrs) {
+    link(scope, elem, attrs) {
       const componentName = attrs.name
       ngVueLinker(componentName, elem, attrs, scope, $injector)
-    }
+    },
   }
 }
 

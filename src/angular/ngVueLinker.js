@@ -9,7 +9,7 @@ import evaluateDirectives from '../directives/evaluateDirectives'
 import extractSpecialAttributes from '../components/props/extractSpecialAttributes'
 import watchSpecialAttributes from '../components/props/watchSpecialAttributes'
 
-export function ngVueLinker (componentName, jqElement, elAttributes, scope, $injector) {
+export function ngVueLinker(componentName, jqElement, elAttributes, scope, $injector) {
   if (!jqElement.parent().length) throw new Error('ngVue components must have a parent tag or they will not render')
 
   const $ngVue = $injector.has('$ngVue') ? $injector.get('$ngVue') : null
@@ -21,8 +21,8 @@ export function ngVueLinker (componentName, jqElement, elAttributes, scope, $inj
     _v: {
       props: evalValues(dataExprsMap.props || dataExprsMap.data, scope) || {},
       attrs: evalValues(dataExprsMap.htmlAttributes, scope) || {},
-      special: extractSpecialAttributes(elAttributes)
-    }
+      special: extractSpecialAttributes(elAttributes),
+    },
   }
   const on = evalPropEvents(dataExprsMap, scope) || {}
 
@@ -52,7 +52,7 @@ export function ngVueLinker (componentName, jqElement, elAttributes, scope, $inj
 
   const watchOptions = {
     depth: elAttributes.watchDepth,
-    quirk: inQuirkMode
+    quirk: inQuirkMode,
   }
   watchPropExprs(dataExprsMap, reactiveData, watchOptions, scope, 'props')
   watchPropExprs(dataExprsMap, reactiveData, watchOptions, scope, 'attrs')
@@ -62,7 +62,7 @@ export function ngVueLinker (componentName, jqElement, elAttributes, scope, $inj
     name: 'NgVue',
     el: jqElement[0],
     data: reactiveData,
-    render (h) {
+    render(h) {
       return (
         <Component
           {...{ directives }}
@@ -73,7 +73,7 @@ export function ngVueLinker (componentName, jqElement, elAttributes, scope, $inj
         </Component>
       )
     },
-    ...props
+    ...props,
   })
 
   scope.$on('$destroy', () => {

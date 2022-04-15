@@ -10,7 +10,7 @@ angular
     $ngVueProvider.filters.register(['uppercase'])
   })
   .filter('uppercase', function () {
-    return string => string.toUpperCase()
+    return (string) => string.toUpperCase()
   })
   .controller('MainController', function () {
     this.person = {
@@ -18,7 +18,7 @@ angular
       lastName: 'World',
       description:
         'ngVue helps you use Vue components in your angular application ' +
-        'so that you are able to create a faster and reactive web interfaces.'
+        'so that you are able to create a faster and reactive web interfaces.',
     }
   })
   .value('TagsComponent', Tags)
@@ -28,9 +28,9 @@ angular
       props: {
         firstName: String,
         lastName: String,
-        description: String
+        description: String,
       },
-      render (h) {
+      render(h) {
         const uppercase = Vue.filter('uppercase')
         return (
           <div class="card blue-grey darken-1">
@@ -45,6 +45,6 @@ angular
             </div>
           </div>
         )
-      }
+      },
     })
   )

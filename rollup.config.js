@@ -14,30 +14,30 @@ export default {
   moduleId: 'ngVue',
   plugins: [
     nodeResolve({
-      browser: true
+      browser: true,
     }),
     babel(),
     commonjs({
       namedExports: {
-        'node_modules/babel-helper-vue-jsx-merge-props/index.js': ['_mergeJSXProps']
-      }
+        'node_modules/babel-helper-vue-jsx-merge-props/index.js': ['_mergeJSXProps'],
+      },
     }),
     uglify(
       minified
         ? {}
         : {
-          output: {
-            beautify: true
+            output: {
+              beautify: true,
+            },
+            mangle: false,
           },
-          mangle: false
-        },
       minify
-    )
+    ),
   ],
   globals: {
     vue: 'Vue',
-    angular: 'angular'
+    angular: 'angular',
   },
   external: ['vue', 'angular'],
-  targets: [{ dest: `build/${output}.js`, format: 'umd' }]
+  targets: [{ dest: `build/${output}.js`, format: 'umd' }],
 }

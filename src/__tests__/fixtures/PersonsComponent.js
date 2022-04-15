@@ -2,17 +2,17 @@ import Vue from 'vue'
 
 export default Vue.component('persons-component', {
   props: {
-    persons: Array
+    persons: Array,
   },
-  render (h) {
+  render(h) {
     return (
       <ul>
-        {this.persons.map(p => (
+        {this.persons.map((p) => (
           <li>
             {p.firstName} {p.lastName}
           </li>
         ))}
       </ul>
     )
-  }
+  },
 })

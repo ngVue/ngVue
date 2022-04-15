@@ -8,10 +8,10 @@ function getExampleEntries() {
   const entry = {}
 
   fs.readdirSync('./' + dir)
-    .filter(function(name) {
+    .filter(function (name) {
       return fs.statSync('./' + dir + '/' + name).isDirectory()
     })
-    .forEach(function(name) {
+    .forEach(function (name) {
       entry[name] = path.resolve(__dirname, './' + name)
     })
 
@@ -24,63 +24,63 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/assets/',
-    filename: '[name].build.js'
+    filename: '[name].build.js',
   },
   resolve: {
-    modules: [path.join(__dirname, '../node_modules')]
+    modules: [path.join(__dirname, '../node_modules')],
   },
   module: {
     rules: [
       {
         test: /\.vue$/,
-        loader: 'vue-loader'
+        loader: 'vue-loader',
       },
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        exclude: /node_modules/
+        exclude: /node_modules/,
       },
       {
         test: /\.css$/,
-        use: ['vue-style-loader', 'css-loader']
+        use: ['vue-style-loader', 'css-loader'],
       },
       {
         test: /\.(png|jpg|gif|svg)$/,
         loader: 'file',
         query: {
-          name: '[name].[ext]?[hash]'
-        }
-      }
-    ]
+          name: '[name].[ext]?[hash]',
+        },
+      },
+    ],
   },
   devServer: {
     historyApiFallback: true,
     noInfo: true,
-    port: 12345
+    port: 12345,
   },
   devtool: '#eval-source-map',
   performance: {
-    hints: false
+    hints: false,
   },
-  plugins: [new VueLoaderPlugin()]
+  plugins: [new VueLoaderPlugin()],
 }
 
 if (process.env.NODE_ENV === 'production') {
   module.exports.devtool = '#source-map'
   module.exports.performance = {
-    hints: true
+    hints: true,
   }
   // http://vue-loader.vuejs.org/en/workflow/production.html
   module.exports.plugins = (module.exports.plugins || []).concat([
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: '"production"'
-      }
+        NODE_ENV: '"production"',
+      },
     }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
-        warnings: false
-      }
-    })
+        warnings: false,
+      },
+    }),
   ])
 }

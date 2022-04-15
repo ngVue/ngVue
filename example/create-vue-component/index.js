@@ -6,9 +6,9 @@ const VueComponent = Vue.component('hello-component', {
   props: {
     firstName: String,
     lastName: String,
-    description: String
+    description: String,
   },
-  render (h) {
+  render(h) {
     return (
       <div class="card blue-grey darken-1">
         <div class="card-content white-text">
@@ -22,7 +22,7 @@ const VueComponent = Vue.component('hello-component', {
         </div>
       </div>
     )
-  }
+  },
 })
 
 angular
@@ -33,7 +33,7 @@ angular
       lastName: 'World',
       description:
         'ngVue helps you use Vue components in your angular application ' +
-        'so that you are able to create a faster and reactive web interfaces.'
+        'so that you are able to create a faster and reactive web interfaces.',
     }
   })
   .directive('helloComponent', function (createVueComponent) {

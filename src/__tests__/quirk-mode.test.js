@@ -13,7 +13,7 @@ describe('quirk mode', () => {
   let $ngVue
   let compileHTML
 
-  function inject () {
+  function inject() {
     angular.mock.inject((_$rootScope_, _$compile_, _$ngVue_) => {
       $ngVue = _$ngVue_
 
@@ -25,7 +25,7 @@ describe('quirk mode', () => {
   beforeEach(() => {
     angular.mock.module('ngVue')
     angular.mock.module('ngVue.plugins')
-    angular.mock.module(_$provide_ => {
+    angular.mock.module((_$provide_) => {
       _$provide_.value('PersonsComponent', PersonsComponent)
       _$provide_.value('HelloComponent', HelloComponent)
     })
@@ -38,9 +38,12 @@ describe('quirk mode', () => {
       expect($ngVue.inQuirkMode()).toBe(false)
     })
 
-    it('should not re-render the component when the array element is changed by the index', done => {
+    it('should not re-render the component when the array element is changed by the index', (done) => {
       const scope = $rootScope.$new()
-      scope.persons = [{ firstName: 'John', lastName: 'Doe' }, { firstName: 'Jane', lastName: 'Doe' }]
+      scope.persons = [
+        { firstName: 'John', lastName: 'Doe' },
+        { firstName: 'Jane', lastName: 'Doe' },
+      ]
       const elem = compileHTML(
         `<vue-component
           name="PersonsComponent"
@@ -57,7 +60,7 @@ describe('quirk mode', () => {
       })
     })
 
-    it('should not re-render the component when a new property is dynamically added', done => {
+    it('should not re-render the component when a new property is dynamically added', (done) => {
       const scope = $rootScope.$new()
       scope.person = { firstName: 'John' }
       const elem = compileHTML(
@@ -80,7 +83,7 @@ describe('quirk mode', () => {
 
   describe('active the quirk mode', () => {
     beforeEach(() => {
-      angular.mock.module(_$ngVueProvider_ => {
+      angular.mock.module((_$ngVueProvider_) => {
         _$ngVueProvider_.activeQuirkMode()
       })
       inject()
@@ -90,9 +93,12 @@ describe('quirk mode', () => {
       expect($ngVue.inQuirkMode()).toBe(true)
     })
 
-    it('should re-render the component when the array element is changed by the index', done => {
+    it('should re-render the component when the array element is changed by the index', (done) => {
       const scope = $rootScope.$new()
-      scope.persons = [{ firstName: 'John', lastName: 'Doe' }, { firstName: 'Jane', lastName: 'Doe' }]
+      scope.persons = [
+        { firstName: 'John', lastName: 'Doe' },
+        { firstName: 'Jane', lastName: 'Doe' },
+      ]
       const elem = compileHTML(
         `<vue-component
           name="PersonsComponent"
@@ -110,7 +116,7 @@ describe('quirk mode', () => {
       })
     })
 
-    it('should re-render the component when a new property is dynamically added', done => {
+    it('should re-render the component when a new property is dynamically added', (done) => {
       const scope = $rootScope.$new()
       scope.person = { firstName: 'John' }
       const elem = compileHTML(

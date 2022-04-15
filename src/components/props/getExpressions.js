@@ -11,11 +11,11 @@ import camelToKebab from '../../../lib/camelToKebab'
  *
  * @returns {Object|string|null}
  */
-export function extractExpressions (exprType, attributes) {
+export function extractExpressions(exprType, attributes) {
   const exprKeys = {
     props: 'vProps',
     data: 'vData',
-    on: 'vOn'
+    on: 'vOn',
   }
   const objectExprKey = exprKeys[exprType]
   const objectPropExprRegExp = new RegExp(objectExprKey, 'i')
@@ -30,7 +30,7 @@ export function extractExpressions (exprType, attributes) {
   if (exprType === 'htmlAttributes') {
     expressions = extractHtmlAttributes(attributes)
   } else {
-    expressions = Object.keys(attributes).filter(attr => objectPropExprRegExp.test(attr))
+    expressions = Object.keys(attributes).filter((attr) => objectPropExprRegExp.test(attr))
   }
 
   if (expressions.length === 0) {
@@ -40,7 +40,7 @@ export function extractExpressions (exprType, attributes) {
   const exprsMap = {
     /* name : expression */
   }
-  expressions.forEach(attrExprName => {
+  expressions.forEach((attrExprName) => {
     if (objectExprKey) {
       const exprName = extractExpressionName(attrExprName, objectExprKey)
       if (!exprName) {
@@ -72,11 +72,11 @@ export function extractExpressions (exprType, attributes) {
  * @param attributes Object
  * @returns {{data: (Object|string|null), props: (Object|string|null)}}
  */
-export default function getExpressions (attributes) {
+export default function getExpressions(attributes) {
   return {
     data: extractExpressions('data', attributes),
     props: extractExpressions('props', attributes),
     events: extractExpressions('on', attributes),
-    htmlAttributes: extractExpressions('htmlAttributes', attributes)
+    htmlAttributes: extractExpressions('htmlAttributes', attributes),
   }
 }

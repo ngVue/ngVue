@@ -4,10 +4,10 @@ export default Vue.component('state-component', {
   props: {
     tate: {
       type: String,
-      default: 'OFF'
-    }
+      default: 'OFF',
+    },
   },
-  render (h) {
+  render(h) {
     return <span>State is {this.tate}</span>
-  }
+  },
 })
