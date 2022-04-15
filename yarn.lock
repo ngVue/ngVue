@@ -308,10 +308,10 @@ alphanum-sort@^1.0.1, alphanum-sort@^1.0.2:
   resolved "https://registry.yarnpkg.com/alphanum-sort/-/alphanum-sort-1.0.2.tgz#97a1119649b211ad33691d9f9f486a8ec9fbe0a3"
   integrity sha1-l6ERlkmyEa0zaR2fn0hqjsn74KM=
 
-angular-mocks@^1.6.4:
-  version "1.8.2"
-  resolved "https://registry.yarnpkg.com/angular-mocks/-/angular-mocks-1.8.2.tgz#dc022420b86978cf317a8447c116c0be73a853bf"
-  integrity sha512-I5L3P0l21HPdVsP4A4qWmENt4ePjjbkDFdAzOaM7QiibFySbt14DptPbt2IjeG4vFBr4vSLbhIz8Fk03DISl8Q==
+angular-mocks@^1.8.3:
+  version "1.8.3"
+  resolved "https://registry.yarnpkg.com/angular-mocks/-/angular-mocks-1.8.3.tgz#c0dd05e5c3fc014e07af6289b23f0e817d7a4724"
+  integrity sha512-vqsT6zwu80cZ8RY7qRQBZuy6Fq5X7/N5hkV9LzNT0c8b546rw4ErGK6muW1u2JnDKYa7+jJuaGM702bWir4HGw==
 
 angular@^1.6.8:
   version "1.8.2"

@@ -28,7 +28,7 @@
   "devDependencies": {
     "ajv": "^6.5.3",
     "angular": "^1.6.8",
-    "angular-mocks": "^1.6.4",
+    "angular-mocks": "^1.8.3",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.24.1",
     "babel-helper-vue-jsx-merge-props": "^2.0.2",
