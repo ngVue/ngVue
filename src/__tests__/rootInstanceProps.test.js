@@ -10,7 +10,7 @@ describe('root Vue instance props', () => {
   let $ngVue
   let compileHTML
 
-  function inject () {
+  function inject() {
     angular.mock.inject((_$rootScope_, _$compile_, _$ngVue_) => {
       $ngVue = _$ngVue_
       $rootScope = _$rootScope_
@@ -73,7 +73,7 @@ describe('root Vue instance props', () => {
 
     hookNames.forEach(hookName => {
       it(`${hookName} should not be SUPER valid!`, () => {
-        let evilProps = {
+        const evilProps = {
           [hookName]: "Hello! I'm SUPER valid!"
         }
         $ngVueProvider.setRootVueInstanceProps(evilProps)

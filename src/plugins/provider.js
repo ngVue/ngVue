@@ -18,7 +18,7 @@ const defaultHooks = [
 
 const vueHooks = Object.create(null)
 
-function addHooks (map, hooks) {
+function addHooks(map, hooks) {
   if (hooks) {
     Object.keys(hooks).forEach(h => {
       map[h] = map[h] ? map[h] : []
@@ -27,18 +27,18 @@ function addHooks (map, hooks) {
   }
 }
 
-function callHooks (map, name, callback) {
+function callHooks(map, name, callback) {
   const hooks = map[name]
   if (hooks) {
     hooks.forEach(callback)
   }
 }
 
-function createVueHooksMap (hookCallback) {
+function createVueHooksMap(hookCallback) {
   return Object.keys(vueHooks).reduce(
     (available, name) => ({
       ...available,
-      [name]: function () {
+      [name]: function() {
         const _cb = hookCallback.bind(this)
         callHooks(vueHooks, name, _cb)
       }
@@ -47,9 +47,9 @@ function createVueHooksMap (hookCallback) {
   )
 }
 
-function ngVueProvider ($injector) {
+function ngVueProvider($injector) {
   let inQuirkMode = false
-  let rootProps = {}
+  const rootProps = {}
 
   this.activeQuirkMode = () => {
     inQuirkMode = true
@@ -101,7 +101,7 @@ function ngVueProvider ($injector) {
   this.$get = [
     '$injector',
     $injector => {
-      const cb = function (hook) {
+      const cb = function(hook) {
         hook($injector, Vue, /* dynamic context */ this)
       }
 

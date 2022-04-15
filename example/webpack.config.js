@@ -1,17 +1,17 @@
-var path = require('path')
-var fs = require('fs')
-var webpack = require('webpack')
+const path = require('path')
+const fs = require('fs')
+const webpack = require('webpack')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
-function getExampleEntries () {
-  var dir = 'example'
-  var entry = {}
+function getExampleEntries() {
+  const dir = 'example'
+  const entry = {}
 
   fs.readdirSync('./' + dir)
-    .filter(function (name) {
+    .filter(function(name) {
       return fs.statSync('./' + dir + '/' + name).isDirectory()
     })
-    .forEach(function (name) {
+    .forEach(function(name) {
       entry[name] = path.resolve(__dirname, './' + name)
     })
 
