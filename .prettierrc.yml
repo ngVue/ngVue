@@ -1,4 +1,3 @@
 printWidth: 120
-parser: babylon
 singleQuote: true
 semi: false

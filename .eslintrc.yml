@@ -14,7 +14,8 @@ parserOptions:
     jsx: true
 
 extends:
-  "standard"
+  - "standard"
+  - "prettier"
 
 rules:
   quotes: 0
