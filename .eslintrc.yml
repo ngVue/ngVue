@@ -28,3 +28,13 @@ globals:
     inject: false
     expect: false
     jest: false
+
+overrides:
+  - files: ['*.vue']
+    plugins:
+      - vue
+    parser: 'vue-eslint-parser'
+    extends:
+      - 'standard'
+      - 'plugin:vue/base'
+      - 'prettier'
