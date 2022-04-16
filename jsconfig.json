@@ -1,0 +1,13 @@
+{
+  "include": ["**/*"],
+  "exclude": ["build", "node_modules"],
+  "compilerOptions": {
+    "jsx": "preserve"
+  },
+  "vueCompilerOptions": {
+    "experimentalCompatMode": 2,
+    "experimentalTemplateCompilerOptions": {
+      "compatConfig": { "MODE": 2 } // optional
+    }
+  }
+}
