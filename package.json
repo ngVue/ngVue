@@ -15,6 +15,7 @@
   ],
   "scripts": {
     "test": "BABEL_ENV=test jest",
+    "coverage": "BABEL_ENV=test jest --coverage",
     "example": "BABEL_ENV=dev webpack-dev-server --config ./example/webpack.config.js --static ./example",
     "clean": "rm -rf build",
     "bundle": "./scripts/bundle.sh",
