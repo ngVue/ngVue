@@ -55,7 +55,7 @@ module.exports = {
   },
   devServer: {
     historyApiFallback: true,
-    noInfo: true,
+    client: { logging: 'warn' },
     port: 12345,
   },
   devtool: '#eval-source-map',
