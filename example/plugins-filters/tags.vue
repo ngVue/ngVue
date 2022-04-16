@@ -7,18 +7,18 @@
 </template>
 
 <style scoped>
-  .tags {
-    text-align: right;
-    margin-bottom: 30px;
-  }
+.tags {
+  text-align: right;
+  margin-bottom: 30px;
+}
 </style>
 
 <script>
-  export default {
-    data () {
-      return {
-        tags: ['angular', 'ngVue', 'VueJS']
-      }
+export default {
+  data() {
+    return {
+      tags: ['angular', 'ngVue', 'VueJS'],
     }
-  }
+  },
+}
 </script>

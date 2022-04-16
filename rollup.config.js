@@ -12,16 +12,16 @@ export default {
   input: `src/${entry}.js`,
   plugins: [
     nodeResolve({
-      browser: true
+      browser: true,
     }),
     babel({ babelHelpers: 'bundled' }),
-    commonjs()
+    commonjs(),
   ],
 
   external: ['vue', 'angular'],
   output: [
     { file: `build/${output}.js`, format: 'umd', name: 'ngVue', globals },
     { file: `build/${output}.min.js`, format: 'umd', name: 'ngVue', plugins: [terser()], globals },
-    { file: `build/${output}.esm.js`, format: 'esm', globals }
-  ]
+    { file: `build/${output}.esm.js`, format: 'esm', globals },
+  ],
 }
