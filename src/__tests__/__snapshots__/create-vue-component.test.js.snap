@@ -24,6 +24,8 @@ exports[`create-vue-component slots should render a vue component with a button 
 <div
   class="ng-scope"
 >
+  
+        
   <div>
     <span>
       Welcome, John Doe!
@@ -41,6 +43,8 @@ exports[`create-vue-component slots should render a vue component with only a te
 <div
   class="ng-scope"
 >
+  
+        
   <div>
     <span>
       Welcome, John Doe!
