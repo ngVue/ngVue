@@ -1,11 +1,19 @@
 import angular from 'angular'
 import Vue from 'vue'
+import VueCompositionApi from '@vue/composition-api'
 import '../plugins'
 
 import ngHtmlCompiler from './utils/ngHtmlCompiler'
-import Button from './fixtures/ButtonComponent.js'
 
-describe('root Vue instance props', () => {
+import { ButtonComponent, CButtonComponent } from './fixtures/ButtonComponent'
+
+Vue.use(VueCompositionApi)
+
+describe.each`
+  style                | button
+  ${'Options API'}     | ${ButtonComponent}
+  ${'Composition API'} | ${CButtonComponent}
+`('root Vue instance props ($style)', ({ button }) => {
   let $rootScope
   let $ngVue
   let compileHTML
@@ -66,7 +74,7 @@ describe('root Vue instance props', () => {
             mounted: mountedPluginHook,
           },
         }))
-        _$provide_.value('Button', Button)
+        _$provide_.value('Button', button)
       })
       inject()
     })

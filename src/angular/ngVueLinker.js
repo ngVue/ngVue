@@ -1,5 +1,6 @@
 import angular from 'angular'
 import Vue from 'vue'
+import { createApp } from '@vue/composition-api'
 import getVueComponent from '../components/getVueComponent'
 import getPropExprs from '../components/props/getExpressions'
 import watchPropExprs from '../components/props/watchExpressions'
@@ -8,6 +9,7 @@ import evalPropEvents from '../components/props/evaluateEvents'
 import evaluateDirectives from '../directives/evaluateDirectives'
 import extractSpecialAttributes from '../components/props/extractSpecialAttributes'
 import watchSpecialAttributes from '../components/props/watchSpecialAttributes'
+import { isCompositionApi } from '../../lib/isCompositionApi'
 
 export function ngVueLinker(componentName, jqElement, elAttributes, scope, $injector) {
   if (!jqElement.parent().length) throw new Error('ngVue components must have a parent tag or they will not render')
@@ -58,26 +60,45 @@ export function ngVueLinker(componentName, jqElement, elAttributes, scope, $inje
   watchPropExprs(dataExprsMap, reactiveData, watchOptions, scope, 'attrs')
   watchSpecialAttributes(reactiveData, jqElement, scope)
 
-  let vueInstance = new Vue({
-    name: 'NgVue',
-    el: jqElement[0],
-    data: reactiveData,
-    render(h) {
-      return (
-        <Component
-          {...{ directives }}
-          {...{ props: reactiveData._v.props, on, attrs: reactiveData._v.attrs }}
-          {...reactiveData._v.special}
-        >
-          {<span ref="__slot__" />}
-        </Component>
-      )
-    },
-    ...props,
-  })
+  const render = (h) => {
+    return (
+      <Component
+        {...{ directives }}
+        {...{ props: reactiveData._v.props, on, attrs: reactiveData._v.attrs }}
+        {...reactiveData._v.special}
+      >
+        {<span ref="__slot__" />}
+      </Component>
+    )
+  }
+  let vueInstance
+  if (isCompositionApi(Component)) {
+    vueInstance = createApp({
+      name: 'NgVue',
+      data() {
+        return reactiveData
+      },
+      render,
+      ...props,
+    })
+
+    vueInstance.mount(jqElement[0])
+  } else {
+    vueInstance = new Vue({
+      name: 'NgVue',
+      el: jqElement[0],
+      data: reactiveData,
+      render,
+      ...props,
+    })
+  }
 
   scope.$on('$destroy', () => {
-    vueInstance.$destroy()
+    if (isCompositionApi(Component)) {
+      vueInstance.unmount()
+    } else {
+      vueInstance.$destroy()
+    }
     angular.element(vueInstance.$el).remove()
     vueInstance = null
   })

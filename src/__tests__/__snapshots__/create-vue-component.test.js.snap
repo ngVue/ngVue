@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`create-vue-component remove should remove a vue component when ng-if directive flag toggles from true to false 1`] = `
+exports[`create-vue-component (Composition API) remove should remove a vue component when ng-if directive flag toggles from true to false 1`] = `
 <div
   class="ng-scope"
 >
@@ -12,20 +12,21 @@ exports[`create-vue-component remove should remove a vue component when ng-if di
 </div>
 `;
 
-exports[`create-vue-component remove should remove a vue component when ng-if directive flag toggles from true to false 2`] = `
+exports[`create-vue-component (Composition API) remove should remove a vue component when ng-if directive flag toggles from true to false 2`] = `
 <div
   class="ng-scope"
 >
   <!-- ngIf: visible -->
+  <span>
+    Hello  
+  </span>
 </div>
 `;
 
-exports[`create-vue-component slots should render a vue component with a button in the slot content 1`] = `
+exports[`create-vue-component (Composition API) slots should render a vue component with a button in the slot content 1`] = `
 <div
   class="ng-scope"
 >
-  
-        
   <div>
     <span>
       Welcome, John Doe!
@@ -39,12 +40,62 @@ exports[`create-vue-component slots should render a vue component with a button 
 </div>
 `;
 
-exports[`create-vue-component slots should render a vue component with only a text node in the slot content 1`] = `
+exports[`create-vue-component (Composition API) slots should render a vue component with only a text node in the slot content 1`] = `
 <div
   class="ng-scope"
 >
-  
-        
+  <div>
+    <span>
+      Welcome, John Doe!
+    </span>
+    <span>
+      Hello, World!
+    </span>
+  </div>
+</div>
+`;
+
+exports[`create-vue-component (Options API) remove should remove a vue component when ng-if directive flag toggles from true to false 1`] = `
+<div
+  class="ng-scope"
+>
+  <!-- ngIf: visible -->
+  <span>
+    Hello  
+  </span>
+  <!-- end ngIf: visible -->
+</div>
+`;
+
+exports[`create-vue-component (Options API) remove should remove a vue component when ng-if directive flag toggles from true to false 2`] = `
+<div
+  class="ng-scope"
+>
+  <!-- ngIf: visible -->
+</div>
+`;
+
+exports[`create-vue-component (Options API) slots should render a vue component with a button in the slot content 1`] = `
+<div
+  class="ng-scope"
+>
+  <div>
+    <span>
+      Welcome, John Doe!
+    </span>
+    <button
+      ng-click="onClick()"
+    >
+      Click me!
+    </button>
+  </div>
+</div>
+`;
+
+exports[`create-vue-component (Options API) slots should render a vue component with only a text node in the slot content 1`] = `
+<div
+  class="ng-scope"
+>
   <div>
     <span>
       Welcome, John Doe!

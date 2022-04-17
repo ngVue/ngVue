@@ -1,20 +1,28 @@
 import angular from 'angular'
 import Vue from 'vue'
+import VueCompositionApi from '@vue/composition-api'
 
 import ngHtmlCompiler from './utils/ngHtmlCompiler'
 
-import HelloComponent from './fixtures/HelloComponent'
-import StateComponent from './fixtures/StateComponent'
-import HelloWrappedComponent from './fixtures/HelloWrappedComponent'
-import PersonsComponent from './fixtures/PersonsComponent'
-import ButtonComponent from './fixtures/ButtonComponent'
-import GreetingsComponent from './fixtures/GreetingsComponent'
+import { HelloComponent, CHelloComponent } from './fixtures/HelloComponent'
+import { StateComponent, CStateComponent } from './fixtures/StateComponent'
+import { HelloWrappedComponent, CHelloWrappedComponent } from './fixtures/HelloWrappedComponent'
+import { PersonsComponent, CPersonsComponent } from './fixtures/PersonsComponent'
+import { ButtonComponent, CButtonComponent } from './fixtures/ButtonComponent'
+import { GreetingsComponent, CGreetingsComponent } from './fixtures/GreetingsComponent'
 
-describe('vue-component', () => {
+Vue.use(VueCompositionApi)
+
+describe.each`
+  style                | base               | wrapped                   | persons              | button              | greetings              | state
+  ${'Options API'}     | ${HelloComponent}  | ${HelloWrappedComponent}  | ${PersonsComponent}  | ${ButtonComponent}  | ${GreetingsComponent}  | ${StateComponent}
+  ${'Composition API'} | ${CHelloComponent} | ${CHelloWrappedComponent} | ${CPersonsComponent} | ${CButtonComponent} | ${CGreetingsComponent} | ${CStateComponent}
+`('vue-component', ({ base, wrapped, persons, button, greetings, state }) => {
   let $provide
   let $rootScope
   let $compile
   let compileHTML
+  let scope
 
   beforeEach(() => {
     angular.mock.module('ngVue')
@@ -28,11 +36,13 @@ describe('vue-component', () => {
       $compile = _$compile_
       compileHTML = ngHtmlCompiler(_$rootScope_, _$compile_)
     })
+
+    scope = $rootScope.$new()
   })
 
   describe('creation', () => {
     beforeEach(() => {
-      $provide.value('HelloComponent', HelloComponent)
+      $provide.value('HelloComponent', base)
     })
 
     it('should render a vue component with name', () => {
@@ -48,7 +58,6 @@ describe('vue-component', () => {
     })
 
     it('should render a vue component with v-props-name properties from scope', () => {
-      const scope = $rootScope.$new()
       scope.person = { firstName: 'John', lastName: 'Doe' }
       const elem = compileHTML(
         `<vue-component
@@ -77,7 +86,7 @@ describe('vue-component', () => {
     })
 
     it('should render a vue component with original html attributes on elements that bind $attrs ', () => {
-      $provide.value('HelloWrappedComponent', HelloWrappedComponent)
+      $provide.value('HelloWrappedComponent', wrapped)
       const elem = compileHTML(
         `<vue-component
           name="HelloWrappedComponent"
@@ -102,11 +111,10 @@ describe('vue-component', () => {
 
   describe('v-props extraction', () => {
     beforeEach(() => {
-      $provide.value('StateComponent', StateComponent)
+      $provide.value('StateComponent', state)
     })
 
     it('should render a vue component with state property from scope (v-props-tate syntax is correct)', () => {
-      const scope = $rootScope.$new()
       scope.state = 'ON'
       const elem = compileHTML(
         `<vue-component
@@ -118,7 +126,6 @@ describe('vue-component', () => {
     })
 
     it('should render a vue component with no state property from scope (v-prop-state syntax is incorrect)', () => {
-      const scope = $rootScope.$new()
       scope.state = 'ON'
       const elem = compileHTML(
         `<vue-component
@@ -132,38 +139,31 @@ describe('vue-component', () => {
 
   describe('update', () => {
     beforeEach(() => {
-      $provide.value('HelloComponent', HelloComponent)
-      $provide.value('PersonsComponent', PersonsComponent)
+      $provide.value('HelloComponent', base)
+      $provide.value('PersonsComponent', persons)
     })
 
-    it('should re-render the vue component when v-props value changes', (done) => {
-      const scope = $rootScope.$new()
+    it('should re-render the vue component when v-props value changes', async () => {
       scope.person = { firstName: 'John', lastName: 'Doe' }
       const elem = compileHTML('<vue-component name="HelloComponent" v-props="person" />', scope)
 
       scope.person.firstName = 'Jane'
       scope.person.lastName = 'Smith'
-      Vue.nextTick(() => {
-        expect(elem[0].innerHTML).toBe('<span>Hello Jane Smith</span>')
-        done()
-      })
+      await Vue.nextTick()
+      expect(elem[0].innerHTML).toBe('<span>Hello Jane Smith</span>')
     })
 
-    it('should re-render the vue component when v-props reference changes', (done) => {
-      const scope = $rootScope.$new()
+    it('should re-render the vue component when v-props reference changes', async () => {
       scope.person = { firstName: 'John', lastName: 'Doe' }
       const elem = compileHTML('<vue-component name="HelloComponent" v-props="person" />', scope)
 
       scope.person = { firstName: 'Jane', lastName: 'Smith' }
       scope.$digest()
-      Vue.nextTick(() => {
-        expect(elem[0].innerHTML).toBe('<span>Hello Jane Smith</span>')
-        done()
-      })
+      await Vue.nextTick()
+      expect(elem[0].innerHTML).toBe('<span>Hello Jane Smith</span>')
     })
 
-    it('should re-render the vue component when v-props-name value change', (done) => {
-      const scope = $rootScope.$new()
+    it('should re-render the vue component when v-props-name value change', async () => {
       scope.person = { firstName: 'John', lastName: 'Doe' }
       const elem = compileHTML(
         `<vue-component
@@ -176,14 +176,11 @@ describe('vue-component', () => {
       scope.person.firstName = 'Jane'
       scope.person.lastName = 'Smith'
       scope.$digest()
-      Vue.nextTick(() => {
-        expect(elem[0].innerHTML).toBe('<span>Hello Jane Smith</span>')
-        done()
-      })
+      await Vue.nextTick()
+      expect(elem[0].innerHTML).toBe('<span>Hello Jane Smith</span>')
     })
 
-    it('should re-render the vue component when v-props-name reference change', (done) => {
-      const scope = $rootScope.$new()
+    it('should re-render the vue component when v-props-name reference change', async () => {
       scope.person = { firstName: 'John', lastName: 'Doe' }
       const elem = compileHTML(
         `<vue-component
@@ -195,14 +192,11 @@ describe('vue-component', () => {
 
       scope.person = { firstName: 'Jane', lastName: 'Smith' }
       scope.$digest()
-      Vue.nextTick(() => {
-        expect(elem[0].innerHTML).toBe('<span>Hello Jane Smith</span>')
-        done()
-      })
+      await Vue.nextTick()
+      expect(elem[0].innerHTML).toBe('<span>Hello Jane Smith</span>')
     })
 
-    it('should re-render the vue component when v-props-name is an array and its items change', (done) => {
-      const scope = $rootScope.$new()
+    it('should re-render the vue component when v-props-name is an array and its items change', async () => {
       scope.persons = [
         { firstName: 'John', lastName: 'Doe' },
         { firstName: 'Jane', lastName: 'Doe' },
@@ -220,14 +214,11 @@ describe('vue-component', () => {
       Vue.set(scope.persons, 1, { firstName: 'Jane', lastName: 'Smith' })
 
       scope.$digest()
-      Vue.nextTick(() => {
-        expect(elem[0].innerHTML).toBe('<ul><li>John Smith</li><li>Jane Smith</li></ul>')
-        done()
-      })
+      await Vue.nextTick()
+      expect(elem[0].innerHTML).toBe('<ul><li>John Smith</li><li>Jane Smith</li></ul>')
     })
 
-    it('should re-render a vue component with attribute values change', (done) => {
-      const scope = $rootScope.$new()
+    it('should re-render a vue component with attribute values change', async () => {
       scope.isDisabled = false
       scope.tabindex = 0
       scope.randomAttr = 'enabled'
@@ -245,37 +236,33 @@ describe('vue-component', () => {
       )
       $rootScope.$digest() // extra full digest needed for $animate to apply new class
 
-      Vue.nextTick(() => {
-        // wait a tick for ng-* directives' settled values to propagate
-        expect(elem[0].innerHTML).toBe(
-          '<span random="enabled" tabindex="0" class="foo" style="font-size: 2em;">Hello  </span>'
-        )
+      await Vue.nextTick()
+      // wait a tick for ng-* directives' settled values to propagate
+      expect(elem[0].innerHTML).toBe(
+        '<span random="enabled" tabindex="0" class="foo" style="font-size: 2em;">Hello  </span>'
+      )
 
-        scope.isDisabled = true
-        scope.tabindex = 1
-        scope.randomAttr = 'disabled'
-        scope.class = 'bar'
-        scope.size = '3em'
-        scope.$digest()
-        $rootScope.$digest() // extra full digest needed for $animate to apply new class
+      scope.isDisabled = true
+      scope.tabindex = 1
+      scope.randomAttr = 'disabled'
+      scope.class = 'bar'
+      scope.size = '3em'
+      scope.$digest()
+      $rootScope.$digest() // extra full digest needed for $animate to apply new class
 
-        Vue.nextTick(() => {
-          expect(elem[0].innerHTML).toBe(
-            '<span random="disabled" tabindex="1" class="bar" style="font-size: 3em;" disabled="disabled">Hello  </span>'
-          )
-          done()
-        })
-      })
+      await Vue.nextTick()
+      expect(elem[0].innerHTML).toBe(
+        '<span random="disabled" tabindex="1" class="bar" style="font-size: 3em;" disabled="disabled">Hello  </span>'
+      )
     })
   })
 
   describe('remove', () => {
     beforeEach(() => {
-      $provide.value('HelloComponent', HelloComponent)
+      $provide.value('HelloComponent', base)
     })
 
     it('should remove a vue component when ng-if directive flag toggles from true to false', () => {
-      const scope = $rootScope.$new()
       scope.visible = true
       const elem = compileHTML(
         `<vue-component
@@ -293,9 +280,8 @@ describe('vue-component', () => {
 
   describe('events', () => {
     it('should handle custom events from Vue, with camelCase syntax in $emit function', () => {
-      $provide.value('ButtonComponent', ButtonComponent)
+      $provide.value('ButtonComponent', button)
 
-      const scope = $rootScope.$new()
       scope.handleHelloEvent = jest.fn()
 
       const elem = compileHTML(`<vue-component name="ButtonComponent" v-on-hello-world="handleHelloEvent" />`, scope)
@@ -305,9 +291,8 @@ describe('vue-component', () => {
     })
 
     it('should handle custom events from Vue, with kebab-case syntax in $emit function', () => {
-      $provide.value('ButtonComponent', ButtonComponent)
+      $provide.value('ButtonComponent', button)
 
-      const scope = $rootScope.$new()
       scope.handleHelloEvent = jest.fn()
 
       const elem = compileHTML(`<vue-component name="ButtonComponent" v-on-hello-world="handleHelloEvent" />`, scope)
@@ -319,16 +304,14 @@ describe('vue-component', () => {
 
   describe('slots', () => {
     beforeEach(() => {
-      $provide.value('GreetingsComponent', GreetingsComponent)
+      $provide.value('GreetingsComponent', greetings)
     })
 
     it('should render a vue component with a button in the slot content', () => {
-      const scope = $rootScope.$new()
       scope.onClick = jest.fn()
 
       const elem = compileHTML(
-        `
-        <vue-component name="GreetingsComponent">
+        `<vue-component name="GreetingsComponent">
           <button ng-click="onClick()">Click me!</button>
         </vue-component>`,
         scope
@@ -341,12 +324,10 @@ describe('vue-component', () => {
     })
 
     it('should render a vue component with only a text node in the slot content', () => {
-      const scope = $rootScope.$new()
       scope.onClick = jest.fn()
 
       const elem = compileHTML(
-        `
-        <vue-component name="GreetingsComponent">
+        `<vue-component name="GreetingsComponent">
           Hello, World!
         </vue-component>`,
         scope
