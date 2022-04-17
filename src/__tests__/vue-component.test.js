@@ -17,7 +17,7 @@ describe.each`
   style                | base               | wrapped                   | persons              | button              | greetings              | state
   ${'Options API'}     | ${HelloComponent}  | ${HelloWrappedComponent}  | ${PersonsComponent}  | ${ButtonComponent}  | ${GreetingsComponent}  | ${StateComponent}
   ${'Composition API'} | ${CHelloComponent} | ${CHelloWrappedComponent} | ${CPersonsComponent} | ${CButtonComponent} | ${CGreetingsComponent} | ${CStateComponent}
-`('vue-component', ({ base, wrapped, persons, button, greetings, state }) => {
+`('vue-component ($style)', ({ base, wrapped, persons, button, greetings, state }) => {
   let $provide
   let $rootScope
   let $compile
