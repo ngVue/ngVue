@@ -294,7 +294,7 @@ The [Vue 2 Composition API](https://github.com/vuejs/composition-api) plugin is 
 
 _Uses Composition API_
 
-```
+```js
 export default Vue.component('my-component', {
   setup() {},
   render(h) {
@@ -305,7 +305,7 @@ export default Vue.component('my-component', {
 
 _Fall back to Options API_
 
-```
+```js
 export default Vue.component('my-component', {
   render() {
     return (<div></div>);
@@ -317,7 +317,7 @@ You don't necessarily need to use `Vue.component` when defining Composition API 
 
 _This works_
 
-```
+```js
 export default {
   setup() {},
   render(h) {
@@ -328,7 +328,7 @@ export default {
 
 _This will break_
 
-```
+```js
 export default {
   render(h) {
     return (<div></div>)
