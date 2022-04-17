@@ -26,7 +26,7 @@ angular
       },
       methods: {
         updateFirstName() {
-          this.$emit('new-first-name', 'THE')
+          this.$emit('new-first-name', this.firstName.toUpperCase())
         },
       },
       render(h) {
