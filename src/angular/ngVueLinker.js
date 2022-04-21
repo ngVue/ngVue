@@ -78,11 +78,7 @@ export function ngVueLinker(componentName, jqElement, elAttributes, scope, $inje
   })
 
   scope.$on('$destroy', () => {
-    if (isCompositionApi(Component)) {
-      vueInstance.unmount()
-    } else {
-      vueInstance.$destroy()
-    }
+    vueInstance.$destroy()
     angular.element(vueInstance.$el).remove()
     vueInstance = null
   })
