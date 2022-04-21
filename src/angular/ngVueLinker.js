@@ -8,7 +8,6 @@ import evalPropEvents from '../components/props/evaluateEvents'
 import evaluateDirectives from '../directives/evaluateDirectives'
 import extractSpecialAttributes from '../components/props/extractSpecialAttributes'
 import watchSpecialAttributes from '../components/props/watchSpecialAttributes'
-import { isCompositionApi } from '../../lib/isCompositionApi'
 
 export function ngVueLinker(componentName, jqElement, elAttributes, scope, $injector) {
   if (!jqElement.parent().length) throw new Error('ngVue components must have a parent tag or they will not render')
