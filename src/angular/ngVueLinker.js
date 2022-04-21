@@ -1,6 +1,5 @@
 import angular from 'angular'
 import Vue from 'vue'
-import { createApp } from '@vue/composition-api'
 import getVueComponent from '../components/getVueComponent'
 import getPropExprs from '../components/props/getExpressions'
 import watchPropExprs from '../components/props/watchExpressions'
@@ -60,38 +59,23 @@ export function ngVueLinker(componentName, jqElement, elAttributes, scope, $inje
   watchPropExprs(dataExprsMap, reactiveData, watchOptions, scope, 'attrs')
   watchSpecialAttributes(reactiveData, jqElement, scope)
 
-  const render = (h) => {
-    return (
-      <Component
-        {...{ directives }}
-        {...{ props: reactiveData._v.props, on, attrs: reactiveData._v.attrs }}
-        {...reactiveData._v.special}
-      >
-        {<span ref="__slot__" />}
-      </Component>
-    )
-  }
-  let vueInstance
-  if (isCompositionApi(Component)) {
-    vueInstance = createApp({
-      name: 'NgVue',
-      data() {
-        return reactiveData
-      },
-      render,
-      ...props,
-    })
-
-    vueInstance.mount(jqElement[0])
-  } else {
-    vueInstance = new Vue({
-      name: 'NgVue',
-      el: jqElement[0],
-      data: reactiveData,
-      render,
-      ...props,
-    })
-  }
+  let vueInstance = new Vue({
+    name: `NgVue-${Component.options?.name || 'UnnamedComponent'}`,
+    el: jqElement[0],
+    data: reactiveData,
+    render(h) {
+      return (
+        <Component
+          {...{ directives }}
+          {...{ props: reactiveData._v.props, on, attrs: reactiveData._v.attrs }}
+          {...reactiveData._v.special}
+        >
+          {<span ref="__slot__" />}
+        </Component>
+      )
+    },
+    ...props,
+  })
 
   scope.$on('$destroy', () => {
     if (isCompositionApi(Component)) {

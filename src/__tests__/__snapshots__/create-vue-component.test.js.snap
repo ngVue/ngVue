@@ -17,9 +17,6 @@ exports[`create-vue-component (Composition API) remove should remove a vue compo
   class="ng-scope"
 >
   <!-- ngIf: visible -->
-  <span>
-    Hello  
-  </span>
 </div>
 `;
 
