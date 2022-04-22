@@ -14,13 +14,19 @@ The motivation for this is similar to ngReact's:
 
 ## Table of Contents
 
-- [Install](#install)
-- [Usage](#usage)
-- [Features](#features)
-	- [The vue-component directive](#the-vue-component-directive)
-	- [The createVueComponent factory](#the-createvuecomponent-factory)
-- [Caveats](#caveats)
-- [Plugins](#plugins)
+- [ngVue](#ngvue)
+  - [Table of Contents](#table-of-contents)
+  - [Install](#install)
+  - [Usage](#usage)
+  - [Features](#features)
+    - [The vue-component directive](#the-vue-component-directive)
+      - [Handling events](#handling-events)
+    - [Handling HTML attributes](#handling-html-attributes)
+    - [The createVueComponent factory](#the-createvuecomponent-factory)
+    - [Composition API](#composition-api)
+  - [Caveats](#caveats)
+  - [Plugins](#plugins)
+  - [TODO](#todo)
 
 ## Install
 
@@ -155,11 +161,11 @@ The `vue-component` directive provides three main attributes:
 
 - `watch-depth` attribute indicates which watch strategy AngularJS will use to detect the changes on the scope objects. The possible values as follows:
 
-| value | description |
-| --- | --- |
-| reference | *(default)* watches the object reference |
+| value      | description                                                                                                                                                                          |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| reference  | *(default)* watches the object reference                                                                                                                                             |
 | collection | *(rarely used)* same as angular `$watchCollection`, shallow watches the properties of the object: for arrays, it watches the array items; for object maps, it watches the properties |
-| value | *(rarely used)* deep watches every property inside the object |
+| value      | *(rarely used)* deep watches every property inside the object                                                                                                                        |
 
 **NOTES**
 
@@ -280,6 +286,54 @@ Alternatively, the name of the Vue component registered by `angular.value` can a
 app.directive('helloComponent', function (createVueComponent) {
   return createVueComponent('HelloComponent')
 })
+```
+
+### Composition API
+
+The [Vue 2 Composition API](https://github.com/vuejs/composition-api) plugin is supported with the usual [limitations](https://github.com/vuejs/composition-api#limitations), additionally the component **MUST** include a `setup` function, there isn't a good way to detect it otherwise.
+
+_Uses Composition API_
+
+```js
+export default Vue.component('my-component', {
+  setup() {},
+  render(h) {
+    return (<div></div>)
+  }
+})
+```
+
+_Fall back to Options API_
+
+```js
+export default Vue.component('my-component', {
+  render() {
+    return (<div></div>);
+  }
+});
+```
+
+You don't necessarily need to use `Vue.component` when defining Composition API components but without a `setup` method ngVue will not be able to link it.
+
+_This works_
+
+```js
+export default {
+  setup() {},
+  render(h) {
+    return (<div></div>)
+  }
+}
+```
+
+_This will break_
+
+```js
+export default {
+  render(h) {
+    return (<div></div>)
+  }
+}
 ```
 
 ## Caveats

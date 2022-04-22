@@ -2,13 +2,13 @@ import angular from 'angular'
 
 const originalModule = angular.module
 
-function evaluateFilterFunction (name, def) {
+function evaluateFilterFunction(name, def) {
   // call the ngDef function to get the filter function
   // TODO: resolve the dependence by $injector
   return { [name]: def() }
 }
 
-function _hasDependence ($injector, ngDef) {
+function _hasDependence($injector, ngDef) {
   const deps = $injector.annotate(ngDef)
   return deps.length > 0
 }
@@ -37,7 +37,7 @@ angular.module = function (moduleName, ...otherArgs) {
 
       // `$ngVueFilter` only works in the config phase
       this.$get = () => {}
-    }
+    },
   ])
 
   module.filter = function (name, ngDef) {
@@ -50,9 +50,9 @@ angular.module = function (moduleName, ...otherArgs) {
   module.config([
     '$ngVueProvider',
     function ($ngVueProvider) {
-      filters.forEach(f => $ngVueProvider.filters.register(f))
+      filters.forEach((f) => $ngVueProvider.filters.register(f))
       filters = []
-    }
+    },
   ])
 
   return module

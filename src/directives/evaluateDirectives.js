@@ -1,19 +1,19 @@
 import angular from 'angular'
 
-function getTypeOf (value) {
+function getTypeOf(value) {
   return value.constructor.name
 }
 
 const transformers = {
-  Object: value => [value],
-  Array: value => value,
-  String: value =>
+  Object: (value) => [value],
+  Array: (value) => value,
+  String: (value) =>
     value
       .split(/\s*,\s*/g)
       .filter(Boolean)
-      .map(name => {
+      .map((name) => {
         return { name }
-      })
+      }),
 }
 
 /**
@@ -27,7 +27,7 @@ const transformers = {
  * @param scope
  * @returns {Array|null}
  */
-export default function evaluateDirectives (attributes, scope) {
+export default function evaluateDirectives(attributes, scope) {
   const directivesExpr = attributes.vDirectives
 
   if (angular.isUndefined(directivesExpr)) {

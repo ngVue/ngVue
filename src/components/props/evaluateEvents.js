@@ -6,7 +6,7 @@ import angular from 'angular'
  * @param scope Object
  * @returns {Object|null}
  */
-export default function evaluateEvents (dataExprsMap, scope) {
+export default function evaluateEvents(dataExprsMap, scope) {
   const events = dataExprsMap.events
 
   if (!events || !angular.isObject(events)) {
@@ -14,7 +14,7 @@ export default function evaluateEvents (dataExprsMap, scope) {
   }
 
   const evaluatedEvents = {}
-  Object.keys(events).forEach(eventName => {
+  Object.keys(events).forEach((eventName) => {
     evaluatedEvents[eventName] = scope.$eval(events[eventName])
     const fn = evaluatedEvents[eventName]
     if (!angular.isFunction(fn)) {

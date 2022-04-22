@@ -2,7 +2,7 @@ import angular from 'angular'
 import Vue from 'vue'
 import '../../src'
 import '../../src/plugins'
-import Tags from './tags.vue'
+import Tags from '../tags.vue'
 
 angular
   .module('vue.components', ['ngVue', 'ngVue.plugins'])
@@ -10,15 +10,15 @@ angular
     $ngVueProvider.filters.register(['uppercase'])
   })
   .filter('uppercase', function () {
-    return string => string.toUpperCase()
+    return (string) => string.toUpperCase()
   })
   .controller('MainController', function () {
     this.person = {
       firstName: 'The',
       lastName: 'World',
-      description:
-        'ngVue helps you use Vue components in your angular application ' +
-        'so that you are able to create a faster and reactive web interfaces.'
+      description: `Filters can be propagated from Angular to Vue.
+        In this example the Tags component uses the uppercase
+        filter defined in the angular module.`,
     }
   })
   .value('TagsComponent', Tags)
@@ -28,9 +28,9 @@ angular
       props: {
         firstName: String,
         lastName: String,
-        description: String
+        description: String,
       },
-      render (h) {
+      render(h) {
         const uppercase = Vue.filter('uppercase')
         return (
           <div class="card blue-grey darken-1">
@@ -45,6 +45,6 @@ angular
             </div>
           </div>
         )
-      }
+      },
     })
   )

@@ -1,6 +1,6 @@
 const SPECIAL_ATTRIBUTE_KEYS = ['class', 'style']
 
-export default function extractSpecialAttributes (attributes) {
+export default function extractSpecialAttributes(attributes) {
   return SPECIAL_ATTRIBUTE_KEYS.reduce(
     (specialAttributes, key) => {
       const value = attributes[key]

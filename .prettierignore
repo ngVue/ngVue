@@ -1,8 +1,9 @@
 # Ignore everything
 *
 
-# Except **/*.js
+# Except **/*.{js,vue}
 !*.js
+!*.vue
 
 # Even if they are in subdirectories
 !*/

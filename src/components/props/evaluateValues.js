@@ -5,7 +5,7 @@ import angular from 'angular'
  * @param scope Object
  * @returns {string|Object|null}
  */
-export default function evaluateValues (expr, scope) {
+export default function evaluateValues(expr, scope) {
   if (!expr) {
     return null
   }
@@ -15,7 +15,7 @@ export default function evaluateValues (expr, scope) {
   }
 
   const evaluatedValues = {}
-  Object.keys(expr).forEach(key => {
+  Object.keys(expr).forEach((key) => {
     evaluatedValues[key] = scope.$eval(expr[key])
   })
 

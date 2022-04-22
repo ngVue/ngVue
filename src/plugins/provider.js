@@ -13,49 +13,49 @@ const defaultHooks = [
   'beforeUpdate',
   'updated',
   'beforeDestroy',
-  'destroyed'
+  'destroyed',
 ]
 
 const vueHooks = Object.create(null)
 
-function addHooks (map, hooks) {
+function addHooks(map, hooks) {
   if (hooks) {
-    Object.keys(hooks).forEach(h => {
+    Object.keys(hooks).forEach((h) => {
       map[h] = map[h] ? map[h] : []
       map[h].push(hooks[h])
     })
   }
 }
 
-function callHooks (map, name, callback) {
+function callHooks(map, name, callback) {
   const hooks = map[name]
   if (hooks) {
     hooks.forEach(callback)
   }
 }
 
-function createVueHooksMap (hookCallback) {
+function createVueHooksMap(hookCallback) {
   return Object.keys(vueHooks).reduce(
     (available, name) => ({
       ...available,
       [name]: function () {
         const _cb = hookCallback.bind(this)
         callHooks(vueHooks, name, _cb)
-      }
+      },
     }),
     {}
   )
 }
 
-function ngVueProvider ($injector) {
+function ngVueProvider($injector) {
   let inQuirkMode = false
-  let rootProps = {}
+  const rootProps = {}
 
   this.activeQuirkMode = () => {
     inQuirkMode = true
   }
 
-  this.enableVuex = store => {
+  this.enableVuex = (store) => {
     logger.warn(
       'enableVuex() is deprecated and will be removed in a future release.\nConsider switching to setRootVueInstanceProps().'
     )
@@ -80,27 +80,27 @@ function ngVueProvider ($injector) {
    * })
    *
    */
-  this.setRootVueInstanceProps = props => {
-    const hooksFound = Object.keys(props).filter(hookName => defaultHooks.includes(hookName))
-    hooksFound.forEach(hookName => delete props[hookName])
+  this.setRootVueInstanceProps = (props) => {
+    const hooksFound = Object.keys(props).filter((hookName) => defaultHooks.includes(hookName))
+    hooksFound.forEach((hookName) => delete props[hookName])
 
     Object.assign(rootProps, props)
   }
 
-  this.install = plugin => {
+  this.install = (plugin) => {
     const { $name, $config, $plugin, $vue } = plugin($injector)
 
     addHooks(pluginHooks, $plugin)
     addHooks(vueHooks, $vue)
 
     extend(this, {
-      [$name]: $config
+      [$name]: $config,
     })
   }
 
   this.$get = [
     '$injector',
-    $injector => {
+    ($injector) => {
       const cb = function (hook) {
         hook($injector, Vue, /* dynamic context */ this)
       }
@@ -113,9 +113,9 @@ function ngVueProvider ($injector) {
 
       return {
         getRootProps: () => rootProps,
-        inQuirkMode: () => inQuirkMode
+        inQuirkMode: () => inQuirkMode,
       }
-    }
+    },
   ]
 }
 

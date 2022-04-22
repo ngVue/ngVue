@@ -1,13 +1,27 @@
 import Vue from 'vue'
+import { defineComponent } from '@vue/composition-api'
 
-export default Vue.component('state-component', {
+export const StateComponent = Vue.component('state-component', {
   props: {
     tate: {
       type: String,
-      default: 'OFF'
-    }
+      default: 'OFF',
+    },
   },
-  render (h) {
+  render(h) {
     return <span>State is {this.tate}</span>
-  }
+  },
+})
+
+export const CStateComponent = defineComponent({
+  props: {
+    tate: {
+      type: String,
+      default: 'OFF',
+    },
+  },
+  setup() {},
+  render(h) {
+    return <span>State is {this.tate}</span>
+  },
 })

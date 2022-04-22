@@ -1,43 +1,27 @@
-import babel from 'rollup-plugin-babel'
-import nodeResolve from 'rollup-plugin-node-resolve'
-import commonjs from 'rollup-plugin-commonjs'
-import uglify from 'rollup-plugin-uglify'
-import { minify } from 'uglify-js'
+import babel from '@rollup/plugin-babel'
+import { nodeResolve } from '@rollup/plugin-node-resolve'
+import commonjs from '@rollup/plugin-commonjs'
+import { terser } from 'rollup-plugin-terser'
 
 const entry = process.env.ENTRY
 const output = process.env.OUTPUT
-const minified = process.env.MIN === 'true'
+
+const globals = { vue: 'Vue', angular: 'angular' }
 
 export default {
-  entry: `src/${entry}.js`,
-  moduleName: 'ngVue',
-  moduleId: 'ngVue',
+  input: `src/${entry}.js`,
   plugins: [
     nodeResolve({
-      browser: true
+      browser: true,
     }),
-    babel(),
-    commonjs({
-      namedExports: {
-        'node_modules/babel-helper-vue-jsx-merge-props/index.js': ['_mergeJSXProps']
-      }
-    }),
-    uglify(
-      minified
-        ? {}
-        : {
-          output: {
-            beautify: true
-          },
-          mangle: false
-        },
-      minify
-    )
+    babel({ babelHelpers: 'bundled' }),
+    commonjs(),
   ],
-  globals: {
-    vue: 'Vue',
-    angular: 'angular'
-  },
+
   external: ['vue', 'angular'],
-  targets: [{ dest: `build/${output}.js`, format: 'umd' }]
+  output: [
+    { file: `build/${output}.js`, format: 'umd', name: 'ngVue', globals },
+    { file: `build/${output}.min.js`, format: 'umd', name: 'ngVue', plugins: [terser()], globals },
+    { file: `build/${output}.esm.js`, format: 'esm', globals },
+  ],
 }

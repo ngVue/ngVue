@@ -1,16 +1,24 @@
 import angular from 'angular'
 import Vue from 'vue'
+import VueCompositionApi from '@vue/composition-api'
 import '../plugins'
 
 import ngHtmlCompiler from './utils/ngHtmlCompiler'
-import Button from './fixtures/ButtonComponent.js'
 
-describe('root Vue instance props', () => {
+import { ButtonComponent, CButtonComponent } from './fixtures/ButtonComponent'
+
+Vue.use(VueCompositionApi)
+
+describe.each`
+  style                | button
+  ${'Options API'}     | ${ButtonComponent}
+  ${'Composition API'} | ${CButtonComponent}
+`('root Vue instance props ($style)', ({ button }) => {
   let $rootScope
   let $ngVue
   let compileHTML
 
-  function inject () {
+  function inject() {
     angular.mock.inject((_$rootScope_, _$compile_, _$ngVue_) => {
       $ngVue = _$ngVue_
       $rootScope = _$rootScope_
@@ -25,11 +33,11 @@ describe('root Vue instance props', () => {
 
   describe('Simple props', () => {
     beforeEach(() => {
-      angular.mock.module(_$ngVueProvider_ => {
+      angular.mock.module((_$ngVueProvider_) => {
         _$ngVueProvider_.setRootVueInstanceProps({
           foo: 1,
           bar: 2,
-          baz: 3
+          baz: 3,
         })
       })
       inject()
@@ -51,7 +59,7 @@ describe('root Vue instance props', () => {
       'beforeUpdate',
       'updated',
       'beforeDestroy',
-      'destroyed'
+      'destroyed',
     ]
 
     let $ngVueProvider
@@ -63,18 +71,18 @@ describe('root Vue instance props', () => {
         mountedPluginHook = jest.fn()
         $ngVueProvider.install(() => ({
           $vue: {
-            mounted: mountedPluginHook
-          }
+            mounted: mountedPluginHook,
+          },
         }))
-        _$provide_.value('Button', Button)
+        _$provide_.value('Button', button)
       })
       inject()
     })
 
-    hookNames.forEach(hookName => {
+    hookNames.forEach((hookName) => {
       it(`${hookName} should not be SUPER valid!`, () => {
-        let evilProps = {
-          [hookName]: "Hello! I'm SUPER valid!"
+        const evilProps = {
+          [hookName]: "Hello! I'm SUPER valid!",
         }
         $ngVueProvider.setRootVueInstanceProps(evilProps)
         const props = $ngVue.getRootProps()
@@ -82,9 +90,9 @@ describe('root Vue instance props', () => {
       })
     })
 
-    it('should keep mounted hook untouched', done => {
+    it('should keep mounted hook untouched', (done) => {
       $ngVueProvider.setRootVueInstanceProps({
-        mounted: "Awesome! I'm mounted!"
+        mounted: "Awesome! I'm mounted!",
       })
       const scope = $rootScope.$new()
       compileHTML('<vue-component name="Button" />', scope)

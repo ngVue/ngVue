@@ -3,14 +3,22 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
+const defaultState = () => ({
+  people: [
+    { firstName: 'John', lastName: 'Smith' },
+    { firstName: 'Jane', lastName: 'Doe' },
+  ],
+})
+
 export default new Vuex.Store({
-  state: {
-    people: [{ firstName: 'John', lastName: 'Smith' }, { firstName: 'Jane', lastName: 'Doe' }]
-  },
+  state: defaultState(),
 
   mutations: {
-    addPerson (state, person) {
+    addPerson(state, person) {
       state.people = state.people.concat([person])
-    }
-  }
+    },
+    reset(state) {
+      Object.assign(state, defaultState())
+    },
+  },
 })

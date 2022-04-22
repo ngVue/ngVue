@@ -10,9 +10,9 @@ angular
       lastName: 'World',
       description:
         'ngVue helps you use Vue components in your angular application ' +
-        'so that you are able to create a faster and reactive web interfaces.'
+        'so that you are able to create a faster and reactive web interfaces.',
     }
-    this.updateFirstName = firstName => {
+    this.updateFirstName = (firstName) => {
       this.person.firstName = firstName
     }
   })
@@ -22,14 +22,14 @@ angular
       props: {
         firstName: String,
         lastName: String,
-        description: String
+        description: String,
       },
       methods: {
-        updateFirstName () {
-          this.$emit('new-first-name', 'THE')
-        }
+        updateFirstName() {
+          this.$emit('new-first-name', this.firstName.toUpperCase())
+        },
       },
-      render (h) {
+      render(h) {
         return (
           <div class="card blue-grey darken-1">
             <div class="card-content white-text">
@@ -44,6 +44,6 @@ angular
             </div>
           </div>
         )
-      }
+      },
     })
   )

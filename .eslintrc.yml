@@ -14,15 +14,27 @@ parserOptions:
     jsx: true
 
 extends:
-  "standard"
+  - "standard"
+  - "prettier"
 
 rules:
   quotes: 0
   func-names: 0
   react/jsx-uses-react: error
   react/jsx-uses-vars: error
+  space-before-function-paren: 0
 
 globals:
     inject: false
     expect: false
     jest: false
+
+overrides:
+  - files: ['*.vue']
+    plugins:
+      - vue
+    parser: 'vue-eslint-parser'
+    extends:
+      - 'standard'
+      - 'plugin:vue/base'
+      - 'prettier'
