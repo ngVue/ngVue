@@ -21,9 +21,9 @@
     "bundle": "./scripts/bundle.sh",
     "format": "prettier --write \"**/*.js\"",
     "lint": "eslint src lib example",
-    "build": "npm run lint && npm run clean && npm run bundle",
-    "preversion": "npm run test",
-    "prepare": "npm run build"
+    "build": "pnpm run lint && pnpm run clean && pnpm run bundle",
+    "preversion": "pnpm run test",
+    "prepare": "pnpm run build"
   },
   "dependencies": {},
   "devDependencies": {
