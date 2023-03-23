@@ -9,6 +9,10 @@
     ".": {
       "require": "./build/index.js",
       "import": "./build/index.esm.js"
+    },
+    "./build/plugins": {
+      "require": "./build/plugins.js",
+      "import": "./build/plugins.esm.js"
     }
   },
   "keywords": [
