@@ -1,6 +1,5 @@
 import angular from 'angular'
 import { ngVueLinker } from './angular/ngVueLinker'
-import logger from '../lib/logger'
 
 /**
  *
